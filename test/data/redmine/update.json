@@ -1,0 +1,6 @@
+{
+    "issue": {
+        "subject": "New Subject",
+        "notes": "Changing the subject with JSON" 
+    }
+}

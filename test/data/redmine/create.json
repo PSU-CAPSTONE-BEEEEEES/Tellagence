@@ -1,0 +1,18 @@
+{
+    "issue":{
+        "subject":"Test REST API",
+        "description":"This ticket was created with curl and JSON.",
+        "project_id":167,
+        "tracker_id":3,
+        "status_id":1,
+        "author_id":343,
+        "assigned_to":{
+            "name":"kjharke",
+            "id":343
+        },
+        "priority":{
+            "name":"Normal",
+            "id":4
+        }
+    }
+}

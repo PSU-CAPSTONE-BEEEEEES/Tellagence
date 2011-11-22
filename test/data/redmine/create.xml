@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<issue>
+    <subject>Test REST API</subject>
+    <description>This isssue was created using REST and XML</description>
+    <project_id>167</project_id>
+    <priority_id>4</priority_id>
+</issue>
