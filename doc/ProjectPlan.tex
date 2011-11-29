@@ -10,14 +10,10 @@
 \includegraphics[width=.5\textwidth]{./bee}\\[2cm]
 \textsc{\LARGE Project Plan For}\\[1.5cm]
 \textsc{\LARGE Tellagence Capstone Project}\\[1.5cm]
+\textsc{\LARGE Team Beeeeees}\\[1.5cm]
+\large Team Members: Aren Edlund-Jermain, Jonathan Harker, Derek Hurley, Tien Le, Long Nguyen, Huy Tran\\
+\hfill \\
 \end{center}
-
-\begin{flushleft}
-\large Distribution:\\
-\hfill \\
-\large Appendices:\\
-\hfill \\
-\end{flushleft}
 
 \vfill
 
@@ -27,22 +23,27 @@
 \pagebreak 
 
 \section{Overview}
+	\subsection{Objective}
+	The objective of this project is essentially to model and visualize the strengths of relationships on Twitter. This will be a web based application that renders a visual representation of the relationships between users on Twitter and the strengths of those relationships to show who are the most influential users in different networks of users.
+	\\\\
+	The relationships themselves are defined by interactions between users via '@' mentions and retweets. These values will be parsed from Twitter data and translated into an interactive rendering that will respond to various user input on the web interface.
 
-\section{Goals and Scope}
-  \subsection*{Goals}
-  \subsection*{Scope}
-  
-\section{Role Description}
+  \subsection{Approach}
+	To complete this project, three main sections of the project have been identified: Data Handling, Rendering, and Interface. These three sections are planned to be completed in parallel, with milestones and tasks broken down in each. The plan is to speed up development by coding in parallel and doing a minimal implementations of the requirements first, then building on those implementations incrementally for a better finished product.
+	\\\\
+	The scheduled tasks and milestones should be contained to an eight week timeframe. This allows for two weeks of spare time at the end of the term prior to the final deadline, which helps save us if and when issues arise concerning the project that merit more time than originally budgeted. With the milestones lining up as well, there should be a very basic iteration of the project by around the fourth week in the timeline.
+
+\section{Role Descriptions}
   \subsection{Aren Edlund-Jermain}
   {\bf Testing and Validation:} Must ensure that software passes tests and meets requirements. Check each stage of process to ensure proper software behavior with unit tests. Stay aware of client specifications and ensure that software project meets those goals. Maintain automatic build system. Write appropriate unit tests for each individual piece of project.
   \subsection{Derek Hurley}
-  {\bf Team Lead and Sponsor Contact:} Team Lead must plan meetings, aid in overall design and implementation of the project, mediate conflicts between team members, and generally make sure work is completed in an efficient manner. This involves checking in with each team member frequently and actively monitoring the status of the project. Sponsor Contact must maintain frequent communication with the team sponsors to gather requirements and keep them aware of the project status. This also involves asking questions and looking for feedback on all elements of the project.
+  {\bf Team Lead and Sponsor Contact:} Team Lead must plan meetings, aid in overall design and implementation of the project, mediate conflicts between team members, and generally make sure work is completed in an efficient manner. Sponsor Contact must maintain frequent communication with the team sponsors to keep them aware of the project status and gather requirements/clarifications as needed.
   \subsection{Huy Tran}
   {\bf Documentation Lead:} Documentation Lead must ensure the following. First, having a agreed template for a document which is suitable for each team member to add their contents into it. Second, there are sufficient, up to date documents for all parts of the project. At the end of each development phase, Documentation Lead must ensure that all documents for all parts are integrated into one comprehensive document.
   \subsection{Jonathan Harker}
   {\bf Issues and Ticketing Lead:} Ensure that deadlines are met, bugs are resolved in a timely manner, and the project moves forward as planned.
   \subsection{Long Nguyen}
-  {\bf Architectural Design and Tech Lead:} Prosect the scope of the entire project and construct architecture. Coordinate with all programmers to keep improving architectural design. Do major research on GUI tech and demo for other members.
+  {\bf Architectural Design and Tech Lead:} Project the scope of the entire project and construct architecture. Coordinate with all programmers to keep improving architectural design. Do major research on GUI tech and demo for other members.
   \subsection{Tien Le}
   {\bf System Administrator Lead:} Keep all of the computers running 24/7, software and package installation, backup cron job, testing code and html5 research. 
 
@@ -58,7 +59,7 @@
 	    List Rendering Metrics for Display & Derek & 2012-1-8 & 2012-1-11 \\
 	    Search and Filtering Rules & Aren & 2012-1-8 & 2012-1-10 \\
 	    User Input: Sidebar Controls & Aren & 2012-1-10 & 2012-1-12 \\
-			User Input: Mouse and Keyboard & Aren & 2012-1-12 & 2012-1-14 \\
+		User Input: Mouse and Keyboard & Aren & 2012-1-12 & 2012-1-14 \\
 	    User Input: Bounds and Areas of Page & Aren & 2012-1-12 & 2012-1-14 \\
 	    Layout Diagrams: Sketches & Derek & 2012-1-11 & 2012-1-14 \\
 	    Workflow and Interactive/Static Areas & Derek & 2012-1-11 & 2012-1-14 \\
@@ -171,11 +172,11 @@
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-        Ensure user names exist in twitter database & Tien & & \\
+			Ensure user names exist in twitter database & Tien & & \\
 	    Accept Filter from Interface & Jon & & \\
 	    Sanitize Search Keyword & Jon & & \\
 	    Build SQL Query from Filter & Jon & & \\
-        Normalize Query Results & Jon & & \\
+      Normalize Query Results & Jon & & \\
       \hline
     \end{tabular}
   \end{center}
@@ -184,13 +185,13 @@
 
   \begin{center}
 		{\bf Prototype basic objects: 1 week}
-    \begin{tabular}{| p{8.3cm} || c | c | c | }
+    \begin{tabular}{| p{7.5cm} || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-        Retrieve object data & Jon & 2012-1-8 & 2012-1-10 \\
+			Retrieve object data & Jon & 2012-1-8 & 2012-1-10 \\
 	    Create basic objects (node, link)& Huy & 2012-1-8 & 2012-1-11 \\
-		Initial canvas with nodes and links & Long & 2012-1-11 & 2012-1-12 \\
+			Initial canvas with nodes and links & Long & 2012-1-11 & 2012-1-12 \\
 	    Animated on built (move/arrange objects) & Long & 2012-1-13 & 2012-1-15 \\
       \hline
     \end{tabular}
@@ -198,7 +199,7 @@
 
 \begin{center}
 		{\bf Prototype Features/Views with Random Data: 2 weeks}
-    \begin{tabular}{| p{8.3cm} || c | c | c | }
+    \begin{tabular}{| p{7.5cm} || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
@@ -214,7 +215,7 @@
 
   \begin{center}
 		{\bf Design/Architecture: 1 week}
-    \begin{tabular}{|p{8.3cm} || c | c | c | }
+    \begin{tabular}{|p{7.5cm} || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
@@ -226,7 +227,7 @@
 
   \begin{center}
 		{\bf Basic Rendering: 3 weeks}
-    \begin{tabular}{| p{8.3cm} || c | c | c | }
+    \begin{tabular}{| p{7.5cm} || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
@@ -237,14 +238,14 @@
 	    Complete/improve view 1 (1 node)  & Huy& 2012-2-10 & 2012-2-15 \\
             Complete/improve view 2 (multiple nodes)  & Huy & 2012-2-15 & 2012-2-19 \\
             Integrate rendering with interface  & Huy & 2012-2-19 & 2012-2-26 \\  
-            Intergrate all and test  & Long & 2012-2-19 & 2012-2-26 \\
+            Integrate all and test  & Long & 2012-2-19 & 2012-2-26 \\
       \hline
     \end{tabular}
   \end{center}
 
   \begin{center}
 		{\bf Advanced Rendering: 1 week}
-    \begin{tabular}{|p{8.3cm} || c | c | c | }
+    \begin{tabular}{|p{7.5cm} || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
@@ -268,9 +269,9 @@
 			Research/Prototype HTML5 Canvas Work & Long & 2011-11-7 & 2011-11-20 \\
       Install and Setup Buildbot & Aren & 2011-11-11 & 2011-11-18 \\
       Make Template for Project Plan & Aren & 2011-11-14 & 2011-11-15 \\
-			Add Role to Project Plan & Each & 2011-11-16 & 2011-11-18 \\
-			Add Tasks/Milestones to Project Plan & Each & 2011-11-22 & 2011-11-27\\
-			Add Risk Management to Project Plan & Huy & 2011-11-22 & \\
+			Add Role to Project Plan & All & 2011-11-16 & 2011-11-18 \\
+			Add Tasks/Milestones to Project Plan & All & 2011-11-22 & 2011-11-27\\
+			Add Risk Management to Project Plan & Huy & 2011-11-22 & 2011-11-27\\
       \hline
     \end{tabular}
   \end{center}
@@ -278,26 +279,21 @@
 \section{Risk Management}
 There are four main issues in risk management which we classified. 
 \begin{itemize}
-     \item First, sponsor issues include several problems. For not
-    communicating, we can make phone calls, or talk to course
-    instructor. Besides, if the data provided by sponsor are ill defined, we can use fake numbers for processed data. In the worst case, if the sponsors disappeared, then we would go to their office, and talk to course instructor. 
-    \item Second, back up for Redmine issue can be handled by setting up Githup which clones every changes in Redmine, also by using local copies.
-    \item Third, there are three main problems in team member issues. If a team member did not communicate or present, then you would talk with other team members. Also, if a team member could not complete a task, we can break it up among other members. For buttheads, you can report to team lead or course instructor.
-     \item Finally, development issue includes lack of experience of team members in designing and coding. It can be handled by doing easy stuff first which are 2D rendering, zoom in feature, then hard stuff later (3D rendering, zoom out feature). Also,we need to make sure architecture to be nailed down.
+     \item First, sponsor issues include several problems. For communicating, we can make phone calls, or talk to course instructor. Besides, if the data or requirements provided by the sponsor are ill defined, we can use fake numbers for processed data. In the worst case, if the sponsors disappears, then we would go to their office and talk to the course instructor.
+    \item Second, back ups for our Redmine repo can be handled by setting up Github which clones every changes in Redmine, also by using local copies.
+    \item Third, there are three main problems in team member issues. If a team member does not communicate or be present, then you would talk with other team members. Also, if a team member could not complete a task, we can break it up among other members. For unreasonable team members, you can report them to team lead or course instructor.
+     \item Finally, development issues include lack of experience of team members in designing and coding. It can be handled by doing the easier tasks first, which are 2D rendering, zoomed in features, then move to harder stuff later (3D rendering, zoomed out feature). Also,we need to make sure architecture will be nailed down.
 \end{itemize}
 
-\section{Delivery Plan}
-
 \section{Quality Assurance}
-    Testing and quality assurance is a process that cannot be planned completely
-    on the front end. The testing for this project will be planned and executed
-    throughout the process. Test driven development is encouraged and the
-    mocking framework planned will help to implement those unit tests.
+    Testing and quality assurance is a process that cannot be planned completely on the front end. The testing for this project will be planned and executed throughout the process. Test driven development is encouraged and the mocking framework planned will help to implement those unit tests.
+	\\\\
+	Buildbot, a continuous integration system, will be used to ensure tests are run after each commit and status of those tests are communicated to the appropriate developers. Below is a listing of testing utilities and approaches that will be used in this project's development.
 \begin{itemize}
-    \item {\bf JSMockito}: This tool is a stand-alone java-script mocking
+    \item {\bf JSMockito}: This tool is a stand-alone javascript mocking
     environment. 
     \item {\bf JSUnit}: This tool is designed to help create unit tests for
-    java-script. This package has some built in mocking tools but they are not
+    javascript. This package has some built in mocking tools but they are not
     very reliable.
     \item {\bf HTML5}: Test using different browsers? Have to do more research
     in effective HTML5 testing frameworks.
