@@ -118,7 +118,7 @@
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Design the data format in JSON & Jon & 2012-1-8 & 2012-1-11 \\
+	    Design the Data Format in JSON & Jon & 2012-1-8 & 2012-1-11 \\
 	    Design Workflow & Tien & 2012-1-8 & 2012-1-11 \\
 	    Design Database Schema & Tien & 2012-1-11 & 2012-1-14 \\    
       \hline
@@ -126,38 +126,55 @@
   \end{center}
 
   \begin{center}
-		{\bf Santizied raw data and import to DB: 3 weeks}
+		{\bf Initial Random Data: 1 week}
     \begin{tabular}{| l || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Parsing data from xls to multidimensional array $tweet[][] & Tien & 2012-1-15 & 2012-1-21 \\
-	    Isolate and verify username from each tweet & Tien & 2012-1-22 & 2012-1-28 \\
-	    Count influence of each $real_users and import santizied data to DB & Tien & 2012-1-29 & 2012-2-4 \\
+	    Generate Random Data & Jon & 2012-1-9 & 2012-1-11 \\
+	    Format Data into JSON & Jon & 2012-1-11 & 2012-1-13 \\
+	    Send JSON to Renderer & Jon & 2012-1-13 & 2012-1-15 \\
       \hline
     \end{tabular}
   \end{center}
 
   \begin{center}
-		{\bf Query DB and parse to JSON file: 2 weeks}
+		{\bf Populate Database: 6 weeks}
     \begin{tabular}{| l || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Query data from DB and store them to array & Tien & 2012-2-5 & 2012-2-11 \\
-	    Parse data from array to JSON file and send them to rendering part & Tien & 2012-2-12 & 2012-2-18 \\
+	    Parse Raw Data from XLS into Multidimensional Array & Tien & 2012-1-15 & 2012-1-21 \\
+        Store Raw User Data (User, Name, Followers, Friends) into Database (User Table) & Tien & 2012-1-21 & 2012-1-29 \\
+	    Analyze Parsed Data for Influence & Tien & 2012-1-29 & 2012-2-19 \\
+        Store Calculated Influence into Database (Influence Table) & Tien & 2012-2-20 & 2012-2-24 \\
       \hline
     \end{tabular}
   \end{center}
 
   \begin{center}
-		{\bf Searching: 2 weeks}
+		{\bf Query Database: 7 weeks}
     \begin{tabular}{| l || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Santizied $search keyword & Tien & 2012-2-19 & 2012-2-25 \\
-	    Handle DB query search & Tien & 2012-2-26 & 2012-3-3 \\
+	    Accept Filter from Interface & Jon & 2012-1-16 & 2012-1-20 \\
+	    Sanitize Search Keyword & Jon & 2012-1-23 & 2012-1-27 \\
+	    Build SQL Query from Filter & Jon & 2012-1-30 & 2012-2-3 \\
+        Normalize Query Results & Jon & 2012-2-6 & 2012-2-17 \\
+	    Generate JSON from Query Results & Jon & 2012-2-20 & 2012-2-24 \\
+	    Send JSON to Renderer & Tien & 2012-2-27 & 2012-3-2 \\
+      \hline
+    \end{tabular}
+  \end{center}
+  
+  \begin{center}
+		{\bf Optional/Miscellaneous: 1 week}
+    \begin{tabular}{| l || c | c | c | }
+      \hline
+      Task Description & Assignee & Start Date & Due Date \\
+      \hline
+        Ensure user names exist in twitter database & Tien & & \\
       \hline
     \end{tabular}
   \end{center}
@@ -233,52 +250,6 @@
       \hline
     \end{tabular}
   \end{center}
-
-
-\subsection{Data Milestones:}
-
-  \begin{center}
-		{\bf Initial Random Data: 1 week}
-    \begin{tabular}{| p{8.3cm} || c | c | c | }
-      \hline
-      Task Description & Assignee & Start Date & Due Date \\
-      \hline
-	    Generate Random Data& & & \\
-	    Format Data into JSON& & & \\
-	    Send JSON to Renderer& & & \\
-      \hline
-    \end{tabular}
-  \end{center}
-
-  \begin{center}
-		{\bf Create Database: 2 weeks}
-    \begin{tabular}{| p{8.3cm} || c | c | c | }
-      \hline
-      Task Description & Assignee & Start Date & Due Date \\
-      \hline
-	    Create Database Schema& & & \\
-	    Parse Raw Data& & & \\
-	    Analyze Influenc from Parsed Data& & & \\
-	    Store Analyzed Influence in Database& & & \\
-      \hline
-    \end{tabular}
-  \end{center}
-
-  \begin{center}
-		{\bf Query Database: 2 weeks}
-    \begin{tabular}{| p{8.3cm} || c | c | c | }
-      \hline
-      Task Description & Assignee & Start Date & Due Date \\
-      \hline
-	    Accept Filter from Interface& & & \\
-	    Build SQL Query from Filter& & & \\
-        Normalize Query Results& & & \\
-	    Generate JSON from Query Results& & & \\
-	    Send JSON to Renderer& & & \\
-      \hline
-    \end{tabular}
-  \end{center}
-
 
 	\subsection{Finished/Extraneous:}
 
