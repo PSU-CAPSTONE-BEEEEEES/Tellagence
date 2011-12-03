@@ -31,7 +31,7 @@
   \subsection{Approach}
 	To complete this project, three main sections of the project have been identified: Data Handling, Rendering, and Interface. These three sections are planned to be completed in parallel, with milestones and tasks broken down in each. The plan is to speed up development by coding in parallel and doing a minimal implementations of the requirements first, then building on those implementations incrementally for a better finished product.
 	\\\\
-	The scheduled tasks and milestones should be contained to an eight week timeframe. This allows for two weeks of spare time at the end of the term prior to the final deadline, which helps save us if and when issues arise concerning the project that merit more time than originally budgeted. With the milestones lining up as well, there should be a very basic iteration of the project by around the fourth week in the timeline.
+	The scheduled tasks and milestones should be contained to an eight week time frame. This allows for two weeks of spare time at the end of the term prior to the final deadline, which helps save us if and when issues arise concerning the project that merit more time than originally budgeted. With the milestones lining up as well, there should be a very basic iteration of the project by around the fourth week in the time line.
 
 \section{Role Descriptions}
   \subsection{Aren Edlund-Jermain}
@@ -51,16 +51,12 @@
 	\subsection{Interface Milestones:}
 
   \begin{center}
-		{\bf Design and Architecture: 1 week}
+		{\bf Design and Architecture: .5 weeks}
     \begin{tabular}{| p{8.3cm} || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    List Rendering Metrics for Display & Derek & 2012-1-8 & 2012-1-11 \\
-	    Search and Filtering Rules & Aren & 2012-1-8 & 2012-1-10 \\
-	    User Input: Sidebar Controls & Aren & 2012-1-10 & 2012-1-12 \\
-		User Input: Mouse and Keyboard & Aren & 2012-1-12 & 2012-1-14 \\
-	    User Input: Bounds and Areas of Page & Aren & 2012-1-12 & 2012-1-14 \\
+	    User Input: Sidebar, Mouse, and Page Areas & Aren & 2012-1-12 & 2012-1-14 \\
 	    Layout Diagrams: Sketches & Derek & 2012-1-11 & 2012-1-14 \\
 	    Workflow and Interactive/Static Areas & Derek & 2012-1-11 & 2012-1-14 \\
       \hline
@@ -68,30 +64,27 @@
   \end{center}
 
   \begin{center}
-		{\bf Initial Canvas/Page Layout: 3 weeks}
+		{\bf Initial Canvas/Page Layout: 1.5 weeks}
     \begin{tabular}{| p{8.3cm} || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
 	    HTML5 Template Laid Out & Derek & 2012-1-15 & 2012-1-21 \\
 	    Canvas/Page Elements Passed to Javascript & Derek & 2012-1-22 & 2012-1-28 \\
-	    Search Input Caught and Classified & Aren & 2012-1-15 & 2012-1-21 \\
-	    Help Message Areas Functioning & Derek & 2012-1-29 & 2012-2-4 \\
 	    Sidebar Controls Shown, Stubbed Out & Aren & 2012-1-21 & 2012-2-4 \\
       \hline
     \end{tabular}
   \end{center}
 
   \begin{center}
-		{\bf Responsive Event Handlers: 2 weeks}
+		{\bf Basic Event Handlers: 1.5 weeks}
     \begin{tabular}{| p{8.3cm} || c | c | c | }
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
+	    Hook up Renderer to Interface to Pass Visual & Derek & 2012-2-19 & 2012-2-25 \\
  	    Sidebar Controls Trigger Events & Aren & 2012-2-5 & 2012-2-9 \\
-	    Keyboard Input Events on Test Shape & Derek & 2012-2-5 & 2012-2-11 \\
 	    Click/Drag Input Events on Test Shape & Aren & 2012-2-9 & 2012-2-14 \\
-	    Hover/Scroll Input Events on Test Shape & Aren & 2012-2-14 & 2012-2-18 \\
 	    Input Bounds and Areas to Test Shape/Page & Derek & 2012-2-12 & 2012-2-18 \\
       \hline
     \end{tabular}
@@ -103,10 +96,26 @@
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Hook up Renderer to Interface to Pass Visual & Derek & 2012-2-19 & 2012-2-25 \\
 	    Verify Events with Rendering & Aren & 2012-2-19 & 2012-2-25 \\
 	    Display Metrics on Visual & Derek & 2012-2-26 & 2012-3-3 \\
+	    Search and Filtering Rules & Aren & 2012-1-8 & 2012-1-10 \\
 	    Hook up Search to Data backend & Aren & 2012-2-26 & 2012-3-3 \\
+		Refine Page Style & Derek &  &  \\
+      \hline
+    \end{tabular}
+  \end{center}
+
+  \begin{center}
+		{\bf Advanced Events and Features: 2 weeks}
+    \begin{tabular}{| p{8.3cm} || c | c | c | }
+      \hline
+      Task Description & Assignee & Start Date & Due Date \\
+      \hline
+	    Hover/Scroll Input Events on Test Shape & Aren & 2012-2-14 & 2012-2-18 \\
+	    Keyboard Input Events on Test Shape & Derek & 2012-2-5 & 2012-2-11 \\
+	    Help Message Areas Functioning & Derek & 2012-1-29 & 2012-2-4 \\
+	    Search Input Caught and Classified & Aren & 2012-1-15 & 2012-1-21 \\
+	    List Rendering Metrics for Display & Derek & 2012-1-8 & 2012-1-11 \\
       \hline
     \end{tabular}
   \end{center}
@@ -280,9 +289,9 @@
 There are four main issues in risk management which we classified. 
 \begin{itemize}
      \item First, sponsor issues include several problems. For communicating, we can make phone calls, or talk to course instructor. Besides, if the data or requirements provided by the sponsor are ill defined, we can use fake numbers for processed data. In the worst case, if the sponsors disappears, then we would go to their office and talk to the course instructor.
-    \item Second, back ups for our Redmine repo can be handled by setting up Github which clones every changes in Redmine, also by using local copies.
-    \item Third, there are three main problems in team member issues. If a team member does not communicate or be present, then you would talk with other team members. Also, if a team member could not complete a task, we can break it up among other members. For unreasonable team members, you can report them to team lead or course instructor.
-     \item Finally, development issues include lack of experience of team members in designing and coding. It can be handled by doing the easier tasks first, which are 2D rendering, zoomed in features, then move to harder stuff later (3D rendering, zoomed out feature). Also,we need to make sure architecture will be nailed down.
+    \item Second, back ups for our Redmine repo can be handled by setting up Github which clones every changes in Redmine, also by using local copies. If our local copies get corrupted, the Redmine and Github repos should be intact.
+    \item Third, there are a few main problems in team member issues. If a team member does not communicate or be present, then you would talk with other team members. Also, if a team member could not complete a task, we can break it up among other members. With the team members that keep tabs on other portions of the project, the risk of getting out of sync milestones arises, which is mainly solved through putting more people on the tasks to get the respective portion back up to speed.
+	\item Finally, development issues include lack of experience of team members in designing and coding. It can be handled by doing the easier tasks first, which are 2D rendering, zoomed in features, then move to harder stuff later (3D rendering, zoomed out feature). Also,we need to make sure architecture will be nailed down.
 \end{itemize}
 
 \section{Quality Assurance}
@@ -298,4 +307,8 @@ There are four main issues in risk management which we classified.
     \item {\bf HTML5}: Test using different browsers? Have to do more research
     in effective HTML5 testing frameworks.
 \end{itemize}
+	\\\\
+	For validation, at every milestone we will talk with the sponsor to make sure we're on track and they like it. The key is making sure it meets specifications and requirements set forth by the sponsors. After initial acceptance by the team and passing unit tests, we would then go to the sponsor for approval. This would happen each iteration of the milestones and product.
+	\\\\
+	To help assure the integration of the three components, each of the two team members on a specific component would keep tabs on a different component to make sure development was happening in a way to ensure proper interaction. For instance, Aren would watch the Data work and Derek would watch the Rendering work. That way, once the development calls for information to be passed between the components, the architecture would have taken that into account.
 \end{document}
