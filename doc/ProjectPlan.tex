@@ -25,8 +25,18 @@
 \section{Overview}
 	\subsection{Objective}
 	The objective of this project is essentially to model and visualize the strengths of relationships on Twitter. This will be a web based application that renders a visual representation of the relationships between users on Twitter and the strengths of those relationships to show who are the most influential users in different networks of users.
-	\\\\
-	The relationships themselves are defined by interactions between users via '@' mentions and retweets. These values will be parsed from Twitter data and translated into an interactive rendering that will respond to various user input on the web interface.
+  \subsection{Requirements}
+	In talks with Matt and Nitin from Tellagence, we gathered and understood the following requirements:
+	\begin{itemize}
+		\item The relationships themselves are defined by interactions between users via '@' mentions and retweets.
+		\item The mention and retweet values will be parsed from Twitter data into a database in a format for the rendering.
+		\item The rendering needs to be usable and coherent, not just a tangled mess of nodes and connections.
+		\item Directions of the relationships in the Twitter data don't matter, just the connections.
+		\item Strengths of the relationships are determined by frequency of mentions/retweets between users over 7 days.
+		\item We need to be able to parse multiple '@' mentions out of a single tweet.
+		\item The purpose of the visual is about predicting behavior and showing which users are the most influential, meaning the most meaningful connections.
+		\item The core requirements of modeling relationships and strengths while maintaining coherency are the most important. Features such as searching are second priority.
+	\end{itemize}
 
   \subsection{Approach}
 	To complete this project, three main sections of the project have been identified: Data Handling, Rendering, and Interface. These three sections are planned to be completed in parallel, with milestones and tasks broken down in each. The plan is to speed up development by coding in parallel and doing a minimal implementations of the requirements first, then building on those implementations incrementally for a better finished product.
@@ -252,7 +262,7 @@
     \end{tabular}
   \end{center}
 
-	\subsection{Finished/Extraneous:}
+	\subsection{Finished or Other:}
 
   \begin{center}
     \begin{tabular}{| p{8.3cm} || c | c | c | }
@@ -269,6 +279,9 @@
 			Add Role to Project Plan & All & 2011-11-16 & 2011-11-18 \\
 			Add Tasks/Milestones to Project Plan & All & 2011-11-22 & 2011-11-27\\
 			Add Risk Management to Project Plan & Huy & 2011-11-22 & 2011-11-27\\
+			Meet with Sponsors for Requirements & All & 2011-11-4 & 2011-11-14\\
+			Refine Requirements with Sponsors & All & 2011-11-14 & 2011-11-28\\
+			Meet about Render Design with Sponsors & All & 2011-11-28 & 2011-11-28 \\
       \hline
     \end{tabular}
   \end{center}
