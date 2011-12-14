@@ -1,0 +1,15 @@
+body {
+    overflow: hidden;
+    margin: 0px;
+}
+
+circle {
+    fill: red;
+    stroke: black;
+    stroke-width: 5px;
+}
+
+line {
+    stroke: black;
+    stroke-width: 5px;
+}
