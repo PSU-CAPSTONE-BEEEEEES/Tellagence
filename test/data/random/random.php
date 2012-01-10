@@ -12,6 +12,18 @@ if (isset($_GET["size"])) {
   }
 }
 
+
+$sparse = 3;
+
+if (isset($_GET["factor"])) {
+  $factor = $_GET["factor"];
+
+  if ( (int)$factor == $factor && $factor >= 0) {
+    $sparse = $factor;
+  }
+}
+
+
 //begin JSON generation
 
 $json['nodes'] = array();
@@ -22,7 +34,7 @@ for ($i = 1; $i <= $count; $i++) {
 
   $node['influence'] = array();
   for ($j = $i-1; $j > 0; $j--) {
-    if ( rand(0,1) == 1 ) {
+    if ( rand(0,$sparse) == 0 ) {
       $node['influence'][] = array($j => rand(0,$count));
     }
   }
