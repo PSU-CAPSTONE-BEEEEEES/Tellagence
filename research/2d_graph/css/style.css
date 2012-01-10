@@ -1,0 +1,14 @@
+body {
+    overflow: hidden;
+    margin: 0px;
+}
+
+circle {
+    fill: red;
+    stroke: black;
+    stroke-width: 2px;
+}
+
+line {
+    stroke: black;
+}
