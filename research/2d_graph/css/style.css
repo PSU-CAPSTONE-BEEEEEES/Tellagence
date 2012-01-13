@@ -10,5 +10,6 @@ circle {
 }
 
 line {
-    stroke: black;
+    stroke: blue;
+	stroke-width: 1px;
 }

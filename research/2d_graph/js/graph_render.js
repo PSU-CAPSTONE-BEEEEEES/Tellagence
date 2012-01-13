@@ -25,14 +25,15 @@ function GraphRender(graph) {
 			.data(this.graph.nodes);
 			
 		// define force graph
-		this.force.linkDistance(200)
+		this.force
+			.linkDistance(function(d) { return d.inf*50; })
 			.charge(-200)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
 			
 		// draw lines
 		this.line.enter().append("line")
-			.attr("width", 10)
+			.style("stroke-width", function(d) { return 3 + 'px'; })
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
@@ -61,13 +62,13 @@ function GraphRender(graph) {
 		d3.json('data.php?size='+size, function(data) {
 			// empty current graph
 			graph.empty();
+			// erase current graph render
+			this.erase();
 			// apply new data for current graph
 			graph.data(data.nodes, data.links);
+			// draw new one
+			this.draw();
+			this.draw();
 		});
-		// erase current graph render
-		this.erase();
-		// draw new one
-		this.draw();
-		this.draw();
 	}
 }
