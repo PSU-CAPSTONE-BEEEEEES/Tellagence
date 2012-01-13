@@ -3,14 +3,22 @@ body, section {
     margin: 0px;
 }
 
+/*
+  By making the divs in the toolbar like a table, they keep centered on a window
+  resize and in relation to each control-space
+*/
+
 #toolbar {
-    background: #666666;
+    background: #CCCCCC;
+    display: table;
     position: fixed;
     width: 150px;
     height: 100%;
-    align: center;
 }
 
-div.control {
-    width: 70px;
+.control-space {
+    display: table-row;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
 }
