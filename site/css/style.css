@@ -1,0 +1,16 @@
+body, section {
+    overflow: hidden;
+    margin: 0px;
+}
+
+#toolbar {
+    background: #666666;
+    position: fixed;
+    width: 150px;
+    height: 100%;
+    align: center;
+}
+
+div.control {
+    width: 70px;
+}
