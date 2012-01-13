@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Twitter Relationships</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Add scripts to load on start below -->
+  </head>
+
+  <body>
+    <section id="toolbar">
+      <!-- In toolbar, using various input tags as placeholders -->
+      <div class="control-space">
+        <div class="center-control">
+          <input type="range">
+        </div>
+      </div>
+
+      <div class="control-space">
+        <div class="center-control">
+          <button>Hello</button>
+        </div>
+      </div>
+
+      <div class="control-space">
+        <div class="center-control">
+          <input type="text" style="text-align: center;">
+        </div>
+      </div>
+
+      <div class="control-space">
+        <div id="last-control" class="center-control">
+          <input checked type="checkbox">
+          <input type="checkbox">
+          <input checked type="checkbox">
+          <input type="checkbox">
+        </div>
+      </div>
+    </section>
+
+    <section id="d3">
+      <!-- SVG area for d3 magic.
+      Note that this calls an example script that draws the svg within the d3
+      section and redraws it properly on resize
+      -->
+      <script src="http://mbostock.github.com/d3/d3.js?2.6.0"></script>
+      <script src="http://code.jquery.com/jquery-latest.js"></script>
+      <script type="text/javascript" src="test.js"></script>
+    </section>
+  </body>
+
+</html>
