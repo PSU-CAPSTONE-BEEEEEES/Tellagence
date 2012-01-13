@@ -19,6 +19,11 @@ body, section {
 .control-space {
     display: table-row;
     vertical-align: middle;
+}
+
+.center-control {
+    display: table-cell;
+    vertical-align: middle;
     text-align: center;
-    padding: 10px;
+    clear: both;
 }
