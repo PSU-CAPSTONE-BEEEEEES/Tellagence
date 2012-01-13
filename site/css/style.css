@@ -12,18 +12,33 @@ body, section {
     background: #CCCCCC;
     display: table;
     position: fixed;
-    width: 150px;
+    width: 140px;
     height: 100%;
+    padding: 5px;
 }
 
 .control-space {
     display: table-row;
     vertical-align: middle;
+    padding: 5px;
 }
 
 .center-control {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-    clear: both;
+    border-bottom: 2px solid #666666;
+    margin: 5px;
+}
+
+/* we don't need a divider on the bottom of the last control */
+#last-control {
+    border-bottom: 0px;
+}
+
+#d3 {
+    position: relative;
+    left: 150px;
+    width: auto;
+    height: auto;
 }
