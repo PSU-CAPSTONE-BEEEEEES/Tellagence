@@ -69,9 +69,9 @@ for ($i = 0; $i <= $count; $i++) {
             $link['source'] = $i;
             $link['target'] = $j;
             $link['influence'] = rand($min,$max);
+	    $json['links'][] = $link;
         }
     }
-    $json['links'][] = $link;
 }
 
 echo(json_encode($json));
