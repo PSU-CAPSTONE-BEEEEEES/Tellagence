@@ -30,7 +30,7 @@ echo 'hahah';die;
         $active = $a[$i][2];
         $node = array(
             'name' => $active,
-            'influence' =>  
+            //'influence' =>
         );
 
         print_r($active);
