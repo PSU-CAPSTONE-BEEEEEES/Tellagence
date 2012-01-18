@@ -6,6 +6,7 @@
     <title>Twitter Relationships</title>
     <link rel="stylesheet" href="css/style.css">
     <!-- Add scripts to load on start below -->
+    <script src="./controls.js"></script>
   </head>
 
   <body>
@@ -13,13 +14,13 @@
       <!-- In toolbar, using various input tags as placeholders -->
       <div class="control-space">
         <div class="center-control">
-          <input type="range">
+          <input type="range" min="1" max="100">
         </div>
       </div>
 
       <div class="control-space">
         <div class="center-control">
-          <button>Hello</button>
+          <input type="button" value="Hello" onClick="redrawButton()" />
         </div>
       </div>
 
