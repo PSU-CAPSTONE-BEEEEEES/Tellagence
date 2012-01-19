@@ -6,7 +6,10 @@
     <title>Twitter Relationships</title>
     <link rel="stylesheet" href="css/style.css">
     <!-- Add scripts to load on start below -->
-    <script src="./controls.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="http://mbostock.github.com/d3/d3.js?2.6.0"></script>
+    <script src="test.js"></script>
+    <script src="controls.js"></script>
   </head>
 
   <body>
@@ -20,22 +23,22 @@
 
       <div class="control-space">
         <div class="center-control">
-          <input type="button" value="Hello" onClick="redrawButton()" />
+          <input type="button" id="pan_up" value="up"/><br/>
+          <input type="button" id="pan_left" value="left"/>
+          <input type="button" id="pan_right" value="right"/>
+          <input type="button" id="pan_down" value="down"/>
         </div>
       </div>
 
       <div class="control-space">
         <div class="center-control">
-          <input type="text" style="text-align: center;">
+          <input type="text" id="search">
         </div>
       </div>
 
       <div class="control-space">
         <div id="last-control" class="center-control">
-          <input checked type="checkbox">
-          <input type="checkbox">
-          <input checked type="checkbox">
-          <input type="checkbox">
+          <input type="button" value="help">
         </div>
       </div>
     </section>
@@ -45,9 +48,6 @@
       Note that this calls an example script that draws the svg within the d3
       section and redraws it properly on resize
       -->
-      <script src="http://mbostock.github.com/d3/d3.js?2.6.0"></script>
-      <script src="http://code.jquery.com/jquery-latest.js"></script>
-      <script type="text/javascript" src="test.js"></script>
     </section>
   </body>
 
