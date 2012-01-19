@@ -45,9 +45,9 @@ function genName($index)
     $q = floor($index / 26);
     $r = $index - ($q * 26);
     $result .= $letters[$r];
-    while ($q > 0)
+    while ($q >= 26)
     {
-        $index -= 26;
+        $index /= 26;
         $q = floor($index / 26);
         $r = $index - ($q * 26);
         $result .= $letters[$r];
@@ -69,9 +69,9 @@ for ($i = 0; $i <= $count; $i++) {
             $link['source'] = $i;
             $link['target'] = $j;
             $link['influence'] = rand($min,$max);
+	    $json['links'][] = $link;
         }
     }
-    $json['links'][] = $link;
 }
 
 echo(json_encode($json));
