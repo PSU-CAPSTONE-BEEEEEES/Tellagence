@@ -45,9 +45,9 @@ function genName($index)
     $q = floor($index / 26);
     $r = $index - ($q * 26);
     $result .= $letters[$r];
-    while ($q >= 26)
+    while ($q > 0)
     {
-        $index /= 26;
+        $index -= 26;
         $q = floor($index / 26);
         $r = $index - ($q * 26);
         $result .= $letters[$r];
