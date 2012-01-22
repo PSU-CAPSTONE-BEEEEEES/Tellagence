@@ -42,3 +42,7 @@ body, section {
     width: auto;
     height: auto;
 }
+
+#help {
+    display: none;
+}

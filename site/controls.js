@@ -1,7 +1,8 @@
-var w = $(window).width();
+$(document).ready(function() {
+var w = $("#d3").width();
 var h = $(window).height();
 
-var graph = d3.select("body").append("svg")
+var graph = d3.select("#d3").append("svg")
     .attr("width", w)
     .attr("height", h)
     .append('g')
@@ -84,72 +85,44 @@ var draw = function(nodes, links) {
     });
 };
 
+/*
+  The following methods select the various input elements from the HTML5
+  page and feed the input to the proper handler methods.
 
-$(document).ready(function() {
-    // used to save the interval handle
-    var i;
+  Note that the navigation buttons are held, so the handlers are called
+  continuously until the mouse either unclicks or leaves the button area.
+*/
 
-    // Keeps track of times the functions in setInterval are called. This is
-    // offset to 1 for the .join() operation in search_bar.
-    var num_called = 1;
+// var i;    // used to save the interval handle
+// $("input[type=button]").mousedown(function() {
+//         var val = $(this).attr("value");
+//         i = setInterval(function() {return redrawButton(val);}, 100);
+//     }).bind("mouseup mouseleave", function() {
+//         clearInterval(i);
+//     });
 
-    /*
-      These two functions select the up and down buttons on mousedown events and
-      repeat a function at the given interval (100 ms). The repetition will
-      continue until mouseup or mouseleave events occur.
-     */
-    $("#pan_up").mousedown(function() {
-	i = setInterval(function() {search_bar("up");}, 100);
-    }).bind("mouseup mouseleave", function() {
-	clearInterval(i);
-    });
+$("input[value=help]").click(function() {
+    $("#help").toggle();
+});
 
-    $("#pan_down").mousedown(function() {
-	i = setInterval(function() {search_bar("down");}, 100);
-    }).bind("mouseup mouseleave", function() {
-	clearInterval(i);
-    });
+/*
+  Author: Aren Edlund-Jermain
+  The redraw button function is linked to the redraw button in the control
+  panel. It will eventually redraw the image. I think.
+*/
+function redrawButton(direction)
+{
+    console.log("redrawButton called with direction: " + direction);
+}
 
-    /*
-      Author: Aren Edlund-Jermain
-      The redraw button function is linked to the redraw button in the control
-      panel. It will eventually redraw the image. I think.
-    */
-    function redrawButton()
-    {
-	alert("Hello World!");
-    }
-
-    /*
-      Author: Aren Edlund-Jermain
-      The zoomSlider function is linked to the zoom slider in the control panel. It
-      will redraw the render with different sizing. Making the object smaller or
-      larger depending upon the value retrieved from the actual slider.
-    */
-    function zoomSlider()
-    {
-	
-    }
-
-    /*
-      search_bar is a demo function that increases/decreases the number of '|'
-      in the text input field on up/down button presses. It is purely to show
-      how holding the buttons can trigger functions continuously until the
-      button is released.
-     */
-    function search_bar(type)
-    {
-	if (type == "up") {
-	    num_called += 1;
-	}
-	else if (type == "down"){
-	    num_called -= 1;
-	}
-
-	// creates an Array of '|' at length num_called - 1 and sets it in the
-	// input text field
-	var text = Array(num_called).join("|")
-	$("#search").attr("value", text);
-    };
-
+/*
+  Author: Aren Edlund-Jermain
+  The zoomSlider function is linked to the zoom slider in the control panel. It
+  will redraw the render with different sizing. Making the object smaller or
+  larger depending upon the value retrieved from the actual slider.
+*/
+function zoomSlider(val)
+{
+    console.log("zoomSlider called with value: " + val);
+}
 });
