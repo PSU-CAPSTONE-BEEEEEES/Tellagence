@@ -1,3 +1,90 @@
+var w = $(window).width();
+var h = $(window).height();
+
+var graph = d3.select("body").append("svg")
+    .attr("width", w)
+    .attr("height", h)
+    .append('g')
+      .call(d3.behavior.zoom().on("zoom", redraw))
+    .append('g')
+      .attr("id", "inner")
+      .attr("transform", "translate(0,0) scale(1)");
+
+graph.append('rect')
+    .attr('width', w)
+    .attr('height', h)
+    .style("fill", "white");
+
+function redraw(a) {
+    var x = $("rect").position().left;
+    var y = $("rect").position().top - 22;
+    var s = $("#inner").attr("transform");
+    if (s) {
+	s = s.slice(s.indexOf(" scale"));
+    }
+
+    if (a) {
+	if (a == "up") {
+	    graph.attr("transform",
+		       "translate(" + [x, y - 1] + ")" + s);
+	}
+	else if (a == "left") {
+	    graph.attr("transform",
+		       "translate(" + [x - 1, y] + ")" + s);
+	}
+	else if (a == "right") {
+	    graph.attr("transform",
+		       "translate(" + [x + 1, y] + ")" + s);
+	}
+	else {
+	    graph.attr("transform",
+		       "translate(" + [x, y + 1] + ")" + s);
+	}
+    }
+    else {
+	    graph.attr("transform",
+		   "translate(" + d3.event.translate + ")"
+		   + " scale(" + d3.event.scale + ")");
+    }
+}
+
+var draw = function(nodes, links) {
+    var force = d3.layout.force()
+	.charge(-120)
+	.linkDistance(100)
+	.nodes(nodes)
+	.links(links)
+	.size([w, h])
+	.start();
+
+    var link = graph.selectAll("line.link")
+	.data(links)
+	.enter().append("line")
+	.attr("x1", function(d) { return d.source.x; })
+	.attr("y1", function(d) { return d.source.y; })
+	.attr("x2", function(d) { return d.target.x; })
+	.attr("y2", function(d) { return d.target.y; });
+
+    var node = graph.selectAll("circle.node")
+	.data(nodes)
+	.enter().append("circle")
+	.attr("cx", function(d) { return d.x; })
+	.attr("cy", function(d) { return d.y; })
+	.attr("r", 15)
+	.call(force.drag);
+
+    force.on("tick", function() {
+	link.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+
+	node.attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; });
+    });
+};
+
+
 $(document).ready(function() {
     // used to save the interval handle
     var i;
