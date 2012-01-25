@@ -11,10 +11,11 @@ $json = json_decode($string,true);
 
 echo(json_encode($json));
 
-foreach ($json['nodes'] as $source) {
-    foreach ($source['influence'] as $target) {
-	foreach ($target as $i) {
-	    echo($source['name'] . " " . $target . " " . $target[$i] . "<br \>");
+foreach ($json['nodes'] as $node) {
+    $source = $node['name'];
+    foreach ($node['influence'] as $t) {
+	foreach ($t as $target => $inf ) {
+	    echo($source . " " . $target . " " . $inf . "<br \>");
 	}
     }
 }
