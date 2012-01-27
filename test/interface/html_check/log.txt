@@ -1,2 +1,8 @@
-no errors found
-
+--------------
+3 Errors in ../../../site/index.html
+ Line 56, Col 8:
+End of file seen when expecting text or an end tag.
+ Line 13, Col 30:
+Unclosed element script.
+ Line 56, Col 8:
+The text content of element script was not in the required format: Expected space, tab, newline, or slash but found < instead.
