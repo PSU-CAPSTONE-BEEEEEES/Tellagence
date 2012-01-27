@@ -64,6 +64,11 @@ run_validation() {
   if [ "$has_errors" = "" ];
   then
     echo "no errors found\n" >> log.txt
+    cat log.txt
+    exit 0;
+  else
+    cat log.txt
+    exit 1;
   fi
 }
 
@@ -96,4 +101,3 @@ run_validation_css() {
 setup
 download_site $1
 run_validation ./temp/ $1
-cat log.txt
