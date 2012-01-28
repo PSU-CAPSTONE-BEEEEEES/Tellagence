@@ -33,9 +33,9 @@ for ($i = 0; $i <= $count; $i++) {
   $node['name'] = $i;
 
   $node['influence'] = array();
-  for ($j = $i-1; $j >= 0; $j--) {
+  for ($j = $i-1; $j > 0; $j--) {
     if ( rand(0,$sparse) == 0 ) {
-      $node['influence'][] = array($j => rand(0,$count));
+      $node['influence'][] = array("$j" => rand(1,$count));
     }
   }
 
