@@ -6,7 +6,7 @@ include 'simplexlsx/simplexlsx.class.php';
 ini_set('max_execution_time', 0);
 ini_set('memory_limit', '-1');
     
-    $xlsx = new SimpleXLSX('medium.xlsx');
+    $xlsx = new SimpleXLSX('verysmall.xlsx');
     echo '<h1>$xlsx->rows()</h1>';
 
 
@@ -40,8 +40,12 @@ echo 'hahah';die;
                 $word3[1] = rtrim($word3[1], ":");
                 $word3[1] = rtrim($word3[1], ",");
                 $word3[1] = str_replace("@","",$word3[1]);
+                $patterns = '.';
+                $replacements = '';
+
                 // revert Source and Destination
                 if($word3[1]){
+                    //$word3[1] = preg_replace($patterns, $replacements, $word3[1]);
                     $username[] = str_replace("@","",$word3[1]);
                     $ary[] = $a[$i][2];
                 }
@@ -55,7 +59,11 @@ echo 'hahah';die;
                 $word[0] = rtrim($word[0], ",");
                 $word[0] = rtrim($word[0], ".");
                 $word[0] = str_replace("@","",$word[0]);
+                $patterns = '...';
+                $replacements = '';
+
                 if($word[0]){
+                    //$word[0] = preg_replace($patterns, $replacements, $word[0]);
                     $ary[] = $word[0];
                     $username[] = $a[$i][2];
                 }
@@ -75,7 +83,10 @@ echo 'hahah';die;
             'target' => $ary[$i]
         );
     }
-
+    $total = array_merge($username, $ary);
+    $unique_total = array_unique($total);
+    echo count($unique_total);
+    print_r($unique_total);die;
 //print_r(array_unique($username));die;
 // create purpose array
 foreach ($relation as $item){
