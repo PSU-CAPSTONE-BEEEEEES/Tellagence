@@ -1,33 +1,33 @@
 <?php
-
-
+/*
+$string = 'RT @username: lorem ipsum @cjoudrey @longnguyen,@letien etc...';
+preg_match_all('/@([A-Za-z0-9_]+)/', $string, $usernames);
+print_r($usernames);die;
+*/
 
 include 'simplexlsx/simplexlsx.class.php';
 ini_set('max_execution_time', 0);
 ini_set('memory_limit', '-1');
-    
-    $xlsx = new SimpleXLSX('verysmall.xlsx');
-    echo '<h1>$xlsx->rows()</h1>';
+function san($str){
+    preg_match_all('/@([A-Za-z0-9-_]+)/', $str, $usernames);
+    return $usernames[1];
+}
+function TimeInside($str){
+    $str2 = strstr($str, "@");
+    // str2 is substring of str from @
+    $word = explode(" ", $str2);
+    $old = str_replace("@", "", $word[0]);
+    return preg_match("/([0-9]+)(:|.)([0-9]+)/i",$old);
+}
 
-
+function main(){
+    $xlsx = new SimpleXLSX('simplexlsx/vmworld.xlsx');
     list($num_cols, $num_rows) = $xlsx->dimension();
-    echo $num_rows;
-
-echo '<pre>';
 
     $a = $xlsx->rows();
-
-// move to DB
-/*
-$dbconn = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
-if (!$dbconn) {
-     die("Error in connection: " . pg_last_error());
- }
-echo 'hahah';die;
-*/
     // usernames & tweets
     $ary = array();
-    for($i = 1; $i <= $num_rows; $i++)
+    for($i = 0; $i < $num_rows; $i++)
     {
 
         if (strpos($a[$i][4], '@') !== false){
@@ -35,76 +35,83 @@ echo 'hahah';die;
         // $str = full tweet contains @
             // RT
             if(strpos($str, 'RT') !== false){
-                $str3 = strstr($str, "RT @");
-                $word3 = explode(" ", $str3);
-                $word3[1] = rtrim($word3[1], ":");
-                $word3[1] = rtrim($word3[1], ",");
-                $word3[1] = str_replace("@","",$word3[1]);
-                $patterns = '.';
-                $replacements = '';
-
+                if(!TimeInside($str)){
+                $new = san($str);
                 // revert Source and Destination
-                if($word3[1]){
-                    //$word3[1] = preg_replace($patterns, $replacements, $word3[1]);
-                    $username[] = str_replace("@","",$word3[1]);
-                    $ary[] = $a[$i][2];
+                    if($new){
+                        foreach ($new as $item){
+                        $username[] = strtolower($item);
+                        $ary[] = strtolower($a[$i][2]);
+                        }
+                    }
                 }
             }
             // @
             else{
-                $str2 = strstr($str, "@");
-                // str2 is substring of str from @
-                $word = explode(" ", $str2);
-                $word[0] = rtrim($word[0], ":");
-                $word[0] = rtrim($word[0], ",");
-                $word[0] = rtrim($word[0], ".");
-                $word[0] = str_replace("@","",$word[0]);
-                $patterns = '...';
-                $replacements = '';
-
-                if($word[0]){
-                    //$word[0] = preg_replace($patterns, $replacements, $word[0]);
-                    $ary[] = $word[0];
-                    $username[] = $a[$i][2];
+                if(!TimeInside($str)){
+                    $new = san($str);
+                    if($new){
+                        foreach ($new as $item){
+                            $ary[] = strtolower($item);
+                            $username[] = strtolower($a[$i][2]);
+                        }
+                    }
                 }
-
             }
 
         }
     }
-    // $ary3 is array of username that come after RT @
-    //print_r($ary3);
-    // $ary is array of username that come after @ or RT @
-    //print_r($ary);
-
     for ($i = 0; $i < count($username); $i++){
         $relation[] = array(
             'source' => $username[$i],
             'target' => $ary[$i]
         );
     }
-    $total = array_merge($username, $ary);
-    $unique_total = array_unique($total);
-    echo count($unique_total);
-    print_r($unique_total);die;
-//print_r(array_unique($username));die;
-// create purpose array
-foreach ($relation as $item){
+    foreach ($relation as $item){
     $purpose[] = $item['source'].'*-*'.$item['target'];
-}
+    }
 
-$count = array_count_values($purpose);
+    $count = array_count_values($purpose);
 
-$result = array();
+    $result = array();
     foreach ($count as $key=>$value) {
         $temp = explode('*-*', $key);
-        $result[] = array(
+        if($temp[0] != $temp[1]){
+            $result[] = array(
             'source' => $temp[0],
             'target' => $temp[1],
             'inf' => $value
-        );
+            );
+        $source[] = $temp[0];
+        $target[] = $temp[1];
+        }
     }
-print_r($result); 
+    $unique_total = array_merge(array_unique(array_merge($source, $target)));
+    print_r($unique_total);
+    // flood database
+    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
+    if (!$dbcon) {
+         die("Error in connection: " . pg_last_error());
+    }
+    // execute query
+    for($i = 0; $i < count($unique_total); $i++){
+        $t = $i + 1;
+        $sql = "INSERT INTO users (user_id, username) VALUES('$t' , '$unique_total[$i]')";
+    $result = pg_query($dbcon, $sql);
+    if (!$result) {
+     die("Error in SQL query: " . pg_last_error());
+    }
+    echo "Data successfully inserted!";
+    }
+    // free memory
+    pg_free_result($result);
+
+    // close connection
+    pg_close($dbcon);
+}
+
+
+main();
 
 
 
@@ -134,12 +141,14 @@ echo(json_encode($json));
 */
 
 
-function array_unique_multidimensional($input)
-{
-    $serialized = array_map('serialize', $input);
-    $unique = array_unique($serialized);
-    return array_intersect_key($input, $unique);
-}
+// move to DB
+/*
+$dbconn = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
+if (!$dbconn) {
+     die("Error in connection: " . pg_last_error());
+ }
+echo 'hahah';die;
+*/
 
 ?>
 
