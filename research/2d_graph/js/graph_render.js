@@ -46,7 +46,7 @@ function GraphRender(graph) {
 			.attr("r", function(d) { return '5px'; })
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
-			.attr("class", function(d) { return 'group'+d.group; }) 
+			.attr("class", function(d) { return 'group'+d.group; })
 			.call(this.force.drag);
 		this.circle.append("title")
 			.text(function(d) { return 'd:'+d.degree + ' ' + 'g:'+d.group; });

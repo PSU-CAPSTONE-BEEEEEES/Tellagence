@@ -8,5 +8,5 @@ d3.json("random2.php?size=30", function(data) {
 	gr.draw();
 	
 	// gui event handler for this graph render
-	var ge = new GuiEvent(gr); 
+	var ge = new GuiEvent(gr);
 });
