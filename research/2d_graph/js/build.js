@@ -1,4 +1,4 @@
-d3.json("random2.php?size=30", function(data) {
+d3.json("random3.php?size=30", function(data) {
 	// init a new graph upload new page loading
 	var g = new Graph(data.nodes, data.links);
 	
