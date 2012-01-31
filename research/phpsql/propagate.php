@@ -6,19 +6,24 @@ if (!$dbconn) {
     die("Error connecting to database.");
 }
 
-$string = file_get_contents("http://capstone06.cs.pdx.edu/data/random.php?size=100");
-$json = json_decode($string,true);
+$size = 1000;
+for ($i = 0; $i < 15000; $i+=$size) {
 
-echo(json_encode($json));
+    $string = file_get_contents("http://capstone06.cs.pdx.edu/data/random.php?size=$size&offset=$i&factor=$size");
+    $json = json_decode($string,true);
 
-foreach ($json['nodes'] as $node) {
-    $source = $node['name'];
-    pg_Exec($dbconn, "INSERT INTO users VALUES ($source, to_char($source,'9999'))");
-    foreach ($node['influence'] as $t) {
-	foreach ($t as $target => $inf ) {
-	    echo($source . " " . $target . " " . $inf . "<br \>");
-	    pg_Exec($dbconn, "INSERT INTO relationship VALUES ($source, $target, $inf, $inf)");
+    //echo(json_encode($json));
+
+    foreach ($json['nodes'] as $node) {
+	$source = $node['name'];
+	pg_Exec($dbconn, "INSERT INTO users VALUES ($source, to_char($source,'99999'))");
+	foreach ($node['influence'] as $t) {
+	    foreach ($t as $target => $inf ) {
+		echo($source . " " . $target . " " . $inf . "<br \>");
+		pg_Exec($dbconn, "INSERT INTO relationship VALUES ($source, $target, $inf, $inf)");
+	    }
 	}
     }
+
 }
 ?>
