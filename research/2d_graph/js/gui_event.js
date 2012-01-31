@@ -15,6 +15,8 @@ function GuiEvent(graphRender) {
 	// on click change size of current graph
 	$('input#btn_redraw_data').click(function() {
 		var size = $('input#nodes').val();
+		graphRender.erase();
 		graphRender.changeData(size);
+		graphRender.draw();
 	});
 }

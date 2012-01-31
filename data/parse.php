@@ -21,7 +21,7 @@ function TimeInside($str){
 }
 
 function main(){
-    $xlsx = new SimpleXLSX('simplexlsx/vmworld.xlsx');
+    $xlsx = new SimpleXLSX('verysmall.xlsx');
     list($num_cols, $num_rows) = $xlsx->dimension();
 
     $a = $xlsx->rows();
@@ -72,7 +72,7 @@ function main(){
     }
 
     $count = array_count_values($purpose);
-
+    print_r($count);die;
     $result = array();
     foreach ($count as $key=>$value) {
         $temp = explode('*-*', $key);
@@ -87,27 +87,9 @@ function main(){
         }
     }
     $unique_total = array_merge(array_unique(array_merge($source, $target)));
-    print_r($unique_total);
-    // flood database
-    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
-    if (!$dbcon) {
-         die("Error in connection: " . pg_last_error());
-    }
-    // execute query
-    for($i = 0; $i < count($unique_total); $i++){
-        $t = $i + 1;
-        $sql = "INSERT INTO users (user_id, username) VALUES('$t' , '$unique_total[$i]')";
-    $result = pg_query($dbcon, $sql);
-    if (!$result) {
-     die("Error in SQL query: " . pg_last_error());
-    }
-    echo "Data successfully inserted!";
-    }
-    // free memory
-    pg_free_result($result);
+    //print_r($unique_total);
 
-    // close connection
-    pg_close($dbcon);
+
 }
 
 
@@ -141,14 +123,28 @@ echo(json_encode($json));
 */
 
 
-// move to DB
-/*
-$dbconn = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
-if (!$dbconn) {
-     die("Error in connection: " . pg_last_error());
- }
-echo 'hahah';die;
-*/
+// flood database
+    /*
+    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
+    if (!$dbcon) {
+         die("Error in connection: " . pg_last_error());
+    }
+    // execute query
+    for($i = 0; $i < count($unique_total); $i++){
+        $t = $i + 1;
+        $sql = "INSERT INTO users (user_id, username) VALUES('$t' , '$unique_total[$i]')";
+    $result = pg_query($dbcon, $sql);
+    if (!$result) {
+     die("Error in SQL query: " . pg_last_error());
+    }
+    echo "Data successfully inserted!";
+    }
+    // free memory
+    pg_free_result($result);
+
+    // close connection
+    pg_close($dbcon);
+    */
 
 ?>
 

@@ -2,6 +2,7 @@ function GraphEvent(graphRender) {
 	// graph render for this graph event
 	this.graphRender = graphRender;
 	
+	/*
 	// on circle click
 	this.graphRender.circle.on("click", grow)
 		.on("mousemove", shrink);
@@ -19,6 +20,7 @@ function GraphEvent(graphRender) {
 		d3.select(this).transition()
 		.attr("r", r / 1.5);
 	};
+	*/
 	
 	// circles stay stacked unless they change every tick
 	this.graphRender.force.on("tick", function() {
