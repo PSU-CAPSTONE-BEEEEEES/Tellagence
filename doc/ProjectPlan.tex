@@ -203,9 +203,9 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       Task Description & Assignee & Start Date & Due Date \\
       \hline
 			Retrieve object data & Jon & 2012-1-8 & 2012-1-10 \\
-	    Create basic objects (node, link)& Huy & 2012-1-8 & 2012-1-11 \\
+	    	Create basic objects (node, link)& Huy & 2012-1-8 & 2012-1-11 \\
 			Initial canvas with nodes and links & Long & 2012-1-11 & 2012-1-12 \\
-	    Animated on built (move/arrange objects) & Long & 2012-1-13 & 2012-1-15 \\
+	    	Animated on built (move/arrange objects) & Long & 2012-1-13 & 2012-1-15 \\
       \hline
     \end{tabular}
   \end{center}
@@ -258,9 +258,9 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
 	    Complete/improve feature 3 (arrange nodes)  & Long & 2012-2-10 & 2012-2-15 \\
 	    Complete/improve feature 4 (filter/search)  & Long & 2012-2-15 & 2012-2-19 \\
 	    Complete/improve view 1 (1 node)  & Huy& 2012-2-10 & 2012-2-15 \\
-            Complete/improve view 2 (multiple nodes)  & Huy & 2012-2-15 & 2012-2-19 \\
-            Integrate rendering with interface  & Huy & 2012-2-19 & 2012-2-26 \\  
-            Integrate all and test  & Long & 2012-2-19 & 2012-2-26 \\
+        Complete/improve view 2 (multiple nodes)  & Huy & 2012-2-15 & 2012-2-19 \\
+       	Integrate rendering with interface  & Huy & 2012-2-19 & 2012-2-26 \\  
+        Integrate all and test  & Long & 2012-2-19 & 2012-2-26 \\
       \hline
     \end{tabular}
   \end{center}
@@ -289,9 +289,9 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
 			Setup Redmine and Git Repo & Jon & 2011-11-4 & 2011-11-14 \\
 			Mirror Redmine Repo on Github & Jon & 2011-11-4 & 2011-11-14 \\
 			Research/Prototype HTML5 Canvas Work & Long & 2011-11-7 & 2011-11-20 \\
-      Install and Setup Buildbot & Aren & 2011-11-11 & 2011-11-18 \\
+      		Install and Setup Buildbot & Aren & 2011-11-11 & 2011-11-18 \\
             Design Data Formats & Jon & 2011-11-14 & 2011-11-25 \\
-      Make Template for Project Plan & Aren & 2011-11-14 & 2011-11-15 \\
+      		Make Template for Project Plan & Aren & 2011-11-14 & 2011-11-15 \\
 			Add Role to Project Plan & All & 2011-11-16 & 2011-11-18 \\
 			Add Tasks/Milestones to Project Plan & All & 2011-11-22 & 2011-11-27\\
 			Add Risk Management to Project Plan & Huy & 2011-11-22 & 2011-11-27\\
@@ -318,7 +318,9 @@ There are four main issues in risk management which we classified.
 	Buildbot, a continuous integration system, will be used to ensure tests are run after each commit and status of those tests are communicated to the appropriate developers. Below is a listing of testing utilities and approaches that will be used in this project's development.
 \begin{itemize}
     \item {\bf JSMockito}: This tool is a stand-alone javascript mocking
-    environment. 
+    environment.
+	\item {\bf PHPUnit}: This tool is designed to help create unit tests for
+    PHP.
     \item {\bf JSUnit}: This tool is designed to help create unit tests for
     javascript. This package has some built in mocking tools but they are not
     very reliable.
