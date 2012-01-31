@@ -33,7 +33,7 @@
 		\item The rendering needs to be usable and coherent, not just a tangled mess of nodes and connections.
 		\item Directions of the relationships in the Twitter data don't matter, just the connections.
 		\item Strengths of the relationships are determined by frequency of mentions/retweets between users over 7 days.
-		\item We need to be able to parse multiple '@' mentions out of a single tweet, and distinguish between '@' and 'RT @'
+		\item We need to be able to parse multiple '@' mentions out of a single tweet.
 		\item The purpose of the visual is about predicting behavior and showing which users are the most influential, meaning the most meaningful connections.
 		\item The core requirements of modeling relationships and strengths while maintaining coherency are the most important. Features such as searching are second priority.
 	\end{itemize}
@@ -55,7 +55,7 @@
   \subsection{Long Nguyen}
   {\bf Architectural Design and Tech Lead:} Prospect the scope of the entire project and construct architecture. Coordinate with all programmers to keep improving architectural design. Do major research on GUI tech and demo for other members.
   \subsection{Tien Le}
-  {\bf System Administrator Lead:} Keep all of the computers running 24/7, software installation and configuration, backup cron job, write PHPUnit test. 
+  {\bf System Administrator Lead:} Keep all of the computers running 24/7, software and package installation, backup cron job, testing code and html5 research. 
 
 \section{Task Schedule}
 
@@ -86,7 +86,7 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       Task Description & Assignee & Start Date & Due Date \\
       \hline
 	    HTML5 Template Laid Out & Derek & 2012-1-11 & 2012-1-15 \\
-	    Page Elements Passed to Javascript & Derek & 2012-1-15 & 2012-1-21 \\
+	    Canvas/Page Elements Passed to Javascript & Derek & 2012-1-15 & 2012-1-21 \\
 	    Sidebar Controls Shown, Stubbed Out & Aren & 2012-1-11 & 2012-1-21 \\
       \hline
     \end{tabular}
@@ -98,11 +98,10 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Reschedule Tasks/Features for Prototype & All & 2012-1-22 & 2012-1-28 \\
-	    Revamp Page Layout & Derek & 2012-1-29 & 2012-2-1 \\
-	    Help Overlay Up and Script Connected & Derek & 2012-2-1 & 2012-2-3 \\
+	    Hook up Renderer to Interface to Pass Visual & Derek & 2012-1-22 & 2012-1-28 \\
  	    Sidebar Controls Trigger Events & Aren & 2012-1-22 & 2012-1-28 \\
 	    Click/Drag Input Events on Test Shape & Aren & 2012-1-28 & 2012-2-4 \\
+	    Input Bounds and Areas on Test Shape & Derek & 2012-1-28 & 2012-2-4 \\
       \hline
     \end{tabular}
   \end{center}
@@ -113,10 +112,11 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Page Layout/Styles Compatibility & Derek & 2012-2-4 & 2012-2-14 \\
+	    Verify Events with Rendering & All & 2012-2-5 & 2012-18 \\
+	    List Rendering Metrics for Display & Derek & 2012-2-5 & 2012-2-11 \\
 	    Search and Filtering Rules & Aren & 2012-2-5 & 2012-2-8 \\
 	    Search Input Caught and Classified & Aren & 2012-2-8 & 2012-2-18 \\
-		List Rendering Metrics for Display & Derek & 2011-2-15 & 2011-2-18 \\
+		Refine Page Style & Derek & 2011-2-12 & 2011-2-18 \\
       \hline
     \end{tabular}
   \end{center}
@@ -128,10 +128,10 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       Task Description & Assignee & Start Date & Due Date \\
       \hline
 	    Hover/Scroll Input Events on Rendering & Aren & 2012-2-19 & 2012-2-25 \\
-	    Integrate Metrics to Display & Derek & 2012-2-19 & 2012-2-24 \\
+	    Keyboard Input Events on Rendering & Derek & 2012-2-19 & 2012-2-23 \\
+	    Help Message Areas Functioning & Derek & 2012-2-23 & 2012-2-29 \\
 	    Hook up Search to Data backend & Aren & 2012-2-25 & 2012-3-3 \\
-	    Verification/Validation for Project & Derek & 2012-2-25 & 2012-3-3 \\
-        Add Licensing to Source & Derek & 2012-3-1 & 2012-3-3 \\
+	    Display Metrics on Rendering & Derek & 2012-2-29 & 2012-3-3 \\
       \hline
     \end{tabular}
   \end{center}
@@ -157,11 +157,11 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Parse Raw Data from XLS into Multidimensional Array & Tien & 2012-1-9 & 2012-1-15 \\
-        Store user_id and username into Database (Users Table) & Tien & 2012-1-15 & 2012-1-21 \\
+	    Parse Raw Data from XLSX into Multidimensional Array & Tien & 2012-1-9 & 2012-1-15 \\
+        Store userid and username into Database (User Table) & Tien & 2012-1-15 & 2012-1-21 \\
 	    Analyze Parsed Data for Influence & Tien & 2012-1-21 & 2012-2-1 \\
-        Store Calculated Influence into Database (Relationship Table) & Tien & 2012-2-2 & 2012-2-10 \\
-		Write PHPUnit test and fix bugs & Tien & 2012-2-11 & 2012-2-19 \\
+        Store Calculated Influence into Database (Relationship Table) & Tien & 2012-2-2 & 2012-2-11 \\
+		Write PHPUnit test for parsing task and fix bugs & Tien & 2012-2-12 & 2012-2-19 \\
       \hline
     \end{tabular}
   \end{center}
@@ -174,7 +174,7 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
 	    Query Database for Data & Jon & 2012-2-20 & 2012-2-24 \\
 	    Generate JSON from Query Results & Jon & 2012-2-20 & 2012-2-24 \\
-	    Send JSON to Renderer & Tien & 2012-2-20 & 2012-2-24 \\
+	    Send JSON to Renderer & Tien & 2012-2-27 & 2012-3-2 \\
       \hline
     \end{tabular}
   \end{center}
@@ -185,9 +185,9 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-		Ensure user names exist in twitter database & Tien & 2012-2-24 & 2012-2-26 \\
+		Ensure user names exist in twitter database & Tien & & \\
 	    Accept Filter from Interface & Jon & & \\
-	    Sanitize Search Keyword & Tien & 2012-2-26 & 2012-3-3 \\
+	    Sanitize Search Keyword & Tien & & \\
 	    Build SQL Query from Filter & Jon & & \\
       	Normalize Query Results & Jon & & \\
       \hline
@@ -203,9 +203,9 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       Task Description & Assignee & Start Date & Due Date \\
       \hline
 			Retrieve object data & Jon & 2012-1-8 & 2012-1-10 \\
-	    	Create basic objects (node, link)& Huy & 2012-1-8 & 2012-1-11 \\
+	    Create basic objects (node, link)& Huy & 2012-1-8 & 2012-1-11 \\
 			Initial canvas with nodes and links & Long & 2012-1-11 & 2012-1-12 \\
-	    	Animated on built (move/arrange objects) & Long & 2012-1-13 & 2012-1-15 \\
+	    Animated on built (move/arrange objects) & Long & 2012-1-13 & 2012-1-21 \\
       \hline
     \end{tabular}
   \end{center}
@@ -258,9 +258,9 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
 	    Complete/improve feature 3 (arrange nodes)  & Long & 2012-2-10 & 2012-2-15 \\
 	    Complete/improve feature 4 (filter/search)  & Long & 2012-2-15 & 2012-2-19 \\
 	    Complete/improve view 1 (1 node)  & Huy& 2012-2-10 & 2012-2-15 \\
-        Complete/improve view 2 (multiple nodes)  & Huy & 2012-2-15 & 2012-2-19 \\
-       	Integrate rendering with interface  & Huy & 2012-2-19 & 2012-2-26 \\  
-        Integrate all and test  & Long & 2012-2-19 & 2012-2-26 \\
+            Complete/improve view 2 (multiple nodes)  & Huy & 2012-2-15 & 2012-2-19 \\
+            Integrate rendering with interface  & Huy & 2012-2-19 & 2012-2-26 \\  
+            Integrate all and test  & Long & 2012-2-19 & 2012-2-26 \\
       \hline
     \end{tabular}
   \end{center}
@@ -289,9 +289,9 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
 			Setup Redmine and Git Repo & Jon & 2011-11-4 & 2011-11-14 \\
 			Mirror Redmine Repo on Github & Jon & 2011-11-4 & 2011-11-14 \\
 			Research/Prototype HTML5 Canvas Work & Long & 2011-11-7 & 2011-11-20 \\
-      		Install and Setup Buildbot & Aren & 2011-11-11 & 2011-11-18 \\
+      Install and Setup Buildbot & Aren & 2011-11-11 & 2011-11-18 \\
             Design Data Formats & Jon & 2011-11-14 & 2011-11-25 \\
-      		Make Template for Project Plan & Aren & 2011-11-14 & 2011-11-15 \\
+      Make Template for Project Plan & Aren & 2011-11-14 & 2011-11-15 \\
 			Add Role to Project Plan & All & 2011-11-16 & 2011-11-18 \\
 			Add Tasks/Milestones to Project Plan & All & 2011-11-22 & 2011-11-27\\
 			Add Risk Management to Project Plan & Huy & 2011-11-22 & 2011-11-27\\
@@ -318,9 +318,7 @@ There are four main issues in risk management which we classified.
 	Buildbot, a continuous integration system, will be used to ensure tests are run after each commit and status of those tests are communicated to the appropriate developers. Below is a listing of testing utilities and approaches that will be used in this project's development.
 \begin{itemize}
     \item {\bf JSMockito}: This tool is a stand-alone javascript mocking
-    environment.
-	\item {\bf PHPUnit}: This tool is designed to help create unit tests for
-    PHP.
+    environment. 
     \item {\bf JSUnit}: This tool is designed to help create unit tests for
     javascript. This package has some built in mocking tools but they are not
     very reliable.
