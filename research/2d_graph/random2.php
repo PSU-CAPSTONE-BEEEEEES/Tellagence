@@ -169,6 +169,15 @@ foreach ($json['links'] as &$link) {
 		$link['distance'] = 0;
 }
 
+$degreeCounts = array();
+for ($i=0; $i<=$highestDegree; $i++)
+	$degreeCounts[$i] = 0;
+foreach ($json['nodes'] as $node) {
+	$degree = $node['degree'];
+	$degreeCounts[$degree]++;
+}
+//print_r($degreeCounts); die;
+
 //print_r($json); die;
 echo(json_encode($json)); die;
 		
