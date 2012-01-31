@@ -2,8 +2,21 @@ body, section {
     overflow: hidden;
     margin: 0px;
     padding: 0px;
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight: 300;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
+}
+
+a:hover {
+    color: white;
 }
 
 /*
@@ -18,10 +31,6 @@ body, section {
     z-index: 1;
 }
 
-#help {
-    display: none;
-}
-
 /* ************************************* */
 
 .over {
@@ -30,13 +39,10 @@ body, section {
     z-index: 2;
 }
 
-.toggle{
+#tab{
     position: relative;
     left: 50%;
-    margin-left: -30px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: bold;
+    margin-left: -40px;
     color: #5b5b5b;
 }
 
@@ -44,18 +50,51 @@ body, section {
     width: 100%;
     height: 45px;
     background-color: #000000;
-}
-
-#d3_credit {
-    width: auto;
-    vertical-align: middle;
     color: white;
 }
 
-#d3_credit a:visited {
-    color: lightgrey;
+#d3_credit {
+    float: right;
+    top: 50%;
+    margin-top: 12px;
+    margin-right: 12px;
+    text-decoration: none;
 }
 
-#d3_credit a:hover {
-    color: lightgrey;
+#help_button {
+    float: left;
+    top: 50%;
+    margin-top: 12px;
+    margin-left: 12px;
+    user-select: none;
+    cursor: pointer;
 }
+
+/* ************************************* */
+
+/*
+#bgPopup - this is referring to the element that will cover the whole page
+behind the popup and above the rest of the page.
+*/
+#bgPopup{
+    display: none;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: #000000;
+    z-index: 3;
+}  
+
+/*
+#Popup - The popup container
+*/
+#Popup{
+    display: none;
+    position: fixed;
+    background: #FFFFFF;
+    border: 2px solid #cecece;
+    z-index: 4;
+    padding: 12px;
+} 
