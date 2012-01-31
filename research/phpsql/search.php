@@ -10,16 +10,25 @@ if (isset($_GET["id"])) {
   }
 }
 
+$total = 100;
+if (isset($_GET["depth"])) {
+  $depth = $_GET["depth"];
+
+  if ( (int)$depth == $depth && $depth >= 0 ) {
+    $total = (int)$depth;
+  }
+}
+
 $dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=fake user=postgres password=bees");
 if (!$dbconn) {
     die("Error connecting to database.");
 }
 
-$result = pg_Exec($dbconn, "SELECT * FROM users WHERE user_id = $user;");
+$result = pg_Exec($dbconn, "SELECT username FROM users WHERE user_id = $user;");
 $num = pg_numrows($result);
 for ($i = 0; $i < $num; $i++) {
     $row = pg_fetch_array($result, $i);
-    print($row[0] . " " . $row[1] . "<br />");
+    print($user . " " . $row[0] . "<br />");
 }
 
 $result = pg_Exec($dbconn, "SELECT user_id2, inf_1to2, inf_2to1 FROM relationship WHERE user_id1 = $user;");
