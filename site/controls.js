@@ -1,5 +1,5 @@
 $(document).ready(function() {
-var w = $("#d3").width();
+var w = $(window).width();
 var h = $(window).height();
 
 var graph = d3.select("#d3").append("svg")
@@ -125,4 +125,10 @@ function zoomSlider(val)
 {
     console.log("zoomSlider called with value: " + val);
 }
+
+$("#toolbar").hide();
+$(".toggle").click(function(){
+    $("#toolbar").slideToggle("fast");
+    return false;
+});
 });

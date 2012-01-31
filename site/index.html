@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>Twitter Relationships</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="static/style.css">
     <!-- Add scripts to load on start below -->
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="http://mbostock.github.com/d3/d3.js?2.6.0"></script>
@@ -14,42 +14,20 @@
   </head>
 
   <body>
-    <section id="toolbar">
-      <!-- In toolbar, using various input tags as placeholders -->
-      <div class="control-space">
-        <div class="center-control">
-          <input type="range" min="1" max="100">
+    <div class="over">
+      <div id="toolbar">
+        <div id="d3_credit">
+          made with <a href="http://mbostock.github.com/d3/">d3.js</a>
         </div>
       </div>
-
-      <div class="control-space">
-        <div class="center-control">
-          <input type="button" value="up"/><br/>
-          <input type="button" value="left"/>
-          <input type="button" value="right"/>
-          <input type="button" value="down"/>
-        </div>
-      </div>
-
-      <div class="control-space">
-        <div class="center-control">
-          <input type="text" id="search">
-        </div>
-      </div>
-
-      <div class="control-space">
-        <div id="last-control" class="center-control">
-          <input type="button" value="help">
-        </div>
-      </div>
-    </section>
+      <img class="toggle" src="static/tab.png"/>
+    </div>
 
     <section id="d3">
       <!-- SVG area for d3 magic.
       Note that this calls an example script that draws the svg within the d3
       section and redraws it properly on resize
       -->
-      <div id="help">basic help, click button again to close</div>
     </section>
   </body>
 
