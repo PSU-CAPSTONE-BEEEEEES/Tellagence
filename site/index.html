@@ -4,60 +4,55 @@
   <head>
     <meta charset="utf-8">
     <title>Twitter Relationships</title>
-    <link rel="stylesheet" href="css/style.css">
-	<link rel="stylesheet" href="css/style_graph.css">
-    <!-- Add scripts to load on start below -->
-	<script src="js/jquery-1.7.1.js" type="text/javascript"></script>
-    <script src="js/d3/d3.js" type="text/javascript"></script>
-    <script src="js/d3/d3.layout.js" type="text/javascript"></script>
-    <script src="js/d3/d3.geom.js" type="text/javascript"></script>
-    <!--<script src="controls.js"></script>-->
+    <link rel="stylesheet" href="static/style.css">
+
+    <!-- core libraries -->
+    <script src="js/lib/jquery-1.7.1.js"></script>
+    <script src="js/lib/html5slider.js"></script>
+
+    <!-- d3 libraries -->
+    <script src="js/lib/d3.js"></script>
+    <script src="js/lib/d3.layout.js"></script>
+    <script src="js/lib/d3.geom.js"></script>
+
+    <!-- local scripts -->
+    <script src="js/controls.js"></script>
   </head>
 
   <body>
-    <section id="toolbar">
-      <!-- In toolbar, using various input tags as placeholders -->
-      <div class="control-space">
-        <div class="center-control">
-          <input type="range" min="1" max="100">
+    <div class="over">
+      <div id="toolbar">
+        <!-- contents of the toolbar -->
+        <div id="help_button">?</div>
+
+        <input type="range" min="0" max="100" value="50" />
+        <input id="search" type="text" />
+
+        <div id="d3_credit">
+          <a href="http://mbostock.github.com/d3/" target="_blank">d3</a>
         </div>
       </div>
+      <img id="tab" src="static/tab.png"/>
+    </div>
 
-      <div class="control-space">
-        <div class="center-control">
-          <input type="button" value="up"/><br/>
-          <input type="button" value="left"/>
-          <input type="button" value="right"/>
-          <input type="button" value="down"/>
-        </div>
-      </div>
-
-      <div class="control-space">
-        <div class="center-control">
-          <input type="text" id="search">
-        </div>
-      </div>
-
-      <div class="control-space">
-        <div id="last-control" class="center-control">
-          <input type="button" value="help">
-        </div>
-      </div>
-    </section>
-
-    <section id="d3">
+    <div id="d3">
       <!-- SVG area for d3 magic.
       Note that this calls an example script that draws the svg within the d3
       section and redraws it properly on resize
       -->
-      <div id="help">basic help, click button again to close</div>
-    </section>
-	
-	<script type="text/javascript" src="js/graph.js" ></script>	
-  	<script type="text/javascript" src="js/graph_render.js" ></script>
-  	<script type="text/javascript" src="js/graph_event.js" ></script>
-  	<script type="text/javascript" src="js/gui_event.js" ></script>	
-	<script type="text/javascript" src="js/build.js" ></script>
+    	<script type="text/javascript" src="js/graph.js" ></script>	
+    	<script type="text/javascript" src="js/graph_render.js" ></script>
+    	<script type="text/javascript" src="js/graph_event.js" ></script>
+  	  <script type="text/javascript" src="js/gui_event.js" ></script>	
+    	<script type="text/javascript" src="js/build.js" ></script>
+    </div>
+
+    <div id="Popup">
+      <!-- help overlay, with the entered text formatted into the popup -->
+      This is what I'm talking about
+    </div>
+    <div id="bgPopup"></div>
+
   </body>
 
 </html>
