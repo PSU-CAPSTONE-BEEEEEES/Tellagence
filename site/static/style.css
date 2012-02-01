@@ -1,0 +1,155 @@
+/* standard tag styles */
+
+body {
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 500;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
+}
+
+a:hover {
+    color: white;
+}
+
+/* d3 force graph styles for the nodes and links */
+
+#d3 {
+    position: absolute;
+    width: auto;
+    height: auto;
+    z-index: 1;
+}
+
+line {
+    stroke: black;
+    stroke-width: 1px;
+}
+
+/* different colored groups of nodes */
+.group0 { fill:#000000; }
+.group1 { fill: #009900; }
+.group2 { fill: #00FF00; }
+.group3 { fill: #660000;}
+.group4 { fill: #666600; }
+.group5 { fill: #0000FF; }
+.group6 { fill: #330099; }
+.group7 { fill: #CC0000; }
+.group8 { fill: #FFFF00; }
+.group9 { fill: #FF00FF; }
+.group10 { fill: 9999FF; }
+.group11 { fill: #99FFFF; }
+.group12 { fill: #FFCCFF; }
+
+svg {
+    pointer-events: all;
+}
+
+/* toolbar and toolbar element styles */
+
+.over {
+    position: fixed;
+    width: 100%;
+    z-index: 2;			/* higher index to put on top of d3 */
+}
+
+#tab{
+    position: relative;
+    left: 50%;
+    margin-left: -40px;
+    color: #5b5b5b;
+    cursor: pointer;		/* tab image used as button */
+}
+
+#toolbar {
+    position: relative;
+    width: 100%;
+    height: 45px;
+    background-color: #000000;
+    color: white;
+}
+
+#d3_credit {
+    float: right;
+    top: 50%;
+    margin-top: 12px;
+    margin-right: 12px;
+    text-decoration: none;
+}
+
+#help_button {
+    float: left;
+    top: 50%;
+    margin-top: 12px;
+    margin-left: 12px;
+    user-select: none;
+    cursor: pointer;
+}
+
+/* help popup and popup background styles */
+
+#bgPopup{
+    display: none;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: #000000;
+    z-index: 3;			/* higher index than toolbar for overlay */
+}  
+
+#Popup{
+    display: none;
+    position: fixed;
+    background: #FFFFFF;
+    border: 2px solid #cecece;
+    z-index: 4;			/* still higher index for another layer*/
+    padding: 12px;
+}
+
+/* zoom slider and search input styles
+
+   note that input[type=range] breaks on firefox, so html5slider.js is used
+   for now to patch the element with javascript
+*/
+
+input[type=range] {
+    position: absolute;
+    left: 25%;
+    margin-left: -100px;
+    top: 50%;
+    margin-top: -3px;
+    -webkit-appearance: none;
+    background-color: white;
+    width: 200px;
+    height: 6px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: white;
+    border: 2px solid black;
+    width: 10px;
+    height: 20px;
+    cursor: pointer;
+}
+
+input[type=text] {
+    position: absolute;
+    left: 75%;
+    margin-left: -100px;
+    top: 50%;
+    margin-top: -9.5px;    
+    width: 200px;
+    font-family: inherit;
+}
