@@ -64,7 +64,8 @@ while (count($visited) < $total && count($toVisit) > 0) {
 foreach ($toVisit as $next) {
     //TODO: some sort of cleanup
     //clear links to these nodes
-
+    addNode($next);
+    //whoops we went over the total
 }
 
 echo(json_encode($json));
