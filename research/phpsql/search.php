@@ -37,12 +37,30 @@ if (!$dbconn) {
 
 //add the central user
 addNode($user);
+addLinks($user);
 
 //get the links
+while (count($visited) < $total && count($toVisit) > 0) {
+    foreach ($toVisit as $i => $next) {
+        if (in_array($next, $visited)) {
+            continue;
+        }
+
+        addNode($next);
+        addLinks($next);
+        $visited[] = $next;
+        unset($toVisit[$i]);
+
+        if ( count($visited) >= $total) {
+            break;
+        }
+    }
+}
+
 foreach ($toVisit as $next) {
-    echo(json_encode($next));
-    addNode($next);
-    addLinks($next);
+    //some sort of cleanup
+    //maybe addNode but no addLinks
+    //or maybe clear links to these nodes
 }
 
 echo(json_encode($json));
@@ -59,7 +77,7 @@ function addNode($who) {
     for ($i = 0; $i < $num; $i++) {
         $row = pg_fetch_array($result, $i);
         $node['name'] = $row[0];
-        $node['id'] = $user;
+        $node['id'] = $who;
         //add this node to the json
         $json['nodes'][] = $node;
     }
