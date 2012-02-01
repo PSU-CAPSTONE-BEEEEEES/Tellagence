@@ -78,7 +78,7 @@ function main(){
     $unique_total = array_merge(array_unique(array_merge($username, $ary)));
 
     // flood DB
-    /*
+
     $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
     if (!$dbcon) {
          die("Error in connection: " . pg_last_error());
@@ -98,8 +98,8 @@ function main(){
 
     // close connection
     pg_close($dbcon);
-    die;
-    */
+
+
     //print_r($unique_total);
     //print_r(count($unique_total));
     //print_r($relation);
@@ -141,7 +141,7 @@ function main(){
     foreach($count1 as $key=>$value){
         if(isset($count2[$key])){
             $temp = explode('*-*', $key);
-            $result[] = array(
+            $res[] = array(
                 'user_id1' => $temp[0],
                 'user_id2' => $temp[1],
                 'inf_1to2' => $value,
@@ -149,7 +149,7 @@ function main(){
             );
         }else{
             $temp = explode('*-*', $key);
-            $result[] = array(
+            $res[] = array(
                 'user_id1' => $temp[0],
                 'user_id2' => $temp[1],
                 'inf_1to2' => $value,
@@ -158,23 +158,45 @@ function main(){
 
         }
     }
-    //print_r($result);
-    // flood database
+    print_r($res);
+
+
+    foreach($res as $item){
+        $source[] = $item['user_id1'];
+        $target[] = $item['user_id2'];
+    }
+
+
+
+    $cs = array_count_values($source);
+    $ct = array_count_values($target);
+    print_r($cs);
+    print_r($ct);
+
+    // flood database 3
 
     $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
     if (!$dbcon) {
          die("Error in connection: " . pg_last_error());
     }
-    // execute query
-    foreach($result as $item){
-        $u1 = $item['user_id1'];
-        $u2 = $item['user_id2'];
-        $x = $item['inf_1to2'];
-        $y = $item['inf_2to1'];
-        $z = $x + $y;
-        $sql = "INSERT INTO relationship (user_id1, user_id2, inf_1to2, inf_2to1, inf_sum) VALUES('$u1','$u2','$x','$y','$z')";
-        $result = pg_query($dbcon, $sql);
-    
+    // execute query for out_degree
+    foreach($cs as $key=>$value){
+        $sql = "UPDATE users SET out_degree = ('$value') WHERE user_id = ('$key')";
+    $result = pg_query($dbcon, $sql);
+        if (!$result) {
+         die("Error in SQL query: " . pg_last_error());
+        }
+        echo "Data successfully inserted!";
+    }
+    // free memory
+    pg_free_result($result);
+
+    // close connection
+
+    // execute query for in_degree
+    foreach($ct as $key=>$value){
+        $sql = "UPDATE users SET in_degree = ('$value') WHERE user_id = ('$key')";
+    $result = pg_query($dbcon, $sql);
         if (!$result) {
          die("Error in SQL query: " . pg_last_error());
         }
@@ -185,11 +207,9 @@ function main(){
 
     // close connection
     pg_close($dbcon);
+    
 
-
-
-
-
+    die;
     /*
     // swap order
     foreach($last as &$item){
@@ -338,5 +358,33 @@ echo(json_encode($json));
     pg_close($dbcon);
 */
 
+
+// flood database 2
+/*
+    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
+    if (!$dbcon) {
+         die("Error in connection: " . pg_last_error());
+    }
+    // execute query
+    foreach($result as $item){
+        $u1 = $item['user_id1'];
+        $u2 = $item['user_id2'];
+        $x = $item['inf_1to2'];
+        $y = $item['inf_2to1'];
+        $z = $x + $y;
+        $sql = "INSERT INTO relationship (user_id1, user_id2, inf_1to2, inf_2to1, inf_sum) VALUES('$u1','$u2','$x','$y','$z')";
+        $result = pg_query($dbcon, $sql);
+
+        if (!$result) {
+         die("Error in SQL query: " . pg_last_error());
+        }
+        echo "Data successfully inserted!";
+    }
+    // free memory
+    pg_free_result($result);
+
+    // close connection
+    pg_close($dbcon);
+*/
 ?>
 
