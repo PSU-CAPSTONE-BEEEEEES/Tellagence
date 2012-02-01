@@ -58,7 +58,7 @@ while (count($visited) < $total && count($toVisit) > 0) {
 }
 
 foreach ($toVisit as $next) {
-    //some sort of cleanup
+    //TODO: some sort of cleanup
     //maybe addNode but no addLinks
     //or maybe clear links to these nodes
 }
