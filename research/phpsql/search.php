@@ -28,6 +28,8 @@ $visited[] = $user;
 //list of nodes to visit
 $toVisit = array();
 
+//query the db for the shortest paths
+$path = array();
 
 //create the json skeleton
 $json['nodes'] = array();
@@ -40,6 +42,8 @@ if (!$dbconn) {
 }
 
 //add the central user
+getPath($user);
+
 addNode($user);
 addLinks($user);
 
@@ -50,6 +54,7 @@ while (count($visited) < $total && count($toVisit) > 0) {
             continue;
         }
 
+        getPath($next);
         addNode($next);
         addLinks($next);
         $visited[] = $next;
@@ -73,7 +78,19 @@ echo(json_encode($json));
 //close the database connection
 pg_close($dbconn);
 
+
 //here be dragons^Wfunctions
+
+function getPath($who) {
+    global $dbconn, $path;
+
+    $result = pg_Exec($dbconn, "SELECT shortestpath FROM test WHERE user_id = $who;");
+    $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
+
+    //turn the string '1:2:3' into the array '1','2','3'
+    $path = explode(":",$row[0]);
+}
+
 function addNode($who) {
     global $dbconn, $toVisit, $visited, $json;
 
@@ -91,7 +108,7 @@ function addNode($who) {
 }
 
 function addLinks($who) {
-    global $dbconn, $toVisit, $visited, $json;
+    global $dbconn, $toVisit, $visited, $path, $json;
 
     //find our immediate links
     //round 1: user_id1
@@ -114,6 +131,7 @@ function addLinks($who) {
             $link['source'] = count($json['nodes']) - 1;
             $link['target'] = $goal;
             $link['influence'] = $row[1];
+            $link['shortestpath'] = $path[$row[0]];
             $json['links'][] = $link;
         }
 
@@ -122,6 +140,7 @@ function addLinks($who) {
             $link['source'] = $goal;
             $link['target'] = count($json['nodes']) - 1;
             $link['influence'] = $row[2];
+            $link['shortestpath'] = $path[$row[0]];
             $json['links'][] = $link;
         }
     }
@@ -147,6 +166,7 @@ function addLinks($who) {
             $link['source'] = count($json['nodes']) - 1;
             $link['target'] = $goal;
             $link['influence'] = $row[1];
+            $link['shortestpath'] = $path[$row[0]];
             $json['links'][] = $link;
         }
     
@@ -155,6 +175,7 @@ function addLinks($who) {
             $link['source'] = $goal;
             $link['target'] = count($json['nodes']) - 1;
             $link['influence'] = $row[2];
+            $link['shortestpath'] = $path[$row[0]];
             $json['links'][] = $link;
         }
     }
