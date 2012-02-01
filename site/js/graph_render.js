@@ -2,11 +2,11 @@ function GraphRender(graph) {
 	// graph for this graph render
 	this.graph = graph;
 	// defined width & height of svg
-	this.w = $(window).width();
+	this.w = $("#d3").width();
 	this.h = $(window).height();
 	
 	// init svg area to draw
-	this.svg = d3.select("body").append("svg")
+	this.svg = d3.select("#d3").append("svg")
 		.attr("width", this.w)
 		.attr("height", this.h);
 	
@@ -61,7 +61,7 @@ function GraphRender(graph) {
 	}
 	
 	this.changeData = function(size) {
-		d3.json('random2.php?size='+size, function(data) {
+		d3.json('random3.php?size='+size, function(data) {
 			// empty current graph
 			graph.empty();
 			// apply new data for current graph

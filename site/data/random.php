@@ -65,7 +65,11 @@ for ($i = $delta; $i <= ($count + $delta); $i++) {
   $node['influence'] = array();
   for ($j = $i-1; $j > 0; $j--) {
     if ( rand(0,$sparse) == 0 ) {
+<<<<<<< HEAD
       $node['influence'][] = array("$j" => rand($minimum,$maximum));
+=======
+      $node['influence'][] = array("$j" => rand(1,$count));
+>>>>>>> d98359549d9716e513b97ac6cfc7b2522fad8353
     }
   }
 

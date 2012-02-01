@@ -5,7 +5,13 @@
     <meta charset="utf-8">
     <title>Twitter Relationships</title>
     <link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/style_graph.css">
     <!-- Add scripts to load on start below -->
+	<script src="js/jquery-1.7.1.js" type="text/javascript"></script>
+    <script src="js/d3/d3.js" type="text/javascript"></script>
+    <script src="js/d3/d3.layout.js" type="text/javascript"></script>
+    <script src="js/d3/d3.geom.js" type="text/javascript"></script>
+    <!--<script src="controls.js"></script>-->
   </head>
 
   <body>
@@ -13,28 +19,28 @@
       <!-- In toolbar, using various input tags as placeholders -->
       <div class="control-space">
         <div class="center-control">
-          <input type="range">
+          <input type="range" min="1" max="100">
         </div>
       </div>
 
       <div class="control-space">
         <div class="center-control">
-          <button>Hello</button>
+          <input type="button" value="up"/><br/>
+          <input type="button" value="left"/>
+          <input type="button" value="right"/>
+          <input type="button" value="down"/>
         </div>
       </div>
 
       <div class="control-space">
         <div class="center-control">
-          <input type="text" style="text-align: center;">
+          <input type="text" id="search">
         </div>
       </div>
 
       <div class="control-space">
         <div id="last-control" class="center-control">
-          <input checked type="checkbox">
-          <input type="checkbox">
-          <input checked type="checkbox">
-          <input type="checkbox">
+          <input type="button" value="help">
         </div>
       </div>
     </section>
@@ -44,10 +50,14 @@
       Note that this calls an example script that draws the svg within the d3
       section and redraws it properly on resize
       -->
-      <script src="http://mbostock.github.com/d3/d3.js?2.6.0"></script>
-      <script src="http://code.jquery.com/jquery-latest.js"></script>
-      <script type="text/javascript" src="test.js"></script>
+      <div id="help">basic help, click button again to close</div>
     </section>
+	
+	<script type="text/javascript" src="js/graph.js" ></script>	
+  	<script type="text/javascript" src="js/graph_render.js" ></script>
+  	<script type="text/javascript" src="js/graph_event.js" ></script>
+  	<script type="text/javascript" src="js/gui_event.js" ></script>	
+	<script type="text/javascript" src="js/build.js" ></script>
   </body>
 
 </html>
