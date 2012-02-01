@@ -111,7 +111,6 @@ function zoomSlider(val)
 
 
 // text input capture on enter
-
 $("#search").keypress(function(e) {
     // 13 is the ascii code for the enter key
     if (e.which == 13) {
@@ -120,7 +119,6 @@ $("#search").keypress(function(e) {
 });
 
 // toolbar animation and help overlay functions
-
 $("#toolbar").hide();
 $("#tab").click(
     function(){
@@ -128,8 +126,9 @@ $("#tab").click(
     }
 );
 
+// functions for controlling the help overlay visibility and position
 function loadPopup(){
-//loads popup only if it is disabled
+    //loads popup only if it is disabled
     if($("#bgPopup").data("state")==0){
         $("#bgPopup").css({
             "opacity": "0.7"
@@ -160,6 +159,7 @@ function centerPopup(){
     });
 }
 
+// selectors on the help button to trigger the functions
 $("#bgPopup").data("state",0);
 $("#help_button").click(function(){
     centerPopup();

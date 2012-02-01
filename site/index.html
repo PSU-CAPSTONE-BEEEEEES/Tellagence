@@ -5,21 +5,29 @@
     <meta charset="utf-8">
     <title>Twitter Relationships</title>
     <link rel="stylesheet" href="static/style.css">
-    <!-- Add scripts to load on start below -->
+
+    <!-- core libraries -->
     <script src="js/lib/jquery-1.7.1.js"></script>
     <script src="js/lib/html5slider.js"></script>
+
+    <!-- d3 libraries -->
     <script src="js/lib/d3.js"></script>
     <script src="js/lib/d3.layout.js"></script>
     <script src="js/lib/d3.geom.js"></script>
+
+    <!-- local scripts -->
     <script src="js/controls.js"></script>
   </head>
 
   <body>
     <div class="over">
       <div id="toolbar">
+        <!-- contents of the toolbar -->
         <div id="help_button">?</div>
+
         <input type="range" min="0" max="100" value="50" />
         <input id="search" type="text" />
+
         <div id="d3_credit">
           <a href="http://mbostock.github.com/d3/" target="_blank">d3</a>
         </div>
@@ -35,6 +43,7 @@
     </div>
 
     <div id="Popup">
+      <!-- help overlay, with the entered text formatted into the popup -->
       This is what I'm talking about
     </div>
     <div id="bgPopup"></div>
