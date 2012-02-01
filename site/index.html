@@ -6,17 +6,20 @@
     <title>Twitter Relationships</title>
     <link rel="stylesheet" href="static/style.css">
     <!-- Add scripts to load on start below -->
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="http://mbostock.github.com/d3/d3.js?2.6.0"></script>
-    <script src="http://mbostock.github.com/d3/d3.layout.js?2.6.0"></script>
-    <script src="http://mbostock.github.com/d3/d3.geom.js?2.6.0"></script>
-    <script src="controls.js"></script>
+    <script src="js/lib/jquery-1.7.1.js"></script>
+    <script src="js/lib/html5slider.js"></script>
+    <script src="js/lib/d3.js"></script>
+    <script src="js/lib/d3.layout.js"></script>
+    <script src="js/lib/d3.geom.js"></script>
+    <script src="js/controls.js"></script>
   </head>
 
   <body>
     <div class="over">
       <div id="toolbar">
         <div id="help_button">?</div>
+        <input type="range" min="0" max="100" value="50" />
+        <input id="search" type="text" />
         <div id="d3_credit">
           <a href="http://mbostock.github.com/d3/" target="_blank">d3</a>
         </div>
@@ -24,12 +27,12 @@
       <img id="tab" src="static/tab.png"/>
     </div>
 
-    <section id="d3">
+    <div id="d3">
       <!-- SVG area for d3 magic.
       Note that this calls an example script that draws the svg within the d3
       section and redraws it properly on resize
       -->
-    </section>
+    </div>
 
     <div id="Popup">
       This is what I'm talking about

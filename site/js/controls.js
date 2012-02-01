@@ -85,25 +85,8 @@ var draw = function(nodes, links) {
     });
 };
 
-/*
-  The following methods select the various input elements from the HTML5
-  page and feed the input to the proper handler methods.
-
-  Note that the navigation buttons are held, so the handlers are called
-  continuously until the mouse either unclicks or leaves the button area.
-*/
-
-// var i;    // used to save the interval handle
-// $("input[type=button]").mousedown(function() {
-//         var val = $(this).attr("value");
-//         i = setInterval(function() {return redrawButton(val);}, 100);
-//     }).bind("mouseup mouseleave", function() {
-//         clearInterval(i);
-//     });
-
-$("input[value=help]").click(function() {
-    $("#help").toggle();
-});
+// draw([{n1:'1',n2:'2'}, {n1:'3',n2:'6'}, {n1:'0',n2:'1'}],
+//      [{source:0, target:1},{source:1, target:2}]);
 
 /*
   Author: Aren Edlund-Jermain
@@ -127,17 +110,21 @@ function zoomSlider(val)
 }
 
 
-/* ******************************************
-   toolbar animation and help overlay functions
-*/
+// text input capture on enter
+
+$("#search").keypress(function(e) {
+    // 13 is the ascii code for the enter key
+    if (e.which == 13) {
+	alert("enter pressed with " + $("#search").val());
+    }
+});
+
+// toolbar animation and help overlay functions
 
 $("#toolbar").hide();
-$(".over").hover(
+$("#tab").click(
     function(){
-        $("#toolbar").slideToggle("slow");
-    },
-    function(){
-        $("#toolbar").slideToggle("slow");
+        $("#toolbar").slideToggle("fast");
     }
 );
 

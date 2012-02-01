@@ -1,9 +1,11 @@
+/*  */
+
 body, section {
     overflow: hidden;
     margin: 0px;
     padding: 0px;
     font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-weight: 300;
+    font-weight: 500;
 }
 
 a {
@@ -19,11 +21,6 @@ a:hover {
     color: white;
 }
 
-/*
-  By making the divs in the toolbar like a table, they keep centered on a window
-  resize and in relation to each control-space
-*/
-
 #d3 {
     position: absolute;
     width: auto;
@@ -31,7 +28,20 @@ a:hover {
     z-index: 1;
 }
 
-/* ************************************* */
+circle {
+    fill: red;
+    stroke: black;
+    stroke-width: 5px;
+}
+
+line {
+    stroke: black;
+    stroke-width: 5px;
+}
+
+svg {
+    pointer-events: all;
+}
 
 .over {
     position: fixed;
@@ -44,9 +54,11 @@ a:hover {
     left: 50%;
     margin-left: -40px;
     color: #5b5b5b;
+    cursor: pointer;
 }
 
 #toolbar {
+    position: relative;
     width: 100%;
     height: 45px;
     background-color: #000000;
@@ -70,12 +82,6 @@ a:hover {
     cursor: pointer;
 }
 
-/* ************************************* */
-
-/*
-#bgPopup - this is referring to the element that will cover the whole page
-behind the popup and above the rest of the page.
-*/
 #bgPopup{
     display: none;
     position: fixed;
@@ -87,9 +93,6 @@ behind the popup and above the rest of the page.
     z-index: 3;
 }  
 
-/*
-#Popup - The popup container
-*/
 #Popup{
     display: none;
     position: fixed;
@@ -97,4 +100,35 @@ behind the popup and above the rest of the page.
     border: 2px solid #cecece;
     z-index: 4;
     padding: 12px;
-} 
+}
+
+input[type=range] {
+    position: absolute;
+    left: 25%;
+    margin-left: -100px;
+    top: 50%;
+    margin-top: -3px;
+    -webkit-appearance: none;
+    background-color: white;
+    width: 200px;
+    height: 6px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: white;
+    border: 2px solid black;
+    width: 10px;
+    height: 20px;
+    cursor: pointer;
+}
+
+input[type=text] {
+    position: absolute;
+    left: 75%;
+    margin-left: -100px;
+    top: 50%;
+    margin-top: -9.5px;    
+    width: 200px;
+    font-family: inherit;
+}
