@@ -40,6 +40,7 @@ addNode($user);
 
 //get the links
 foreach ($toVisit as $next) {
+    echo(json_encode($next));
     addNode($next);
     addLinks($next);
 }
@@ -51,6 +52,7 @@ pg_close($dbconn);
 
 //here be dragons^Wfunctions
 function addNode($who) {
+    global $dbconn, $toVisit, $visited, $json;
     //find this nodes name
     $result = pg_Exec($dbconn, "SELECT username FROM users WHERE user_id = $who;");
     $num = pg_numrows($result);
@@ -64,6 +66,7 @@ function addNode($who) {
 }
 
 function addLinks($who) {
+    global $dbconn, $toVisit, $visited, $json;
     //find our immediate links
     $result = pg_Exec($dbconn, "SELECT user_id2, inf_1to2, inf_2to1 FROM relationship WHERE user_id1 = $who;");
     $num = pg_numrows($result);
