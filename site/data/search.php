@@ -117,31 +117,46 @@ function addLinks($who) {
     
     for ($i = 0; $i < $num; $i++) {
         $row = pg_fetch_array($result, $i);
-        
+
         //map index into the json array
+        $here = count($json['nodes']) - 1;
         if (!in_array($row[0],$visited)) {
             $toVisit[] = $row[0];
-            $goal = count($visited) + count($toVisit) - 1;
+            $there = count($visited) + count($toVisit) - 1;
         } else {
-            $goal = array_search($row[0],$visited);
+            $there = array_search($row[0],$visited);
+        }
+
+        if ($row[0] > count($path) ) {
+            //munge path
+            getPath($row[0]);
+            $sp = $path[$who];
+            $dirty = true;
+        } else {
+            $sp = $path[$row[0]];
         }
 
         //build the links
         if ($row[1] > 0) {
-            $link['source'] = count($json['nodes']) - 1;
-            $link['target'] = $goal;
+            $link['source'] = $here;
+            $link['target'] = $there;
             $link['influence'] = $row[1];
-            $link['shortestpath'] = $path[$row[0]];
+            $link['shortestpath'] = $sp;
             $json['links'][] = $link;
         }
 
         //build the links
         if ($row[2] > 0) {
-            $link['source'] = $goal;
-            $link['target'] = count($json['nodes']) - 1;
+            $link['source'] = $there;
+            $link['target'] = $here;
             $link['influence'] = $row[2];
-            $link['shortestpath'] = $path[$row[0]];
+            $link['shortestpath'] = $sp;
             $json['links'][] = $link;
+        }
+
+        if ($dirty) {
+            //unmunge path
+            getPath($who);
         }
     }
 
@@ -156,28 +171,43 @@ function addLinks($who) {
         //map index into the json array
         if (!in_array($row[0],$visited)) {
             $toVisit[] = $row[0];
-            $goal = count($visited) + count($toVisit) - 1;
+            $there = count($visited) + count($toVisit) - 1;
         } else {
-            $goal = array_search($row[0],$visited);
+            $there = array_search($row[0],$visited);
+        }
+
+        if ($row[0] > count($path) ) {
+            //munge path
+            getPath($row[0]);
+            $sp = $path[$who];
+            $dirty = true;
+        } else {
+            $sp = $path[$row[0]];
         }
 
         //build the links
         if ($row[1] > 0) {
             $link['source'] = count($json['nodes']) - 1;
-            $link['target'] = $goal;
+            $link['target'] = $there;
             $link['influence'] = $row[1];
-            $link['shortestpath'] = $path[$row[0]];
+            $link['shortestpath'] = $sp;
             $json['links'][] = $link;
         }
     
         //build the links
         if ($row[2] > 0) {
-            $link['source'] = $goal;
+            $link['source'] = $there;
             $link['target'] = count($json['nodes']) - 1;
             $link['influence'] = $row[2];
-            $link['shortestpath'] = $path[$row[0]];
+            $link['shortestpath'] = $sp;
             $json['links'][] = $link;
         }
+        
+        if ($dirty) {
+            //unmunge path
+            getPath($who);
+        }
+
     }
 
 }
