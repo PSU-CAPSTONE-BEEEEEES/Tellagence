@@ -12,6 +12,26 @@ if (isset($_GET["size"])) {
   }
 }
 
+$minimum = 20;
+
+if (isset($_GET["min"])) {
+  $min = $_GET["min"];
+
+  if ( (int)$min == $min) {
+    $minimum = (int)$min;
+  }
+}
+
+$maximum = 20;
+
+if (isset($_GET["max"])) {
+  $max = $_GET["size"];
+
+  if ( (int)$max == $size) {
+    $maximum = (int)$max;
+  }
+}
+
 
 $sparse = 3;
 
@@ -23,19 +43,33 @@ if (isset($_GET["factor"])) {
   }
 }
 
+$delta = 0;
+
+if (isset($_GET["offset"])) {
+  $offset = $_GET["offset"];
+
+  if ( (int)$offset == $offset && $offset >= 0) {
+    $delta = $offset;
+  }
+}
+
 
 //begin JSON generation
 
 $json['nodes'] = array();
 
-for ($i = 0; $i <= $count; $i++) {
+for ($i = $delta; $i <= ($count + $delta); $i++) {
 
   $node['name'] = $i;
 
   $node['influence'] = array();
   for ($j = $i-1; $j > 0; $j--) {
     if ( rand(0,$sparse) == 0 ) {
+<<<<<<< HEAD
+      $node['influence'][] = array("$j" => rand($minimum,$maximum));
+=======
       $node['influence'][] = array("$j" => rand(1,$count));
+>>>>>>> d98359549d9716e513b97ac6cfc7b2522fad8353
     }
   }
 
