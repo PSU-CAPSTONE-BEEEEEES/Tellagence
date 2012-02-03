@@ -66,12 +66,19 @@ while (count($visited) < $total && count($toVisit) > 0) {
     }
 }
 
-foreach ($toVisit as $next) {
+$count = count($json['nodes']);
+foreach ($json['links'] as $i => $link) {
     //TODO: some sort of cleanup
-    //clear links to these nodes
-    addNode($next);
-    //whoops we went over the total
+    //clear links to the nodes in toVisit
+    if ($link['source'] > $count) {
+        unset($json['links'][$i]);
+    }
+    if ($link['target'] > $count) {
+        unset($json['links'][$i]);
+    }
 }
+
+$json['links'] = array_values($json['links']);
 
 echo(json_encode($json));
 
@@ -100,7 +107,7 @@ function addNode($who) {
     
     for ($i = 0; $i < $num; $i++) {
         $row = pg_fetch_array($result, $i);
-        $node['name'] = $row[0];
+        //$node['name'] = $row[0];
         $node['id'] = $who;
         //add this node to the json
         $json['nodes'][] = $node;
@@ -118,14 +125,7 @@ function addLinks($who) {
     for ($i = 0; $i < $num; $i++) {
         $row = pg_fetch_array($result, $i);
 
-        //map index into the json array
-        $here = count($json['nodes']) - 1;
-        if (!in_array($row[0],$visited)) {
-            $toVisit[] = $row[0];
-            $there = count($visited) + count($toVisit) - 1;
-        } else {
-            $there = array_search($row[0],$visited);
-        }
+        if ($row[1] = 0 && $row[2] = 0) { continue; }
 
         if ($row[0] > count($path) ) {
             //munge path
@@ -134,6 +134,23 @@ function addLinks($who) {
             $dirty = true;
         } else {
             $sp = $path[$row[0]];
+        }
+
+        if ($sp == 1) {
+            if ($dirty) {
+                //unmunge path
+                getPath($who);
+            }
+            continue;
+        }
+
+        //map index into the json array
+        $here = count($json['nodes']) - 1;
+        if (!in_array($row[0],$visited)) {
+            $toVisit[] = $row[0];
+            $there = count($visited) + count($toVisit) - 1;
+        } else {
+            $there = array_search($row[0],$visited);
         }
 
         //build the links
@@ -168,13 +185,7 @@ function addLinks($who) {
     for ($i = 0; $i < $num; $i++) {
         $row = pg_fetch_array($result, $i);
     
-        //map index into the json array
-        if (!in_array($row[0],$visited)) {
-            $toVisit[] = $row[0];
-            $there = count($visited) + count($toVisit) - 1;
-        } else {
-            $there = array_search($row[0],$visited);
-        }
+        if ($row[1] = 0 && $row[2] = 0) { continue; }
 
         if ($row[0] > count($path) ) {
             //munge path
@@ -183,6 +194,22 @@ function addLinks($who) {
             $dirty = true;
         } else {
             $sp = $path[$row[0]];
+        }
+
+        if ($sp == 1) {
+            if ($dirty) {
+                //unmunge path
+                getPath($who);
+            }
+            continue;
+        }
+
+        //map index into the json array
+        if (!in_array($row[0],$visited)) {
+            $toVisit[] = $row[0];
+            $there = count($visited) + count($toVisit) - 1;
+        } else {
+            $there = array_search($row[0],$visited);
         }
 
         //build the links
