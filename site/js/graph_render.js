@@ -6,7 +6,8 @@ function GraphRender(graph) {
 	this.h = $(window).height();
 	
 	// init svg area to draw
-	this.svg = d3.select("#d3").append("svg")
+	this.svg = d3.select("#d3")
+		.append("svg:svg")
 		.attr("width", this.w)
 		.attr("height", this.h);
 	
@@ -46,8 +47,7 @@ function GraphRender(graph) {
 			.attr("r", function(d) { return d.degree*2+'px'; })
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
-			.attr("class", function(d) { return 'group'+d.tree; })
-			.call(this.force.drag);
+			.attr("class", function(d) { return 'group'+d.tree; });
 		this.circle.append("title")
 			.text(function(d) { return 'd:'+d.degree + ' ' + 't:'+d.tree; });
 			
