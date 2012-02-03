@@ -145,12 +145,25 @@ input[type=range]::-webkit-slider-thumb {
     cursor: pointer;
 }
 
-input[type=text] {
+/*
+   due to firefox and chrome rendering the search boxes at different heights,
+   tables and vertical-aligns were used to properly center the box
+*/
+
+#search {
+    display: table;
     position: absolute;
     left: 75%;
     margin-left: -100px;
-    top: 50%;
-    margin-top: -9.5px;    
     width: 200px;
-    font-family: inherit;
+    height: 100%;
+}
+
+#searchbar {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+input[type=text] {
+    width: 200px;
 }
