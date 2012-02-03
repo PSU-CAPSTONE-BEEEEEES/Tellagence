@@ -68,7 +68,6 @@ while (count($visited) < $total && count($toVisit) > 0) {
 
 $count = count($json['nodes']);
 foreach ($json['links'] as $i => $link) {
-    //TODO: some sort of cleanup
     //clear links to the nodes in toVisit
     if ($link['source'] > $count) {
         unset($json['links'][$i]);
@@ -77,7 +76,6 @@ foreach ($json['links'] as $i => $link) {
         unset($json['links'][$i]);
     }
 }
-
 $json['links'] = array_values($json['links']);
 
 echo(json_encode($json));
@@ -91,7 +89,7 @@ pg_close($dbconn);
 function getPath($who) {
     global $dbconn, $path;
 
-    $result = pg_Exec($dbconn, "SELECT shortestpath FROM test WHERE user_id = $who;");
+    $result = pg_Exec($dbconn, "SELECT shortestpath FROM test2 WHERE user_id = $who;");
     $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
 
     //turn the string '1:2:3' into the array '1','2','3'
