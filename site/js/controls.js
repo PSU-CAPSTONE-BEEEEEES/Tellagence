@@ -1,5 +1,5 @@
 $(document).ready(function() {
-var w = $("#d3").width();
+var w = $(window).width();
 var h = $(window).height();
 
 var graph = d3.select("#d3").append("svg")
@@ -85,25 +85,8 @@ var draw = function(nodes, links) {
     });
 };
 
-/*
-  The following methods select the various input elements from the HTML5
-  page and feed the input to the proper handler methods.
-
-  Note that the navigation buttons are held, so the handlers are called
-  continuously until the mouse either unclicks or leaves the button area.
-*/
-
-// var i;    // used to save the interval handle
-// $("input[type=button]").mousedown(function() {
-//         var val = $(this).attr("value");
-//         i = setInterval(function() {return redrawButton(val);}, 100);
-//     }).bind("mouseup mouseleave", function() {
-//         clearInterval(i);
-//     });
-
-$("input[value=help]").click(function() {
-    $("#help").toggle();
-});
+// draw([{n1:'1',n2:'2'}, {n1:'3',n2:'6'}, {n1:'0',n2:'1'}],
+//      [{source:0, target:1},{source:1, target:2}]);
 
 /*
   Author: Aren Edlund-Jermain
@@ -125,4 +108,68 @@ function zoomSlider(val)
 {
     console.log("zoomSlider called with value: " + val);
 }
+
+
+// text input capture on enter
+$("#search").keypress(function(e) {
+    // 13 is the ascii code for the enter key
+    if (e.which == 13) {
+	alert("enter pressed with " + $("#search").val());
+    }
+});
+
+// toolbar animation and help overlay functions
+$("#toolbar").hide();
+$("#tab").click(
+    function(){
+        $("#toolbar").slideToggle("fast");
+    }
+);
+
+// functions for controlling the help overlay visibility and position
+function loadPopup(){
+    //loads popup only if it is disabled
+    if($("#bgPopup").data("state")==0){
+        $("#bgPopup").css({
+            "opacity": "0.7"
+        });
+        $("#bgPopup").fadeIn("medium");
+        $("#Popup").fadeIn("medium");
+        $("#bgPopup").data("state",1);
+    }
+}
+
+function disablePopup(){
+    if ($("#bgPopup").data("state")==1){
+        $("#bgPopup").fadeOut("medium");
+        $("#Popup").fadeOut("medium");
+        $("#bgPopup").data("state",0);
+    }
+}
+
+function centerPopup(){
+    var winw = $(window).width();
+    var winh = $(window).height();
+    var popw = $('#Popup').width();
+    var poph = $('#Popup').height();
+    $("#Popup").css({
+        "position" : "absolute",
+        "top" : winh/2 - poph/2,
+        "left" : winw/2 - popw/2
+    });
+}
+
+// selectors on the help button to trigger the functions
+$("#bgPopup").data("state",0);
+$("#help_button").click(function(){
+    centerPopup();
+    loadPopup();
+});
+$("#bgPopup").click(function(){
+    disablePopup();
+});
+
+$(window).resize(function() {
+    centerPopup();
+});
 });
