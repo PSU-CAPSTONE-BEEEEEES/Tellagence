@@ -117,20 +117,21 @@ svg {
     padding: 12px;
 }
 
-/* zoom slider and search input styles
+/* zoom slider
 
-   note that input[type=range] breaks on firefox, so html5slider.js is used
-   for now to patch the element with javascript
+   note that input[type=range] breaks on firefox, so html5slider.js is used to
+   patch it, and the local copy of html5slider.js was modified to match the
+   webkit styling applied here
 */
 
 input[type=range] {
     position: absolute;
     left: 25%;
     margin-left: -100px;
+    background-color: white;
+    -webkit-appearance: none;
     top: 50%;
     margin-top: -3px;
-    -webkit-appearance: none;
-    background-color: white;
     width: 200px;
     height: 6px;
 }
