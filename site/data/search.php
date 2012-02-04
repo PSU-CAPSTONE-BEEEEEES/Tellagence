@@ -1,4 +1,7 @@
 <?php
+
+error_reporting(0);
+
 //Search for x number of nodes closest to some center node
 
 //the center of our graph
