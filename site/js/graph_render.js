@@ -27,7 +27,7 @@ function GraphRender(graph) {
 			
 		// define force graph
 		this.force
-			.linkDistance(function(d) { return d.shortestpath * 100000; })
+			.linkDistance(function(d) { return d.shortestpath * 10000; })
 			.charge(-1000)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
@@ -60,8 +60,8 @@ function GraphRender(graph) {
 		this.line.remove();
 	}
 	
-	this.changeData = function(size) {
-		d3.json('data/search.php?id=100&depth=10', function(data) {
+	this.changeData = function(depth) {
+		d3.json('data/search.php?id=100&depth='+depth, function(data) {
 			// empty current graph
 			graph.empty();
 			// apply new data for current graph
