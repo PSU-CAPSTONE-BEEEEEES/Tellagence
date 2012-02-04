@@ -10,6 +10,7 @@ if (isset($_GET["id"])) {
         $user = (int)$id;
     }
 }
+$user = (string)$user;
 
 //how many nodes to find around our center
 $total = 100;
@@ -43,7 +44,6 @@ if (!$dbconn) {
 
 //add the central user
 getPath($user);
-
 addNode($user);
 addLinks($user);
 
@@ -155,8 +155,8 @@ function addLinks($who) {
         if ($row[1] > 0) {
             $link['source'] = $here;
             $link['target'] = $there;
-            $link['influence'] = $row[1];
-            $link['shortestpath'] = $sp;
+            $link['influence'] = (float)$row[1];
+            $link['shortestpath'] = (float)$sp;
             $json['links'][] = $link;
         }
 
@@ -164,8 +164,8 @@ function addLinks($who) {
         if ($row[2] > 0) {
             $link['source'] = $there;
             $link['target'] = $here;
-            $link['influence'] = $row[2];
-            $link['shortestpath'] = $sp;
+            $link['influence'] = (float)$row[2];
+            $link['shortestpath'] = (float)$sp;
             $json['links'][] = $link;
         }
 
@@ -214,8 +214,8 @@ function addLinks($who) {
         if ($row[1] > 0) {
             $link['source'] = count($json['nodes']) - 1;
             $link['target'] = $there;
-            $link['influence'] = $row[1];
-            $link['shortestpath'] = $sp;
+            $link['influence'] = (float)$row[1];
+            $link['shortestpath'] = (float)$sp;
             $json['links'][] = $link;
         }
     
@@ -223,8 +223,8 @@ function addLinks($who) {
         if ($row[2] > 0) {
             $link['source'] = $there;
             $link['target'] = count($json['nodes']) - 1;
-            $link['influence'] = $row[2];
-            $link['shortestpath'] = $sp;
+            $link['influence'] = (float)$row[2];
+            $link['shortestpath'] = (float)$sp;
             $json['links'][] = $link;
         }
         
