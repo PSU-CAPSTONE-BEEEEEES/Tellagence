@@ -68,7 +68,7 @@ for ($i=0; $i<count($json['nodes'])-1; $i++)
 			$link['source'] = $i;
             $link['target'] = $j;
             $link['influence'] = rand($min, $max);
-            $link['distance'] = 0;
+            $link['shortestpath'] = 0;
             $link['mst'] = 0;
 	    	$json['links'][] = $link;
 		}
@@ -97,21 +97,21 @@ $json['links'] = array(
 		'source' 	=> 0, 
 		'target' 	=> 1, 
 		'influence' => 10, 
-		'distance' 	=> 0, 
+		'shortestpath' 	=> 0, 
 		'mst' 		=> 0
 	), 
 	array(
 		'source' 	=> 1, 
 		'target' 	=> 2, 
 		'influence' => 20, 
-		'distance' 	=> 0, 
+		'shortestpath' 	=> 0, 
 		'mst' 		=> 0
 	), 
 	array(
 		'source' 	=> 2, 
 		'target' 	=> 0, 
 		'influence' => 1, 
-		'distance' 	=> 0, 
+		'shortestpath' 	=> 0, 
 		'mst' 		=> 0
 	)
 );
@@ -163,7 +163,7 @@ usort($json['links'], "cmp");
 //$f = ($json['links'][0]['influence'] - $json['links'][count($json['links'])-1]['influence'] + 1) * 5;
 $f = ($json['links'][0]['influence']) * 5;
 foreach ($json['links'] as &$link)
-	$link['distance'] = round($f/$link['influence'], 0);
+	$link['shortestpath'] = round($f/$link['influence'], 0);
 //print_r($json); die;
 	
 // combine 2 sub-trees
@@ -188,8 +188,8 @@ function dfsMst(&$nodes, $links, $start, $end) {
 				continue;
 			// else
 			if ($j==$end)
-				return $link['distance'];
-			return $link['distance'] + dfsMst($nodes, $links, $j, $end);
+				return $link['shortestpath'];
+			return $link['shortestpath'] + dfsMst($nodes, $links, $j, $end);
 		}
 }
 
@@ -222,15 +222,15 @@ foreach ($json['links'] as &$link) {
 	$nodes = $json['nodes'];
 	foreach ($nodes as &$node)
 		$node['visited'] = 0;
-	$link['distance'] = ($link['mst']) 
-						?$link['distance']
+	$link['shortestpath'] = ($link['mst']) 
+						?$link['shortestpath']
 						:dfsMst($nodes, $json['links'], $link['source'], $link['target']);
 }
 
 // finally sort links in ascending order of distance
 function ascDistance($a, $b) {
-    if ($a['distance']==$b['distance']) return 0;
-    return ($a['distance']<$b['distance']) ?-1 :1 ;
+    if ($a['shortestpath']==$b['shortestpath']) return 0;
+    return ($a['shortestpath']<$b['shortestpath']) ?-1 :1 ;
 }
 usort($json['links'], "ascDistance");
 

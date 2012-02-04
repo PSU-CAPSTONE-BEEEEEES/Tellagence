@@ -2,7 +2,7 @@ function GraphRender(graph) {
 	// graph for this graph render
 	this.graph = graph;
 	// defined width & height of svg
-	this.w = $("#d3").width();
+	this.w = $(window).width();
 	this.h = $(window).height();
 	
 	// init svg area to draw
@@ -26,7 +26,7 @@ function GraphRender(graph) {
 			
 		// define force graph
 		this.force
-			.linkDistance(function(d) { return d.distance; })
+			.linkDistance(function(d) { return d.shortestpath; })
 			.charge(-1000)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
@@ -39,7 +39,7 @@ function GraphRender(graph) {
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; });
 		this.line.append("title")
-			.text(function(d) { return 'i:'+d.influence + ' ' + 'd:'+d.distance; });
+			.text(function(d) { return 'i:'+d.influence + ' ' + 'd:'+d.shortestpath; });
 			
 		// draw circles
 		this.circle.enter().append("circle")
