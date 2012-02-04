@@ -16,6 +16,34 @@ graph.append('rect')
     .attr('height', h)
     .style("fill", "white");
 
+var initial
+$("#slider").mousedown(function () {
+    initial = this.value;
+});
+
+$("#slider").click(function () {
+    //alert(this.value - initial);
+    var diff = this.value - initial;
+    if (diff < 0) {
+        ChromeWheel( 1 , Math.abs(diff) / 5);
+    }
+    else {
+        ChromeWheel( 0 , diff / 5);
+    }
+});
+
+var view
+window.onload = function () {
+    view = document.getElementById("inner");
+}
+
+function ChromeWheel ( shift_key , clicks) {
+    var evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent('dblclick', true, true, window, clicks, 10, 10,
+    $(window).width() / 2, $(window).height() / 2, 0, 0, shift_key, 0, 1, null);
+    view.dispatchEvent(evt);
+}
+
 function redraw(a) {
     var x = $("rect").position().left;
     var y = $("rect").position().top - 22;
@@ -85,8 +113,8 @@ var draw = function(nodes, links) {
     });
 };
 
-// draw([{n1:'1',n2:'2'}, {n1:'3',n2:'6'}, {n1:'0',n2:'1'}],
-//      [{source:0, target:1},{source:1, target:2}]);
+ draw([{n1:'1',n2:'2'}, {n1:'3',n2:'6'}, {n1:'0',n2:'1'}],
+      [{source:0, target:1},{source:1, target:2}]);
 
 /*
   Author: Aren Edlund-Jermain
