@@ -9,8 +9,25 @@ function GraphRender(graph) {
 	this.svg = d3.select("#d3")
 		.append("svg:svg")
 		.attr("width", this.w)
-		.attr("height", this.h);
-	
+		.attr("height", this.h)
+	        .append('g')
+	          .call(d3.behavior.zoom().on("zoom", redraw))
+	        .append('g')
+	          .attr("id", "inner")
+              	  .attr("transform", "translate(0,0) scale(1)");
+
+this.svg.append('rect')
+    .attr('width', this.w)
+    .attr('height', this.h)
+    .style("fill", "white");
+
+
+function redraw(a) {
+    d3.select("#inner").attr("transform",
+		   "translate(" + d3.event.translate + ")"
+		   + " scale(" + d3.event.scale + ")");
+}
+
 	this.draw = function() {
 		// init force graph
 		this.force = d3.layout.force()

@@ -27,19 +27,6 @@ function GraphEvent(graphRender) {
 	this.graphRender.circle
 		.call(this.graphRender.force.drag)
 	
-	// init svg area to draw
-	this.graphRender.svg
-		.attr("pointer-events", "all")
-		.call(d3.behavior.zoom().on("zoom", redraw))
-		.append('svg:g');
-		
-	function redraw() {
-		console.log("here", d3.event.translate, d3.event.scale);
-		d3.select(this).attr("transform",
-		  "translate(" + d3.event.translate + ")"
-		  + " scale(" + d3.event.scale + ")");
-	}
-	
 	// circles stay stacked unless they change every tick
 	this.graphRender.force.on("tick", function() {
 		graphRender.line
