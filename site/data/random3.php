@@ -234,7 +234,7 @@ function ascDistance($a, $b) {
 }
 usort($json['links'], "ascDistance");
 
-print_r($json); die;
+//print_r($json); die;
 echo(json_encode($json)); die;
 		
 ?>
