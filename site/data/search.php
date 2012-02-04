@@ -10,6 +10,7 @@ if (isset($_GET["id"])) {
         $user = (int)$id;
     }
 }
+$user = (string)$user;
 
 //how many nodes to find around our center
 $total = 100;
@@ -43,7 +44,6 @@ if (!$dbconn) {
 
 //add the central user
 getPath($user);
-
 addNode($user);
 addLinks($user);
 
@@ -68,7 +68,6 @@ while (count($visited) < $total && count($toVisit) > 0) {
 
 $count = count($json['nodes']);
 foreach ($json['links'] as $i => $link) {
-    //TODO: some sort of cleanup
     //clear links to the nodes in toVisit
     if ($link['source'] > $count) {
         unset($json['links'][$i]);
@@ -77,7 +76,6 @@ foreach ($json['links'] as $i => $link) {
         unset($json['links'][$i]);
     }
 }
-
 $json['links'] = array_values($json['links']);
 
 echo(json_encode($json));
@@ -91,7 +89,7 @@ pg_close($dbconn);
 function getPath($who) {
     global $dbconn, $path;
 
-    $result = pg_Exec($dbconn, "SELECT shortestpath FROM test WHERE user_id = $who;");
+    $result = pg_Exec($dbconn, "SELECT shortestpath FROM test2 WHERE user_id = $who;");
     $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
 
     //turn the string '1:2:3' into the array '1','2','3'
@@ -125,7 +123,17 @@ function addLinks($who) {
     for ($i = 0; $i < $num; $i++) {
         $row = pg_fetch_array($result, $i);
 
-        if ($row[1] = 0 && $row[2] = 0) { continue; }
+        if ($row[1] = 0 && $row[2] = 0) { 
+            continue; 
+            //skip any entries with no connections
+        }
+
+        if (in_array($row[0], $visited)) { 
+            continue;
+            //skip any duplicates
+            //the data is directed, the graph is not (for now)
+        }
+                
 
         if ($row[0] > count($path) ) {
             //munge path
@@ -142,6 +150,8 @@ function addLinks($who) {
                 getPath($who);
             }
             continue;
+            //skip any nodes with a path of 1
+            //(1 means infinite path)
         }
 
         //map index into the json array
@@ -157,8 +167,8 @@ function addLinks($who) {
         if ($row[1] > 0) {
             $link['source'] = $here;
             $link['target'] = $there;
-            $link['influence'] = $row[1];
-            $link['shortestpath'] = $sp;
+            $link['influence'] = (float)$row[1];
+            $link['shortestpath'] = (float)$sp;
             $json['links'][] = $link;
         }
 
@@ -166,8 +176,8 @@ function addLinks($who) {
         if ($row[2] > 0) {
             $link['source'] = $there;
             $link['target'] = $here;
-            $link['influence'] = $row[2];
-            $link['shortestpath'] = $sp;
+            $link['influence'] = (float)$row[2];
+            $link['shortestpath'] = (float)$sp;
             $json['links'][] = $link;
         }
 
@@ -185,7 +195,15 @@ function addLinks($who) {
     for ($i = 0; $i < $num; $i++) {
         $row = pg_fetch_array($result, $i);
     
-        if ($row[1] = 0 && $row[2] = 0) { continue; }
+        if ($row[1] = 0 && $row[2] = 0) { 
+            continue; 
+        }
+
+        if (in_array($row[0], $visited)) { 
+            continue;
+            //skip any duplicates
+            //the data is directed, the graph is not (for now)
+        }
 
         if ($row[0] > count($path) ) {
             //munge path
@@ -216,8 +234,8 @@ function addLinks($who) {
         if ($row[1] > 0) {
             $link['source'] = count($json['nodes']) - 1;
             $link['target'] = $there;
-            $link['influence'] = $row[1];
-            $link['shortestpath'] = $sp;
+            $link['influence'] = (float)$row[1];
+            $link['shortestpath'] = (float)$sp;
             $json['links'][] = $link;
         }
     
@@ -225,8 +243,8 @@ function addLinks($who) {
         if ($row[2] > 0) {
             $link['source'] = $there;
             $link['target'] = count($json['nodes']) - 1;
-            $link['influence'] = $row[2];
-            $link['shortestpath'] = $sp;
+            $link['influence'] = (float)$row[2];
+            $link['shortestpath'] = (float)$sp;
             $json['links'][] = $link;
         }
         
