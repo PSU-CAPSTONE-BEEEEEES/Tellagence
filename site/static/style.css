@@ -33,6 +33,7 @@ a:hover {
 line {
     stroke: black;
     stroke-width: 1px;
+	opacity: .3;
 }
 
 /* different colored groups of nodes */
