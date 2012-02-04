@@ -123,7 +123,17 @@ function addLinks($who) {
     for ($i = 0; $i < $num; $i++) {
         $row = pg_fetch_array($result, $i);
 
-        if ($row[1] = 0 && $row[2] = 0) { continue; }
+        if ($row[1] = 0 && $row[2] = 0) { 
+            continue; 
+            //skip any entries with no connections
+        }
+
+        if (in_array($row[0], $visited)) { 
+            continue;
+            //skip any duplicates
+            //the data is directed, the graph is not (for now)
+        }
+                
 
         if ($row[0] > count($path) ) {
             //munge path
@@ -140,6 +150,8 @@ function addLinks($who) {
                 getPath($who);
             }
             continue;
+            //skip any nodes with a path of 1
+            //(1 means infinite path)
         }
 
         //map index into the json array
@@ -183,7 +195,15 @@ function addLinks($who) {
     for ($i = 0; $i < $num; $i++) {
         $row = pg_fetch_array($result, $i);
     
-        if ($row[1] = 0 && $row[2] = 0) { continue; }
+        if ($row[1] = 0 && $row[2] = 0) { 
+            continue; 
+        }
+
+        if (in_array($row[0], $visited)) { 
+            continue;
+            //skip any duplicates
+            //the data is directed, the graph is not (for now)
+        }
 
         if ($row[0] > count($path) ) {
             //munge path
