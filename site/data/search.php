@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_NONE);
+error_reporting(0);
 
 //Search for x number of nodes closest to some center node
 
