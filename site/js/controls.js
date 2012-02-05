@@ -19,9 +19,7 @@ graph.append('rect')
 var initial
 $("#slider").mousedown(function () {
     initial = this.value;
-});
-
-$("#slider").click(function () {
+}).bind("mouseup mouseleave", function () {
     //alert(this.value - initial);
     var diff = this.value - initial;
     if (diff < 0) {
@@ -126,23 +124,11 @@ function redrawButton(direction)
     console.log("redrawButton called with direction: " + direction);
 }
 
-/*
-  Author: Aren Edlund-Jermain
-  The zoomSlider function is linked to the zoom slider in the control panel. It
-  will redraw the render with different sizing. Making the object smaller or
-  larger depending upon the value retrieved from the actual slider.
-*/
-function zoomSlider(val)
-{
-    console.log("zoomSlider called with value: " + val);
-}
-
-
 // text input capture on enter
-$("#search").keypress(function(e) {
+$("#searchtext").bind('keydown', function(e) {
     // 13 is the ascii code for the enter key
     if (e.which == 13) {
-	alert("enter pressed with " + $("#search").val());
+	    alert("enter pressed with " + this.value);
     }
 });
 
