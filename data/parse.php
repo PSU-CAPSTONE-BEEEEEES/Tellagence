@@ -78,7 +78,7 @@ function main(){
     $unique_total = array_merge(array_unique(array_merge($username, $ary)));
 
     // flood DB
-
+    /*
     $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
     if (!$dbcon) {
          die("Error in connection: " . pg_last_error());
@@ -91,15 +91,16 @@ function main(){
     if (!$result) {
      die("Error in SQL query: " . pg_last_error());
     }
-    echo "Data successfully inserted!";
+    echo "Users successfully inserted!";
     }
     // free memory
     pg_free_result($result);
-
+    echo "END: Users successfully inserted!";
     // close connection
     pg_close($dbcon);
-
-
+    */
+    
+    
     //print_r($unique_total);
     //print_r(count($unique_total));
     //print_r($relation);
@@ -158,20 +159,18 @@ function main(){
 
         }
     }
-    print_r($res);
+    //print_r($res);
 
 
     foreach($res as $item){
         $source[] = $item['user_id1'];
         $target[] = $item['user_id2'];
     }
-
+    
 
 
     $cs = array_count_values($source);
     $ct = array_count_values($target);
-    print_r($cs);
-    print_r($ct);
 
     // flood database 3
 
@@ -179,6 +178,7 @@ function main(){
     if (!$dbcon) {
          die("Error in connection: " . pg_last_error());
     }
+
     // execute query for out_degree
     foreach($cs as $key=>$value){
         $sql = "UPDATE users SET out_degree = ('$value') WHERE user_id = ('$key')";
@@ -186,12 +186,10 @@ function main(){
         if (!$result) {
          die("Error in SQL query: " . pg_last_error());
         }
-        echo "Data successfully inserted!";
+        echo "Out-degree successfully updated!";
     }
     // free memory
     pg_free_result($result);
-
-    // close connection
 
     // execute query for in_degree
     foreach($ct as $key=>$value){
@@ -200,10 +198,31 @@ function main(){
         if (!$result) {
          die("Error in SQL query: " . pg_last_error());
         }
-        echo "Data successfully inserted!";
+        echo "In-degree successfully updated!";
     }
     // free memory
     pg_free_result($result);
+    
+    // update sum_degree value
+    $sql = "UPDATE users SET sum_degree=(out_degree + in_degree)";
+    $result = pg_query($dbcon, $sql);
+        if (!$result) {
+         die("Error in SQL query: " . pg_last_error());
+        }
+        echo "Sum-degree successfully updated!";
+    // free memory
+    pg_free_result($result);
+
+    // remove redundant nodes 695 nodes
+    $sql = "DELETE FROM users WHERE sum_degree = 0";
+    $result = pg_query($dbcon, $sql);
+        if (!$result) {
+         die("Error in SQL query: " . pg_last_error());
+        }
+        echo "Redundant users successfully deleted!";
+    // free memory
+    pg_free_result($result);
+
 
     // close connection
     pg_close($dbcon);
