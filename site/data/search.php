@@ -71,17 +71,15 @@ while (count($visited) < $total && count($toVisit) > 0) {
 $count = count($json['nodes']);
 foreach ($json['links'] as $i => $link) {
     //clear links to the nodes in toVisit
-    if ($link['source'] > $count) {
+    if ($link['source'] >= $count) {
         unset($json['links'][$i]);
     }
-    if ($link['target'] > $count) {
+    if ($link['target'] >= $count) {
         unset($json['links'][$i]);
     }
 }
 $json['links'] = array_values($json['links']);
 
-unset($json['links'][count($json['links'])-1]);
-//print_r($json); die;
 echo(json_encode($json));
 
 //close the database connection
