@@ -33,7 +33,7 @@
 		\item The rendering needs to be usable and coherent, not just a tangled mess of nodes and connections.
 		\item Directions of the relationships in the Twitter data don't matter, just the connections.
 		\item Strengths of the relationships are determined by frequency of mentions/retweets between users over 7 days.
-		\item We need to be able to parse multiple '@' mentions out of a single tweet.
+		\item We need to be able to parse multiple '@' mentions out of a single tweet, and distinguish between '@' and 'RT @' .
 		\item The purpose of the visual is about predicting behavior and showing which users are the most influential, meaning the most meaningful connections.
 		\item The core requirements of modeling relationships and strengths while maintaining coherency are the most important. Features such as searching are second priority.
 	\end{itemize}
@@ -55,7 +55,7 @@
   \subsection{Long Nguyen}
   {\bf Architectural Design and Tech Lead:} Prospect the scope of the entire project and construct architecture. Coordinate with all programmers to keep improving architectural design. Do major research on GUI tech and demo for other members.
   \subsection{Tien Le}
-  {\bf System Administrator Lead:} Keep all of the computers running 24/7, software and package installation, backup cron job, testing code and html5 research. 
+  {\bf System Administrator Lead:} Keep all of the computers running 24/7, software and package installation, backup cron job, write PHPUnit test. 
 
 \section{Task Schedule}
 
@@ -86,7 +86,7 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       Task Description & Assignee & Start Date & Due Date \\
       \hline
 	    HTML5 Template Laid Out & Derek & 2012-1-11 & 2012-1-15 \\
-	    Page Elements Passed to Javascript & Derek & 2012-1-15 & 2012-1-21 \\
+	    Canvas/Page Elements Passed to Javascript & Derek & 2012-1-15 & 2012-1-21 \\
 	    Sidebar Controls Shown, Stubbed Out & Aren & 2012-1-11 & 2012-1-21 \\
       \hline
     \end{tabular}
@@ -98,11 +98,10 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Reschedule Tasks/Features for Prototype & All & 2012-1-22 & 2012-1-28 \\
-	    Revamp Page Layout & Derek & 2012-1-29 & 2012-2-1 \\
-	    Help Overlay Up and Script Connected & Derek & 2012-2-1 & 2012-2-3 \\
+	    Hook up Renderer to Interface to Pass Visual & Derek & 2012-1-22 & 2012-1-28 \\
  	    Sidebar Controls Trigger Events & Aren & 2012-1-22 & 2012-1-28 \\
 	    Click/Drag Input Events on Test Shape & Aren & 2012-1-28 & 2012-2-4 \\
+	    Input Bounds and Areas on Test Shape & Derek & 2012-1-28 & 2012-2-4 \\
       \hline
     \end{tabular}
   \end{center}
@@ -113,10 +112,11 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Page Layout/Styles Compatibility & Derek & 2012-2-4 & 2012-2-14 \\
+	    Verify Events with Rendering & All & 2012-2-5 & 2012-18 \\
+	    List Rendering Metrics for Display & Derek & 2012-2-5 & 2012-2-11 \\
 	    Search and Filtering Rules & Aren & 2012-2-5 & 2012-2-8 \\
 	    Search Input Caught and Classified & Aren & 2012-2-8 & 2012-2-18 \\
-		List Rendering Metrics for Display & Derek & 2011-2-15 & 2011-2-18 \\
+		Refine Page Style & Derek & 2011-2-12 & 2011-2-18 \\
       \hline
     \end{tabular}
   \end{center}
@@ -128,10 +128,10 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       Task Description & Assignee & Start Date & Due Date \\
       \hline
 	    Hover/Scroll Input Events on Rendering & Aren & 2012-2-19 & 2012-2-25 \\
-	    Integrate Metrics to Display & Derek & 2012-2-19 & 2012-2-24 \\
+	    Keyboard Input Events on Rendering & Derek & 2012-2-19 & 2012-2-23 \\
+	    Help Message Areas Functioning & Derek & 2012-2-23 & 2012-2-29 \\
 	    Hook up Search to Data backend & Aren & 2012-2-25 & 2012-3-3 \\
-	    Verification/Validation for Project & Derek & 2012-2-25 & 2012-3-3 \\
-        Add Licensing to Source & Derek & 2012-3-1 & 2012-3-3 \\
+	    Display Metrics on Rendering & Derek & 2012-2-29 & 2012-3-3 \\
       \hline
     \end{tabular}
   \end{center}
@@ -157,10 +157,11 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Parse Raw Data from XLS into Multidimensional Array & Tien & 2012-1-9 & 2012-1-15 \\
-        Store Raw User Data into Database (User Table) & Tien & 2012-1-15 & 2012-1-21 \\
-	    Analyze Parsed Data for Influence & Tien \& Jon & 2012-1-21 & 2012-2-10 \\
-        Store Calculated Influence into Database (Influence Table) & Tien & 2012-2-12 & 2012-2-19 \\
+	    Parse Raw Data from XLSX into Multidimensional Array & Tien & 2012-1-9 & 2012-1-15 \\
+        Store userid and username into Database (Users Table) & Tien & 2012-1-15 & 2012-1-21 \\
+	    Analyze Parsed Data for Influence & Tien & 2012-1-21 & 2012-2-1 \\
+        Store Calculated Influence into Database (Relationship Table) & Tien & 2012-2-2 & 2012-2-11 \\
+		Write PHPUnit test for parsing task and fix bugs & Tien & 2012-2-12 & 2012-2-19 \\
       \hline
     \end{tabular}
   \end{center}
@@ -184,11 +185,11 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-			Ensure user names exist in twitter database & Tien & & \\
+		Ensure user names exist in twitter database & Tien & & \\
 	    Accept Filter from Interface & Jon & & \\
-	    Sanitize Search Keyword & Jon & & \\
+	    Sanitize Search Keyword & Tien & & \\
 	    Build SQL Query from Filter & Jon & & \\
-      Normalize Query Results & Jon & & \\
+      	Normalize Query Results & Jon & & \\
       \hline
     \end{tabular}
   \end{center}
@@ -204,7 +205,7 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
 			Retrieve object data & Jon & 2012-1-8 & 2012-1-10 \\
 	    Create basic objects (node, link)& Huy & 2012-1-8 & 2012-1-11 \\
 			Initial canvas with nodes and links & Long & 2012-1-11 & 2012-1-12 \\
-	    Animated on built (move/arrange objects) & Long & 2012-1-13 & 2012-1-15 \\
+	    Animated on built (move/arrange objects) & Long & 2012-1-13 & 2012-1-21 \\
       \hline
     \end{tabular}
   \end{center}
