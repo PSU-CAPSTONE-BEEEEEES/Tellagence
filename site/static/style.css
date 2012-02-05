@@ -33,7 +33,7 @@ a:hover {
 line {
     stroke: black;
     stroke-width: 1px;
-	opacity: .3;
+    opacity: .3;
 }
 
 /* different colored groups of nodes */
@@ -160,11 +160,11 @@ input[type=range]::-webkit-slider-thumb {
     height: 100%;
 }
 
-#searchbar {
+#searchcell {
     display: table-cell;
     vertical-align: middle;
 }
 
-input[type=text] {
+#searchbar {
     width: 200px;
 }
