@@ -17,8 +17,6 @@
     <script src="js/lib/d3.layout.js"></script>
     <script src="js/lib/d3.geom.js"></script>
 
-    <!-- local scripts -->
-    <!--<script src="js/controls.js"></script>-->
   </head>
 
   <body>
@@ -27,10 +25,10 @@
         <!-- contents of the toolbar -->
         <div id="help_button">?</div>
 
-        <input type="range" min="0" max="100" value="50" style="background-color:#FF0000" />
+        <input type="range" min="0" max="100" value="50" />
         <div id="search">
-          <div id="searchbar">
-            <input type="text" name="depth" id="depth" value="drawing..." />
+          <div id="searchcell">
+            <input id="searchbar" type="text"/>
           </div>
         </div>
 
@@ -38,7 +36,7 @@
           <a href="http://mbostock.github.com/d3/" target="_blank">d3</a>
         </div>
       </div>
-      <img id="tab" src="static/tab.png"/>
+      <img id="tab" src="static/tab.png" alt="click me!"/>
     </div>
 
     <div id="d3">
@@ -49,7 +47,7 @@
     	<script type="text/javascript" src="js/graph.js" ></script>	
     	<script type="text/javascript" src="js/graph_render.js" ></script>
     	<script type="text/javascript" src="js/graph_event.js" ></script>
-  	  	<script type="text/javascript" src="js/gui_event.js" ></script>	
+      <script type="text/javascript" src="js/gui_event.js" ></script>
     	<script type="text/javascript" src="js/build.js" ></script>
     </div>
 

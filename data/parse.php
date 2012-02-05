@@ -25,8 +25,7 @@ function TimeInside($str){
 }
 
 function main(){
-  
-    $xlsx = new SimpleXLSX('simplexlsx/vmworld.xlsx');
+    $xlsx = new SimpleXLSX('verysmall.xlsx');
     list($num_cols, $num_rows) = $xlsx->dimension();
 
     $a = $xlsx->rows();
@@ -76,141 +75,25 @@ function main(){
 
     }
     $unique_total = array_merge(array_unique(array_merge($username, $ary)));
-
-    // flood DB
-
-    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
-    if (!$dbcon) {
-         die("Error in connection: " . pg_last_error());
-    }
-    // execute query
-    for($i = 0; $i < count($unique_total); $i++){
-        $t = $i + 1;
-        $sql = "INSERT INTO users (user_id, username) VALUES('$t' , '$unique_total[$i]')";
-    $result = pg_query($dbcon, $sql);
-    if (!$result) {
-     die("Error in SQL query: " . pg_last_error());
-    }
-    echo "Data successfully inserted!";
-    }
-    // free memory
-    pg_free_result($result);
-
-    // close connection
-    pg_close($dbcon);
-
-
-    //print_r($unique_total);
-    //print_r(count($unique_total));
-    //print_r($relation);
+    print_r($unique_total);
+    print_r(count($unique_total));
+    print_r($relation);
 
     // replace username with their user_id
-    // and re-order + regroup
     foreach($relation as &$item){
         $index = array_search($item['source'],$unique_total);
         $index2 = array_search($item['target'],$unique_total);
         if(!is_null($index)){
-            if($index < $index2){
-                $e1[] = array(
+            $last[] = array(
                 'user_id1' => $index + 1,
                 'user_id2' => $index2 + 1,
-                );
-            }else if($index > $index2){
-                $e2[] = array(
-                'user_id1' => $index2 + 1,
-                'user_id2' => $index + 1,
-                );
-            }
-
-        }
-    }
-
-    // remove duplication
-    foreach ($e1 as $item){
-        $purpose1[] = $item['user_id1'].'*-*'.$item['user_id2'];
-    }
-    $count1 = array_count_values($purpose1);
-
-    foreach ($e2 as $item){
-        $purpose2[] = $item['user_id1'].'*-*'.$item['user_id2'];
-
-    }
-    $count2 = array_count_values($purpose2);
-
-
-    foreach($count1 as $key=>$value){
-        if(isset($count2[$key])){
-            $temp = explode('*-*', $key);
-            $res[] = array(
-                'user_id1' => $temp[0],
-                'user_id2' => $temp[1],
-                'inf_1to2' => $value,
-                'inf_2to1' => $count2[$key],
+                'inf1to2' => 1,
+                'inf2to1' => 0
             );
-        }else{
-            $temp = explode('*-*', $key);
-            $res[] = array(
-                'user_id1' => $temp[0],
-                'user_id2' => $temp[1],
-                'inf_1to2' => $value,
-                'inf_2to1' => 0,
-            );
-
         }
     }
-    print_r($res);
+    print_r($last);
 
-
-    foreach($res as $item){
-        $source[] = $item['user_id1'];
-        $target[] = $item['user_id2'];
-    }
-
-
-
-    $cs = array_count_values($source);
-    $ct = array_count_values($target);
-    print_r($cs);
-    print_r($ct);
-
-    // flood database 3
-
-    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
-    if (!$dbcon) {
-         die("Error in connection: " . pg_last_error());
-    }
-    // execute query for out_degree
-    foreach($cs as $key=>$value){
-        $sql = "UPDATE users SET out_degree = ('$value') WHERE user_id = ('$key')";
-    $result = pg_query($dbcon, $sql);
-        if (!$result) {
-         die("Error in SQL query: " . pg_last_error());
-        }
-        echo "Data successfully inserted!";
-    }
-    // free memory
-    pg_free_result($result);
-
-    // close connection
-
-    // execute query for in_degree
-    foreach($ct as $key=>$value){
-        $sql = "UPDATE users SET in_degree = ('$value') WHERE user_id = ('$key')";
-    $result = pg_query($dbcon, $sql);
-        if (!$result) {
-         die("Error in SQL query: " . pg_last_error());
-        }
-        echo "Data successfully inserted!";
-    }
-    // free memory
-    pg_free_result($result);
-
-    // close connection
-    pg_close($dbcon);
-    
-
-    die;
-    /*
     // swap order
     foreach($last as &$item){
         if($item['user_id1'] < $item['user_id2']){
@@ -226,13 +109,12 @@ function main(){
         }
     }
     print_r($last);
-    */
+
 
 
     
 
     // remove duplication
-    /*
     foreach ($last as &$item){
         $purpose[] = array(
             $item['user_id1'].'*-*'.$item['user_id2'] => $item['inf1to2'].'*---*'.$item['inf2to1'],
@@ -268,6 +150,7 @@ function main(){
     print_r($result);die;
 
 
+    //foreach($purpose as $item)
 
 
     //$unique_total = array_merge(array_unique(array_merge($source, $target)));
@@ -303,6 +186,60 @@ function main(){
     print_r($last);
     */
 }
+
+
+main();
+
+
+
+//begin JSON part
+/*
+
+$json['nodes'] = array();
+for ($i = 0; $i <= $count; $i++) {
+    $node['name'] = genName($i);
+    $json['nodes'][] = $node;
+}
+
+$json['links'] = array();
+for ($i = 0; $i <= $count; $i++) {
+    for ($j = $i-1; $j > 0; $j--) {
+        if ( rand(0,$sparse) == 0 ) {
+            $link['source'] = $i;
+            $link['target'] = $j;
+            // count it
+            $link['influence'] = rand($min,$max);
+	    $json['links'][] = $link;
+        }
+    }
+}
+
+echo(json_encode($json));
+*/
+
+
+// flood database
+    /*
+    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
+    if (!$dbcon) {
+         die("Error in connection: " . pg_last_error());
+    }
+    // execute query
+    for($i = 0; $i < count($unique_total); $i++){
+        $t = $i + 1;
+        $sql = "INSERT INTO users (user_id, username) VALUES('$t' , '$unique_total[$i]')";
+    $result = pg_query($dbcon, $sql);
+    if (!$result) {
+     die("Error in SQL query: " . pg_last_error());
+    }
+    echo "Data successfully inserted!";
+    }
+    // free memory
+    pg_free_result($result);
+
+    // close connection
+    pg_close($dbcon);
+    */
 
 
 main();

@@ -9,7 +9,4 @@ d3.json("data/search.php?id=100&depth=20", function(data) {
 	
 	// gui event handler for this graph render
 	var ge = new GuiEvent(gr);
-	
-	// funcky alert
-	$('input#depth').val('finished!');
 });
