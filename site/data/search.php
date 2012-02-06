@@ -144,13 +144,8 @@ function addLinks($here) {
     //create links between us and all the other nodes
     foreach ($json['nodes'] as $target => $there) {
 
-	if ($source == $target) {
-	    //skip ourselves
-	    continue;
-	}
-
 	//we only want to add the link once, lets use the node with more paths in the db
-	if ($here['id'] < $there['id']) {
+	if ($here['id'] <= $there['id']) {
 	    //move on to the next node in the nodes array
 	    continue;
 	}
@@ -162,7 +157,7 @@ function addLinks($here) {
 		$link['source'] =  $source;
 		$link['target'] =  $target;
 		$link['influence'] = (int)$row[1] + (int)$row[2];
-		$link['shortestpath'] = $path[$there[id]];
+		$link['shortestpath'] = (float)$path[$there[id]];
 		$json['links'][] = $link;
 
 		//move on to the next node in the nodes array
@@ -177,7 +172,7 @@ function addLinks($here) {
 		$link['source'] =  $source;
 		$link['target'] =  $target;
 		$link['influence'] = (int)$row[1] + (int)$row[2];
-		$link['shortestpath'] = $path[$there[id]];
+		$link['shortestpath'] = (float)$path[$there[id]];
 		$json['links'][] = $link;
 
 		//move on to the next node in the nodes array
@@ -189,7 +184,7 @@ function addLinks($here) {
 	$link['source'] =  $source;
 	$link['target'] =  $target;
 	$link['influence'] = 0;
-	$link['shortestpath'] = $path[$there[id]];
+	$link['shortestpath'] = (float)$path[$there[id]];
 	$json['links'][] = $link;
     }
 }
