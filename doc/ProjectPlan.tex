@@ -33,7 +33,7 @@
 		\item The rendering needs to be usable and coherent, not just a tangled mess of nodes and connections.
 		\item Directions of the relationships in the Twitter data don't matter, just the connections.
 		\item Strengths of the relationships are determined by frequency of mentions/retweets between users over 7 days.
-		\item We need to be able to parse multiple '@' mentions out of a single tweet.
+		\item We need to be able to parse multiple '@' mentions out of a single tweet, and distinguish between '@' and 'RT @' .
 		\item The purpose of the visual is about predicting behavior and showing which users are the most influential, meaning the most meaningful connections.
 		\item The core requirements of modeling relationships and strengths while maintaining coherency are the most important. Features such as searching are second priority.
 	\end{itemize}
@@ -55,7 +55,7 @@
   \subsection{Long Nguyen}
   {\bf Architectural Design and Tech Lead:} Prospect the scope of the entire project and construct architecture. Coordinate with all programmers to keep improving architectural design. Do major research on GUI tech and demo for other members.
   \subsection{Tien Le}
-  {\bf System Administrator Lead:} Keep all of the computers running 24/7, software and package installation, backup cron job, testing code and html5 research. 
+  {\bf System Administrator Lead:} Keep all of the computers running 24/7, software and package installation, backup cron job, write PHPUnit test. 
 
 \section{Task Schedule}
 
@@ -157,10 +157,11 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Parse Raw Data from XLS into Multidimensional Array & Tien & 2012-1-9 & 2012-1-15 \\
-        Store Raw User Data into Database (User Table) & Tien & 2012-1-15 & 2012-1-21 \\
-	    Analyze Parsed Data for Influence & Tien \& Jon & 2012-1-21 & 2012-2-10 \\
-        Store Calculated Influence into Database (Influence Table) & Tien & 2012-2-12 & 2012-2-19 \\
+	    Parse Raw Data from XLSX into Multidimensional Array & Tien & 2012-1-9 & 2012-1-15 \\
+        Store userid and username into Database (Users Table) & Tien & 2012-1-15 & 2012-1-21 \\
+	    Analyze Parsed Data for Influence & Tien & 2012-1-21 & 2012-2-1 \\
+        Store Calculated Influence into Database (Relationship Table) & Tien & 2012-2-2 & 2012-2-11 \\
+		Write PHPUnit test for parsing task and fix bugs & Tien & 2012-2-12 & 2012-2-19 \\
       \hline
     \end{tabular}
   \end{center}
@@ -184,11 +185,11 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-			Ensure user names exist in twitter database & Tien & & \\
+		Ensure user names exist in twitter database & Tien & & \\
 	    Accept Filter from Interface & Jon & & \\
-	    Sanitize Search Keyword & Jon & & \\
+	    Sanitize Search Keyword & Tien & & \\
 	    Build SQL Query from Filter & Jon & & \\
-      Normalize Query Results & Jon & & \\
+      	Normalize Query Results & Jon & & \\
       \hline
     \end{tabular}
   \end{center}

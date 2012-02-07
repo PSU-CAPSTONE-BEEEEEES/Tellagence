@@ -1,62 +1,327 @@
 <?php
-
-
+/*
+$string = 'RT @username: lorem ipsum @cjoudrey @longnguyen,@letien etc...';
+preg_match_all('/@([A-Za-z0-9_]+)/', $string, $usernames);
+print_r($usernames);die;
+*/
 
 include 'simplexlsx/simplexlsx.class.php';
 ini_set('max_execution_time', 0);
-    
-    $xlsx = new SimpleXLSX('small.xlsx');
-    echo '<h1>$xlsx->rows()</h1>';
+ini_set('memory_limit', '-1');
 
 
+
+
+function san($str){
+    preg_match_all('/@([A-Za-z0-9-_]+)/', $str, $usernames);
+    return $usernames[1];
+}
+function TimeInside($str){
+    $str2 = strstr($str, "@");
+    // str2 is substring of str from @
+    $word = explode(" ", $str2);
+    $old = str_replace("@", "", $word[0]);
+    return preg_match("/([0-9]+)(:|.)([0-9]+)/i",$old);
+}
+
+function main(){
+    $xlsx = new SimpleXLSX('verysmall.xlsx');
     list($num_cols, $num_rows) = $xlsx->dimension();
-    echo $num_rows;
-
-echo '<pre>';
 
     $a = $xlsx->rows();
-
-// move to DB
-/*
-$dbconn = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=root password=");
-if (!$dbconn) {
-     die("Error in connection: " . pg_last_error());
- }
-echo 'hahah';die;
-*/
     // usernames & tweets
-    for($i = 1; $i <= $num_rows; $i++)
+    $ary = array();
+    for($i = 0; $i < $num_rows; $i++)
     {
-        $active = $a[$i][2];
-        $node = array(
-            'name' => $active,
-            //'influence' =>
-        );
 
-        print_r($active);
-        print_r('<br \>');
-        //print_r($a[$i][4]);
-        for ($j = 1; $j <= $num_rows; $j++)
-        {
+        if (strpos($a[$i][4], '@') !== false){
             $str = $a[$i][4];
-            if(stristr($str,"@")){
-               $str1 = $a[$i][4];
-               $str2 = strstr ($str1, "@");
-               $word = explode(" ", $str2);
-               $word[0] = rtrim($word[0], ":");
-               $word[0] = str_replace("@","",$word[0]);
+        // $str = full tweet contains @
+            // RT
+            if(strpos($str, 'RT') !== false){
+                if(!TimeInside($str)){
+                $new = san($str);
+                // revert Source and Destination
+                    if($new){
+                        foreach ($new as $item){
+                        $username[] = strtolower($item);
+                        $ary[] = strtolower($a[$i][2]);
+                        }
+                    }
+                }
+            }
+            // @
+            else{
+                if(!TimeInside($str)){
+                    $new = san($str);
+                    if($new){
+                        foreach ($new as $item){
+                            $ary[] = strtolower($item);
+                            $username[] = strtolower($a[$i][2]);
+                        }
+                    }
+                }
             }
 
         }
-        print_r($word[0]);
-        print_r('<br \>');
+    }
+    for ($i = 0; $i < count($username); $i++){
+        if($username[$i] != $ary[$i]){
+            $relation[] = array(
+            'source' => $username[$i],
+            'target' => $ary[$i]
+            );
+        }
+
+    }
+    $unique_total = array_merge(array_unique(array_merge($username, $ary)));
+    print_r($unique_total);
+    print_r(count($unique_total));
+    print_r($relation);
+
+    // replace username with their user_id
+    foreach($relation as &$item){
+        $index = array_search($item['source'],$unique_total);
+        $index2 = array_search($item['target'],$unique_total);
+        if(!is_null($index)){
+            $last[] = array(
+                'user_id1' => $index + 1,
+                'user_id2' => $index2 + 1,
+                'inf1to2' => 1,
+                'inf2to1' => 0
+            );
+        }
+    }
+    print_r($last);
+
+    // swap order
+    foreach($last as &$item){
+        if($item['user_id1'] < $item['user_id2']){
+        // do nothing
+        }else{
+            // revert
+            $t = $item['user_id1'];
+            $item['user_id1'] = $item['user_id2'];
+            $item['user_id2'] = $t;
+            $v = $item['inf1to2'];
+            $item['inf1to2'] = $item['inf2to1'];
+            $item['inf2to1'] = $v;
+        }
+    }
+    print_r($last);
+
+
+
+    
+
+    // remove duplication
+    foreach ($last as &$item){
+        $purpose[] = array(
+            $item['user_id1'].'*-*'.$item['user_id2'] => $item['inf1to2'].'*---*'.$item['inf2to1'],
+        );
+    }
+    //$count = array_count_values($purpose);
+    print_r($purpose);
+
+
+    foreach($purpose as $item){
+        
     }
 
-    //print_r( $xlsx->rows() );
+    /*
+    $result = array();
+
+    //foreach($purpose as $item)
 
 
-echo '</pre>';    
+    foreach($purpose as $key=>$value) {
+        $temp = explode('*-*', $value);
+        if($temp[0] == $temp[1]){
+            $result[] = array(
+                'user_id1' => $temp[0],
+                'user_id2' => $temp[1],
+                'sum' => $value
+                );
+        }
 
 
+    }
+    // $result is array without duplication in relationship
+    print_r($result);die;
+
+
+    //foreach($purpose as $item)
+
+
+    //$unique_total = array_merge(array_unique(array_merge($source, $target)));
+    //print_r($unique_total);
+    //print_r(count($unique_total));die;
+    //print_r($unique_total);
+
+    // $last is array with user_id from $result
+
+
+    */
+     // remove duplication
+    /*
+    foreach ($last as &$item){
+        $purp[] = $item['user_id1'].'*-*'.$item['user_id2'];
+    }
+    $co = array_count_values($purp);
+    print_r($purp);
+    print_r($co);die;
+    $result = array();
+    foreach($co as $key=>$value) {
+        $tp = explode('*-*', $key);
+        if($tp[0] != $tp[1]){
+            $out[] = array(
+            'user_id1' => $temp[0],
+            'user_id2' => $temp[1],
+            'inf1to2' => $value
+            );
+        $source[] = $temp[0];
+        $target[] = $temp[1];
+        }
+    }
+    print_r($last);
+    */
+}
+
+
+main();
+
+
+
+//begin JSON part
+/*
+
+$json['nodes'] = array();
+for ($i = 0; $i <= $count; $i++) {
+    $node['name'] = genName($i);
+    $json['nodes'][] = $node;
+}
+
+$json['links'] = array();
+for ($i = 0; $i <= $count; $i++) {
+    for ($j = $i-1; $j > 0; $j--) {
+        if ( rand(0,$sparse) == 0 ) {
+            $link['source'] = $i;
+            $link['target'] = $j;
+            // count it
+            $link['influence'] = rand($min,$max);
+	    $json['links'][] = $link;
+        }
+    }
+}
+
+echo(json_encode($json));
+*/
+
+
+// flood database
+    /*
+    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
+    if (!$dbcon) {
+         die("Error in connection: " . pg_last_error());
+    }
+    // execute query
+    for($i = 0; $i < count($unique_total); $i++){
+        $t = $i + 1;
+        $sql = "INSERT INTO users (user_id, username) VALUES('$t' , '$unique_total[$i]')";
+    $result = pg_query($dbcon, $sql);
+    if (!$result) {
+     die("Error in SQL query: " . pg_last_error());
+    }
+    echo "Data successfully inserted!";
+    }
+    // free memory
+    pg_free_result($result);
+
+    // close connection
+    pg_close($dbcon);
+    */
+
+
+main();
+
+
+
+//begin JSON part
+/*
+
+$json['nodes'] = array();
+for ($i = 0; $i <= $count; $i++) {
+    $node['name'] = genName($i);
+    $json['nodes'][] = $node;
+}
+
+$json['links'] = array();
+for ($i = 0; $i <= $count; $i++) {
+    for ($j = $i-1; $j > 0; $j--) {
+        if ( rand(0,$sparse) == 0 ) {
+            $link['source'] = $i;
+            $link['target'] = $j;
+            // count it
+            $link['influence'] = rand($min,$max);
+	    $json['links'][] = $link;
+        }
+    }
+}
+
+echo(json_encode($json));
+*/
+
+// flood database
+/*
+    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
+    if (!$dbcon) {
+         die("Error in connection: " . pg_last_error());
+    }
+    die;
+    // execute query
+    for($i = 0; $i < count($unique_total); $i++){
+        $t = $i + 1;
+        $sql = "INSERT INTO users (user_id, username) VALUES('$t' , '$unique_total[$i]')";
+    $result = pg_query($dbcon, $sql);
+    if (!$result) {
+     die("Error in SQL query: " . pg_last_error());
+    }
+    echo "Data successfully inserted!";
+    }
+    // free memory
+    pg_free_result($result);
+
+    // close connection
+    pg_close($dbcon);
+*/
+
+
+// flood database 2
+/*
+    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
+    if (!$dbcon) {
+         die("Error in connection: " . pg_last_error());
+    }
+    // execute query
+    foreach($result as $item){
+        $u1 = $item['user_id1'];
+        $u2 = $item['user_id2'];
+        $x = $item['inf_1to2'];
+        $y = $item['inf_2to1'];
+        $z = $x + $y;
+        $sql = "INSERT INTO relationship (user_id1, user_id2, inf_1to2, inf_2to1, inf_sum) VALUES('$u1','$u2','$x','$y','$z')";
+        $result = pg_query($dbcon, $sql);
+
+        if (!$result) {
+         die("Error in SQL query: " . pg_last_error());
+        }
+        echo "Data successfully inserted!";
+    }
+    // free memory
+    pg_free_result($result);
+
+    // close connection
+    pg_close($dbcon);
+*/
 ?>
 

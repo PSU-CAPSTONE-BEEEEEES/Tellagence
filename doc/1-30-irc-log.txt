@@ -1,0 +1,310 @@
+17:57:35       @d-_-b | getting close to the meeting, who is on now?
+17:57:39     blackcat | me
+17:57:45       hptran | me
+17:57:53     longuyen | me
+17:58:09       @d-_-b | i saw jesusaurus walking earlier
+17:58:31   jesusaurus | yup
+17:58:42   jesusaurus | quick run for food :)
+17:58:43       @d-_-b | sweet, now where's an aren?
+17:59:52       @d-_-b | jesusaurus, i don't have service right now, can you text him?
+18:00:57   jesusaurus | sent
+18:01:17       @d-_-b | hrm
+18:01:33       @d-_-b | guess we'll start, everyone have the agenda up?
+18:02:15       @d-_-b | i can start by talking about the interface side
+18:02:45       @d-_-b | i'm redoing the control bar to a slimmer layout for the render to be more of the focus
+18:03:04       @d-_-b | i should have that tonight, and have longuyen's scripts connected as well
+18:03:33   jesusaurus | cool
+18:03:45   jesusaurus | how much slimmer?
+18:04:06       @d-_-b | 45px of a top bar
+18:04:24       @d-_-b | i'm doing a slide in/out deal when you click a tiny tab
+18:04:31       @d-_-b | that way it's all about the render
+18:04:31   jesusaurus | cool
+18:05:23       @d-_-b | longuyen, i know you moved stuff over to site/, so i'll honor that
+18:06:05     blackcat | I go next, ok?
+18:06:08       @d-_-b | sure
+18:06:29   jesusaurus | aren says hes almost here
+18:06:44       @d-_-b | jesusaurus, alright, he's got scrollback++
+18:07:00     blackcat | we've gotten the users table with user_ids map to usernames
+18:07:29     blackcat | I'm trying to finish relationship table with 4 columns
+18:07:46     blackcat | |user_id1|user_id2|inf1to2|inf2to1|
+18:07:57     blackcat | right now I have sth like this:
+18:08:25     blackcat | http://pastie.org/3286310
+18:08:44     longuyen | d-_-b: thanks\
+18:09:16       @d-_-b | blackcat, is inf1to2 and inf2to1 just binary?
+18:09:17     blackcat | I need to find out which out have the same user_id1 and user_id2
+18:09:38     blackcat | no
+18:09:46         aren | and I'm here
+18:09:51       @d-_-b | aren, howdy
+18:09:57       hptran | hi aren
+18:09:59     blackcat | they are the number of mention
+18:10:00     longuyen | aren: your webcam works well :)
+18:10:06       @d-_-b | tsk tsk
+18:10:12         aren | long: nice
+18:10:18     blackcat | I didn't group them yet
+18:10:18       @d-_-b | blackcat, alright, i understand
+18:10:40       @d-_-b | i think, like frequency one way and another frequency the other way
+18:10:42     blackcat | yeah, basically they are just 0 and 1
+18:11:07     blackcat | yeah, case: user_id: 2 and 5
+18:11:23       @d-_-b | cool
+18:11:24     blackcat | I will work with Long and Huy tmr to get this task done
+18:11:33     blackcat | after this we can work on real data
+18:11:47     blackcat | one more thing, I want to mention
+18:12:12       @d-_-b | blackcat, shoot
+18:12:20     blackcat | there is no way I can filter some tweets like: "See you today @11"
+18:12:40     blackcat | '11' is really a valid username
+18:12:59       @d-_-b | i noticed you talking about that. wouldn't they mean 'at 11'?
+18:13:10     blackcat | yes
+18:13:18     blackcat | but they are lazy to type at
+18:13:21       @d-_-b | would that complicate the prototype?
+18:13:50     blackcat | no, just < 10 tweets using that lazy type
+18:14:01       @d-_-b | if not, we could address it, if matt and nitin think so, in later weeks
+18:14:07       @d-_-b | fair enough.
+18:14:07   jesusaurus | well, at worst, that would create nodes with in influence, but no out influence
+18:14:17     blackcat | I've already filtered out @11.30 and @7:30
+18:14:33     blackcat | 'cause 11.30 is not a valid username
+18:14:38       @d-_-b | hptran, anything on your end with your completed tickets before we move into tests
+18:14:39       @d-_-b | ?
+18:15:08       hptran | only analyzed data
+18:15:12       @d-_-b | it seemed like you were just integrating your work into the core of the repo
+18:15:29       hptran | right
+18:15:54       @d-_-b | if that's good for check ins now, i'll move to tests
+18:16:23       @d-_-b | i see a lot of development from folks, which is awesome
+18:16:42       @d-_-b | but all of it seems to be tested by hand, and retested with each change
+18:17:13       @d-_-b | i've emphasized unit tests in the past with buildbot, but i want to hear what would help everyone write them
+18:17:26       @d-_-b | should we add tickets for tests specifically?
+18:17:45       @d-_-b | should we spend part of a meeting writing a unit test together?
+18:18:20     blackcat | yes
+18:18:33       hptran | ok
+18:18:34       @d-_-b | buildbot is there so we don't have to retest things we've done unless something we do breaks it
+18:18:36     longuyen | d-_-b: I think no.. would it waste time?
+18:19:18       @d-_-b | longuyen, how could i help you take care of unit tests then?
+18:19:38   jesusaurus | it would help me if there were some basic 'hello world' test i could look at so i could understand what they look like better
+18:19:43     longuyen | d-_-b: cuz I used to test locally by hand
+18:19:55       @d-_-b | jesusaurus, for php specifically?
+18:20:00     longuyen | d-_-b: anw it's my idea b/c I was really lazy with unit test lol
+18:20:14     longuyen | jesusaurus: agree
+18:20:21   jesusaurus | yeah
+18:20:34       @d-_-b | longuyen, imagine just committing and being told automagically when you're tests succeed/fail
+18:21:02     longuyen | d-_-b: gotcha. but I have never write javascript unit test so it's my concern
+18:21:14       @d-_-b | jesusaurus, maybe this? http://www.phpunit.de/manual/current/en/automating-tests.html
+18:21:21         aren | also, you guys on the data end might have to use a mocking framework
+18:21:28            * | blackcat is googling "How to write a good unit test"
+18:21:59     longuyen | aren d-_-b: you have some link for me?
+18:22:08       @d-_-b | aren and i have noticed that unit test frameworks for languages are usually <language>unit
+18:22:42       @d-_-b | aren, you were looking at jsunit, right?
+18:22:51         aren | right, but also, if you need to mock a connection or something from server to client then you need to use a mocking framework, which I've only been able to find for JS
+18:22:58     longuyen | d-_-b: if so I found this http://www.jsunit.net/
+18:22:59         aren | jsunit and jsmockito are good
+18:23:09     longuyen | aren blackcat but would buildbot work with jsunit test?
+18:23:21     longuyen | aren d-_-b but would buildbot work with jsunit test?
+18:23:32       @d-_-b | longuyen, yes
+18:23:39       hptran | ok, will try them
+18:23:44     longuyen | hptran: ok
+18:23:59       @d-_-b | buildbot runs tests like you would, through commandline scripts
+18:24:36     blackcat | yeah, we should learn how to use buildbot cmd too
+18:24:43     blackcat | d-_-b: is it right?
+18:24:45         aren | thats a good point...you can test however you like as long as I'm aware of the resources needed and you write a bash script to automate
+18:24:58     longuyen | blackcat: hmm, sounds intersting
+18:25:03         aren | the only buildbot cmd you'll need is through this channel
+18:25:08       @d-_-b | blackcat, you don't need to, that's aren
+18:25:33       @d-_-b | longuyen, blackcat this is an example of a test i did for html
+18:25:34       @d-_-b | https://github.com/PSU-CAPSTONE-BEEEEEES/Tellagence/commit/6fd7245851115e6909f4005b7953cdef547eb8d0
+18:26:13       @d-_-b | aren can configure buildbot to run the script in the directory once buildbot sees a commit pushed
+18:26:29     longuyen | d-_-b: who wrote the validate.sh file?
+18:26:45       @d-_-b | i stole it and rewrote some of it
+18:26:55       @d-_-b | it validates the html against w3c standards
+18:27:13     longuyen | d-_-b: I see
+18:27:15       hptran | d-_-b: how long does it take you to code the unit test?
+18:27:22     longuyen | d-_-b: and who would generate the log.txt file?
+18:27:24       @d-_-b | jesusaurus, blackcat, does phpunit look alright?
+18:27:33       @d-_-b | longuyen, it does
+18:27:45       @d-_-b | hptran, depends on the code you are testing
+18:27:45     longuyen | d-_-b: lastly, you stole the template file as well?
+18:27:51       @d-_-b | longuyen, yep
+18:28:22       @d-_-b | hptran, the point is to check that data is passed around in the right format, and that calculations are done correctly
+18:28:47       @d-_-b | so for each "unit" of code, you'd check that a variable was stored correctly or something
+18:29:00     blackcat | d-_-b: did you also stole something for phpunit test?
+18:29:10       @d-_-b | you do this with assertion statements that error on incorrect values
+18:29:21       @d-_-b | blackcat, no, i haven't written any php
+18:29:35            * | blackcat will poke around
+18:30:13     longuyen | d-_-b: so what if we wouldn't aware of all possible mistakes, since we coded the things outselves?
+18:30:14       @d-_-b | so say you have a function that adds two numbers. to test it, you give it fake numbers and test that the result equals the expected result.
+18:30:37       @d-_-b | longuyen, unit tests help uncover bugs like that
+18:30:50       @d-_-b | i've found bugs by coding unit tests that i missed in development
+18:31:18     longuyen | d-_-b: if so then.. GOOD
+18:31:31       @d-_-b | unit tests > by hand
+18:31:52       @d-_-b | it also makes you think about your code in different ways, which uncovers more bugs
+18:32:26       @d-_-b | so everyone's clear on what unit tests do, and that they should start writing some to stick in buildbot?
+18:33:00         aren | also, I'm pretty sure all the <language>unit frameworks have tutorials on their .org sites
+18:33:08       @d-_-b | obviously, it's a little framework dependent, but the key is asserting what you want is what you get
+18:33:25       @d-_-b | if that's good, i'm onto tickets
+18:33:32     blackcat | yes
+18:34:08       @d-_-b | half the reschedule tickets are still open, and there are still stale tickets in redmine
+18:34:29       hptran | d-_-b: could you push the this ticket's deadline after the prototype?
+18:35:26       @d-_-b | hptran, it makes sense to readjust a little once we get feedback, especially with our sponsors and their love for design discussion
+18:36:00       @d-_-b | i'm almost willing to just assign new tickets for that though
+18:36:34       hptran | d-_-b: I can learn unit this week, but not sure to make a real unit for current codes
+18:36:50       hptran | d-_-b: I can learn unit test this week, but not sure to make a real unit test for current codes
+18:37:01       @d-_-b | over the term, on average, ticket's haven't been updated in a timely manner. i know work has been getting done, because i see the demos, but the work isn't documented aside from your engineering notebooks
+18:37:56       @d-_-b | hptran, i understand, most of the team hasn't done extensive unit testing before
+18:38:12       @d-_-b | the point i want to make with the tickets is that it's documented work
+18:38:23       hptran | d-_-b: i see
+18:39:10       @d-_-b | keeping current with tickets may be overbearing, sorry if it seems that way, but i think it's important for an accurate, up to date visual on the project status
+18:39:26       @d-_-b | especially in relation to each other, like in the gantt chart
+18:40:01       @d-_-b | i want to know what i can do or what could help to make ticket management as habit as the engineering notebook
+18:40:19       hptran | one more thing, since we change the task schedule in redmine, do we need to edit the it in Project plan doc?
+18:40:53       @d-_-b | hptran, if you read the ticket on rescheduling, there is a section on matching the project plan
+18:41:15         aren | oh yeah, are we canceling tickets and opening new ones? or just pushing back existing ones
+18:41:22       @d-_-b | that also brings up adding sections to the project plan
+18:41:34       @d-_-b | aren, i would think push back and adjust
+18:41:36   jesusaurus | aren: push back the existing one
+18:41:49         aren | kk
+18:42:27       @d-_-b | hptran, your shortest path algorithm and aren's buildbot strategy, along with some new design/requirements entries, should make their way into the plan sometime soon
+18:42:55       @d-_-b | part of why i mention this now is to save time for features or dealing with bad things in week 8/9
+18:43:17       hptran | d-_-b: ok
+18:43:40       @d-_-b | making documentation like tickets and testing part of the code workflow may slow the development a bit, but it saves us time in the long run and catches bugs earlier
+18:43:47       @d-_-b | does that make sense?
+18:44:16   jesusaurus | yeah
+18:44:28       @d-_-b | those are two major pieces i want everyone to take away from the meeting tonight, tickets and testing
+18:44:51       hptran | d-_-b: agree strongly :)
+18:44:59       @d-_-b | ask anyone in industry, like matt/nitin or professors, and they'll probably agree
+18:45:45       @d-_-b | i'm willing to get a solid project without bells and whistles over a shaky project with cool thingamajigs
+18:46:17       @d-_-b | i'd say it's even more important in teamwork, since i'm sure no one likes debugging other's work
+18:46:38     longuyen | d-_-b: tickets and testing
+18:46:39       @d-_-b | or staring at it trying to make sense of the lines of gobbledigoop
+18:47:05       @d-_-b | </speech>
+18:47:30       @d-_-b | we're pretty much on time to talk about rescheduling as a group
+18:47:42       @d-_-b | aren, have you had time to look over notes from friday's meeting?
+18:48:09         aren | not yet, just got back up and running this afternoon. Tomorrow morning is catch up time
+18:48:40       @d-_-b | it was basically hijacked by matt/nitin for design concerns. all of which were valid and ones we hadn't thought of before, which were great to hear then.
+18:49:14       @d-_-b | aren, https://github.com/PSU-CAPSTONE-BEEEEEES/Tellagence/blob/master/doc/whiteboards/week_to_prototype_plan.jpg
+18:49:26         aren | thanks
+18:49:39       @d-_-b | is everyone on redmine now looking at tickets?
+18:49:57       @d-_-b | if so, we can talk in terms of ticket numbers and move things around together
+18:51:16       @d-_-b | hptran, longuyen, let's start talking with aren and myself on render <-> interface and events
+18:51:21       @d-_-b | by the prototype
+18:51:43       @d-_-b | aren, we agreed with matt/nitin that this friday for the meeting was the demo of the prototype
+18:52:04         aren | right, what do they want to see in terms of interface for the prototype?
+18:52:36       @d-_-b | jesusaurus, blackcat, what are your general plans for the rest of the term, given the speed of your development?
+18:53:31       @d-_-b | aren, the reworked layout like we mentioned, and the mouse events i think we've done
+18:53:55       @d-_-b | the design discussion brought up disjoint subgraphs
+18:54:11       hptran | d-_-b: could I mention about this?
+18:54:20     blackcat | d-_-b: the deadline of my current task is 19/02. I'll finish it with plenty of phpunit test
+18:54:29       @d-_-b | hptran, shoot, it's a discussion
+18:54:55       @d-_-b | blackcat, that seems like enough time for testing/validation
+18:55:35       @d-_-b | hptran, longuyen, there was a little disconnect on the final look of the render by prototype. what was it going to look like again?
+18:55:42       hptran | d-_-b: for what sponsors mentioned on last meeting, I considered their new ideas are not requirements for the project, they are just plus if we can do them. The requirements are those we agreed on the first term.
+18:56:35       hptran | d-_-b: the algorithms and other things are designed based on the requiremetns we agreed in the first term.
+18:56:50       @d-_-b | hptran, https://github.com/PSU-CAPSTONE-BEEEEEES/Tellagence/blob/master/doc/ProjectPlan.tex#L26
+18:57:21       @d-_-b | i partially agree, but i think the requirements we have in the project plan allow for the subgraph part
+18:57:36       @d-_-b | we need to alter the directionality requirement as well
+18:57:36       hptran | one example, we agreed on undirected graph
+18:57:49       @d-_-b | heh, that
+18:58:43       @d-_-b | hptran, longuyen, could you fill aren in more while i take a quick bathroom break?
+18:59:45     longuyen | longuyen: yeah we can do that
+18:59:52       @d-_-b | heh
+18:59:56            * | d-_-b -> runnin'
+19:00:01     longuyen | aren: I integrated all the needed scripts for d3 -> site
+19:00:19     longuyen | aren: you guys should take a look at gui event and graph event
+19:00:36     longuyen | aren: and more all controls from control.js to gui event
+19:01:16     longuyen | aren: soon from now you should start implementing all event handlers in gui_event.js
+19:01:22         aren | you integrated into control.js or the index.html?
+19:01:32         aren | long: okay, cool
+19:01:33     longuyen | aren: index.html
+19:01:45         aren | long: thats all in the render branch?
+19:02:04     longuyen | aren: but I commented out your inclusion of control.js in index.html, because it causes conflict with gui_event.js and build.js
+19:02:19     longuyen | aren: no I pushed -> dev
+19:02:31         aren | right. I'll move the conflicts over to gui_events
+19:02:41     longuyen | aren: cool
+19:03:04      hptran_ | d-_-b: we can consider the subgraph as the requirement, but not directed graph, since it is not the requirement.
+19:05:46   jesusaurus | i think, in this particular point, the requirment has changed
+19:05:55     longuyen | d-_-b hptran_ I agreed with Huy on that. the directed graph is much complicated than undirected one
+19:06:11   jesusaurus | we should double-check with matt & nitin, but i think that the graph really does need to be directed
+19:06:29   jesusaurus | matt just misspoke during that meeting when he said it didnt need to be
+19:06:30      hptran_ | d-_-b: basically, the requirements are not clear at first by sponsors, what we were trying is getting more and more detail, but doing that is only suitable in the first term.
+19:06:54   jesusaurus | because the data is very much directed, so the graph will need to be too
+19:07:20       @d-_-b | (cafeteria food)--
+19:07:27      hptran_ | jesusaurus: my algorithm was designed on the requiremts in the first term.
+19:07:37            * | d-_-b reads scrollbacl
+19:08:26     longuyen | d-_-b hptran_ i agreed on the crucial point that directed and undirected are way too different, that somehow this change could make all our previous render works become useless
+19:08:40     longuyen | d-_-b hptran_ and that will involved also guys in the data group
+19:09:34   jesusaurus | yeah, the data base is all directed data
+19:09:50       @d-_-b | hptran_, longuyen remember the example that matt and nitin showed us friday? the point to their example was that directionality matters, because they want to differentiate between an information horder and a talker
+19:10:23      hptran_ | d-_-b: it's second term, i don't think we can accept any new requirements
+19:11:11       @d-_-b | hptran_, i can talk with bart tonight, but i can assure you that he'd talk about how in industry, requirements sometimes continue to change
+19:11:46      hptran_ | d-_-b: it's called changing target problem, it can kill the whole project
+19:11:50       @d-_-b | hptran_, jesusaurus and blackcat did the data based on directed influence, correct?
+19:12:08   jesusaurus | yes, the database stores directed data
+19:12:18       @d-_-b | hptran_, i understand, and part of the problem was matt and nitin's ill defined beginning requirements
+19:12:36     longuyen | d-_-b: sure in industry requirements change, but that's for months lasting project
+19:12:39       @d-_-b | hptran_, i'm agreeing with you that this is an issue, but i don't think it's one we can avoid
+19:12:52     longuyen | d-_-b: i'm ok with everything, just afraid that the result will affect our grade
+19:13:05      hptran_ | d-_-b: we can avoid, it's second term derek
+19:13:20     longuyen | d-_-b: if we don't have enought time to carry on new approaches, and it looks like we probably won't
+19:13:50       @d-_-b | longuyen, hptran_, there is a section in the syllabus that talks about our grades. it mentions the difference between the end product and the work done to get there.
+19:13:55      hptran_ | d-_-b: half of the second term past over though
+19:14:13   jesusaurus | hptran_: this kind of thing happens
+19:14:21      hptran_ | d-_-b: and now if we accept new requiremts, do you think it is reasonable
+19:14:23       @d-_-b | hptran_, how much would direction impact your algorithm, in terms of how the user sees the data?
+19:14:30       @d-_-b | longuyen, ^
+19:14:39     longuyen | d-_-b: i may have forgot that, but intuitively i know the sponsors' satisfaction with our project will somehow count to our grade
+19:15:04     longuyen | longuyen: so if they bring up new things at this time then they accidentally put us in a bit miserable
+19:15:09   jesusaurus | what will it take to add direction to the rendering?
+19:15:16      hptran_ | d-_-b: for now, i can say it's alot.
+19:15:23       @d-_-b | "grades will be based on five criteria: (1) project organization and process; (2) project outcome; (3) degree of teamwork; (4) participation; and (5) completion of individual engineering notebooks."
+19:16:05       @d-_-b | i will email matt and nitin, and bring this up to bart as well
+19:16:06      hptran_ | d-_-b: if you are not sure, you can ask prof. bart about this.
+19:16:24     longuyen | jesusaurus: in term of huy's shortest path algorithm as what we have so far, the shortest paths from a->b and b->a will be different in directed graph
+19:16:47     longuyen | jesusaurus: and that's a huge change as what my knowledge has about graph theory
+19:17:04      hptran_ | jesusaurus: also, the thing is that we visualize the relationship based on distance between nodes
+19:17:19       @d-_-b | longuyen, you have inf1to2 and inf2to1 stored in the links, correct?
+19:17:24      hptran_ | jesusaurus: now if we have 2 different distances between 2 nodes, how can it work?
+19:17:41       @d-_-b | i have an idea:
+19:18:16       @d-_-b | apply another, subtle link style that conveys the proportion of direction in a relationship
+19:18:17     longuyen | d-_-b: no right now the json data is undirected
+19:19:13       @d-_-b | so the link would have some gradient or something that shifts its center toward the person in the relationship that is producing the most
+19:19:28     longuyen | d-_-b: or at least I treated as undirected when intepreting visulization
+19:19:37       @d-_-b | longuyen, you still can
+19:19:59       @d-_-b | the direction would be conveyed in the gradient style on the link, does that make sense?
+19:20:22   jesusaurus | longuyen: right now the json *is* directed
+19:20:27   jesusaurus | it has source/target
+19:20:41      hptran_ | d-_-b: we are not sure if the sponsor agree on that, but my idea is that if we can do this, then it is a plus, but if not, it does not affect us since it is not in the argreed requirements
+19:21:08     longuyen | d-_-b jesusaurus: ok so let make is simple this way: 2 nodes A, B: if A->B influence = 10 and B->A influence = 100
+19:21:42     longuyen | d-_-b jesusaurus then it's very hard for the shortest path algorithm to work, because it doesn't know would it make that edge (undirected) a distance of 10 or 100
+19:21:47       @d-_-b | so a link would be: #-----------:::::::::::::::::::::::::# where # is a person
+19:22:45       @d-_-b | longuyen, hptran_, what i'm proposing, correct me if i'm wrong, wouldn't affect the shortest path algorithm
+19:22:57     longuyen | d-_-b jesusaurus you got what I meant. The point is that the shortest path algorithm we have so far has nothing to do with the new adapted requirement -> the previous work became useless
+19:23:17       @d-_-b | longuyen, it isn't useless
+19:23:23       @d-_-b | let me explain
+19:23:33       @d-_-b | the shortest path still applies
+19:23:38      hptran_ | d-_-b jesusaurus we don't know if sponsor argree that , but what if they does not agree?
+19:24:09       @d-_-b | hptran_, agree that we should stick with direction?
+19:24:36       @d-_-b | hptran_, they may say to hold off on direction until after the prototype
+19:25:20       @d-_-b | hptran_, longuyen, this would be good in person discussion during the prototype feedback
+19:25:31     longuyen | d-_-b: quick question: do we have to short the directionality in the demo this Fri?
+19:25:44     longuyen | d-_-b: short -> show
+19:25:45      hptran_ | longuyen: no
+19:25:49       @d-_-b | longuyen, that's what i'm emailing tonight
+19:26:12       @d-_-b | i understand everyone's frustration, i'm frustrated by the changing requirements too
+19:26:29      hptran_ | d-_-b: you should ask Prof. Bart
+19:26:43       @d-_-b | i have a few things to say, then i'm off to the leads meeting. i'll talk to bart after as well.
+19:26:45     blackcat | hptran_: bad news. My php code can't parse your 111MB excel file. Its too big
+19:27:12      hptran_ | blackcat: it's ok, we talk about this later
+19:27:14     blackcat | apache ate up to 23GB and ran for 10 mins
+19:27:28     blackcat | --> reset connection
+19:27:29   jesusaurus | wow
+19:28:02       @d-_-b | i have a section in the agenda for team support. does everyone see it and understand it?
+19:28:24   jesusaurus | yeah
+19:29:17       @d-_-b | i've had a few team members talk to me during the check ins about feeling like they aren't entirely supported by the team. the best measure against this is letting people know what you're working on.
+19:29:28       @d-_-b | use irc, tickets, and even in person meetings
+19:29:49     longuyen | d-_-b: should I come to the lead meeting?
+19:29:53       @d-_-b | if you've got downtime on your part of the project, consider asking others how they're doing
+19:29:57     longuyen | d-_-b: tonight?
+19:30:06       @d-_-b | longuyen, if you want, i doubt there's much for you
+19:30:24       @d-_-b | this discussion on directionality should continue me thinks
+19:30:29     longuyen | d-_-b: yeah I think I'll head there now. Is it still room 40-07?
+19:30:46       @d-_-b | since data <-> render might have a few hiccups coming together
+19:30:52       @d-_-b | longuyen, yes
+19:32:05       @d-_-b | i'm off. so in short: test, manage tickets, support each other, and keep up the good work while i clarify with matt/nitin on directionality (and bart)
+19:32:16       @d-_-b | always a pleasure gentlemen
+19:32:44      hptran_ | d-_-b: thank
