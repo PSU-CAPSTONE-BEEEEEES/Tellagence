@@ -41,15 +41,9 @@ if (!document.mozSetImageElement || !('MozAppearance' in test.style))
 
 var scale;
 var isMac = navigator.platform == 'MacIntel';
-var thumb = {
-  radius: isMac ? 9 : 6,
-  width: isMac ? 22 : 12,
-  height: isMac ? 16 : 20
-};
-var track = '-moz-linear-gradient(top, transparent ' + (isMac ?
-  '6px, #999 6px, #999 7px, #ccc 9px, #bbb 11px, #bbb 12px, transparent 12px' :
-  '9px, #999 9px, #bbb 10px, #fff 11px, transparent 11px') +
-  ', transparent)';
+var thumb = {radius: 10, width: 10, height: 17};
+var track = '-moz-linear-gradient(top, transparent 6px, #fff 6px, #fff 7px' +
+	', #fff 9px, #fff 11px, #fff 12px, transparent 12px, transparent)';
 var styles = {
   'min-width': thumb.width + 'px',
   'min-height': thumb.height + 'px',
@@ -57,8 +51,10 @@ var styles = {
   padding: 0,
   border: 0,
   'border-radius': 0,
-  cursor: 'default',
-  'text-indent': '-999999px' // -moz-user-select: none; breaks mouse capture
+  cursor: 'pointer',
+  'text-indent': '-999999px', // -moz-user-select: none; breaks mouse capture
+  top: '50%',
+  'margin-top': '-10px'
 };
 var onChange = document.createEvent('HTMLEvents');
 onChange.initEvent('change', true, false);
@@ -96,14 +92,13 @@ function transform(slider) {
 
   // lazily create shared slider affordance
   if (!scale) {
-    scale = document.body.appendChild(document.createElement('hr'));
+    scale = document.body.appendChild(document.createElement('div'));
     style(scale, {
-      '-moz-appearance': isMac ? 'scale-horizontal' : 'scalethumb-horizontal',
-      display: 'block',
-      visibility: 'visible',
-      opacity: 1,
-      position: 'fixed',
-      top: '-999999px'
+	'background-color': 'white',
+	border: '2px solid black',
+	width: '6px',
+	height: '20px',
+	cursor: 'pointer'
     });
     document.mozSetImageElement('__sliderthumb__', scale);
   }

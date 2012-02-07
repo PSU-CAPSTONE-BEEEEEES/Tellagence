@@ -25,7 +25,7 @@ function TimeInside($str){
 }
 
 function main(){
-  
+
     $xlsx = new SimpleXLSX('simplexlsx/vmworld.xlsx');
     list($num_cols, $num_rows) = $xlsx->dimension();
 
@@ -99,8 +99,8 @@ function main(){
     // close connection
     pg_close($dbcon);
     */
-    
-    
+
+
     //print_r($unique_total);
     //print_r(count($unique_total));
     //print_r($relation);
@@ -166,7 +166,7 @@ function main(){
         $source[] = $item['user_id1'];
         $target[] = $item['user_id2'];
     }
-    
+
 
 
     $cs = array_count_values($source);
@@ -202,7 +202,7 @@ function main(){
     }
     // free memory
     pg_free_result($result);
-    
+
     // update sum_degree value
     $sql = "UPDATE users SET sum_degree=(out_degree + in_degree)";
     $result = pg_query($dbcon, $sql);
@@ -226,7 +226,7 @@ function main(){
 
     // close connection
     pg_close($dbcon);
-    
+
 
     die;
     /*
@@ -248,7 +248,7 @@ function main(){
     */
 
 
-    
+
 
     // remove duplication
     /*
@@ -262,7 +262,7 @@ function main(){
 
 
     foreach($purpose as $item){
-        
+
     }
 
     /*

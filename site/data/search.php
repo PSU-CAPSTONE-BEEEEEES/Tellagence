@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(0);
 
 //Search for x number of nodes closest to some center node
@@ -81,6 +80,8 @@ foreach ($json['links'] as $i => $link) {
 }
 $json['links'] = array_values($json['links']);
 
+unset($json['links'][count($json['links'])-1]);
+//print_r($json); die;
 echo(json_encode($json));
 
 //close the database connection
