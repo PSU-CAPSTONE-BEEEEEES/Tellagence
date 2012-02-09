@@ -48,7 +48,9 @@ $(document).ready(function() {
     });
 
     $("#bgPopup").click(function(){
-        disablePopup();
+	if ($("#progress_pbImage").attr("title") == " 100%") {
+            disablePopup();
+	}
     });
 
     centerPopup();
