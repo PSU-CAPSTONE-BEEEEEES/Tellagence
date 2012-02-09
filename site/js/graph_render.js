@@ -16,17 +16,17 @@ function GraphRender(graph) {
 	          .attr("id", "inner")
               	  .attr("transform", "translate(0,0) scale(1)");
 
-this.svg.append('rect')
-    .attr('width', this.w)
-    .attr('height', this.h)
-    .style("fill", "white");
+	this.svg.append('rect')
+		.attr('width', this.w)
+		.attr('height', this.h)
+		.style("fill", "white");
 
 
-function redraw(a) {
-    d3.select("#inner").attr("transform",
-		   "translate(" + d3.event.translate + ")"
-		   + " scale(" + d3.event.scale + ")");
-}
+	function redraw(a) {
+		d3.select("#inner").attr("transform",
+			   "translate(" + d3.event.translate + ")"
+			   + " scale(" + d3.event.scale + ")");
+	}
 
 	this.draw = function() {
 		// init force graph
