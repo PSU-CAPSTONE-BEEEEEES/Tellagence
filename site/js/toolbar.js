@@ -46,6 +46,7 @@ $(document).ready(function() {
         centerPopup();
         loadPopup();
     });
+
     $("#bgPopup").click(function(){
         disablePopup();
     });
@@ -53,6 +54,11 @@ $(document).ready(function() {
     centerPopup();
     loadPopup();
     
+    $("#progress").progressBar(0, {boxImage:"static/bar.gif",
+				   barImage:{0:"static/bar_fill.gif",
+					     30:"static/bar_fill.gif",
+					     70:"static/bar_fill.gif",}});
+
     $(window).resize(function() {
         centerPopup();
     });
