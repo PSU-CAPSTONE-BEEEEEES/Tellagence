@@ -375,6 +375,10 @@ d3.layout.force = function() {
     return force;
   };
 
+  force.alpha = function() {
+    return alpha;
+  };
+
   force.theta = function(x) {
     if (!arguments.length) return theta;
     theta = x;
