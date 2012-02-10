@@ -8,6 +8,17 @@ function GraphRender(graph) {
 	// temp
 	this.ready = false;
 	
+
+
+
+
+
+    function redraw(a) {
+	d3.select("#inner").attr("transform",
+				 "translate(" + d3.event.translate + ")" +
+				 " scale(" + d3.event.scale + ")");
+    }
+
 	// init svg area to draw
 	this.svg = d3.select("#d3")
 		.append("svg:svg")
@@ -19,10 +30,10 @@ function GraphRender(graph) {
 	          .attr("id", "inner")
               	  .attr("transform", "translate(0, 0) scale(1)");
 
-	this.svg.append('rect')
-		.attr('width', this.w)
-		.attr('height', this.h)
-		.style("fill", "white");
+    this.svg.append('rect')
+	.attr('width', this.w)
+	.attr('height', this.h)
+	.style("fill", "white");
 
 	function redraw(a) {
 		d3.select("#inner").attr("transform",
@@ -81,13 +92,13 @@ function GraphRender(graph) {
 		this.drawCircles();
 
 		// handle events for graph (only for graph)
-		GraphEvent(this);
-	}
+	        return new GraphEvent(this);
+	};
 	
 	this.erase = function() {
 		this.circle.remove();
 		this.line.remove();
-	}
+	};
 	
 	this.changeData = function(depth) {
 		d3.json('data/search.php?id=100&depth='+depth, function(data) {
@@ -96,5 +107,5 @@ function GraphRender(graph) {
 			// apply new data for current graph
 			graph.data(data.nodes, data.links);
 		});
-	}
+	};
 }

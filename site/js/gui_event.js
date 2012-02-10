@@ -11,17 +11,17 @@ function GuiEvent(graphRender) {
         }
     });
 
-    var initial
+    var initial;
     $("#slider").mousedown(function () {
         initial = this.value;
     }).bind("mouseup mouseleave", function () {
         //alert(this.value - initial);
         var diff = this.value - initial;
         if (diff < 0) {
-            ChromeWheel( 1 , Math.abs(diff) / 5);
+            return new ChromeWheel( 1 , Math.abs(diff) / 5);
         }
         else {
-            ChromeWheel( 0 , diff / 5);
+            return new ChromeWheel( 0 , diff / 5);
         }
     });
 

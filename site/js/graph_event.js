@@ -23,13 +23,9 @@ function GraphEvent(graphRender) {
 	};
 	*/
 	
-	// drag a circle (node)
-	this.graphRender.circle
-		.call(this.graphRender.force.drag)
-	
         var progress = function(alpha) {
-	    var range = .1 - .005009;
-	    var percent = ((.1 - alpha) / range) * 100;
+	    var range = 0.1 - 0.005009;
+	    var percent = ((0.1 - alpha) / range) * 100;
 	    return Math.floor(percent);
 	};
 
