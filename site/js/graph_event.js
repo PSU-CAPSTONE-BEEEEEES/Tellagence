@@ -23,13 +23,9 @@ function GraphEvent(graphRender) {
 	};
 	*/
 	
-	// drag a circle (node)
-	this.graphRender.circle
-		.call(this.graphRender.force.drag)
-	
         var progress = function(alpha) {
-	    var range = .1 - .005009;
-	    var percent = ((.1 - alpha) / range) * 100;
+	    var range = 0.1 - 0.005009;
+	    var percent = ((0.1 - alpha) / range) * 100;
 	    return Math.floor(percent);
 	};
 
@@ -40,7 +36,7 @@ function GraphEvent(graphRender) {
 					   {boxImage:"static/bar.gif",
 					    barImage:{0:"static/bar_fill.gif",
 						      30:"static/bar_fill.gif",
-						      70:"static/bar_fill.gif",}});
+						      70:"static/bar_fill.gif"}});
 
 		graphRender.line
 			.attr("x1", function(d) { return d.source.x; })
