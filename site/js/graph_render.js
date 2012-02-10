@@ -77,8 +77,8 @@ function redraw(a) {
 		this.line.remove();
 	}
 	
-	this.changeData = function(depth) {
-		d3.json('data/search.php?id=100&depth='+depth, function(data) {
+	this.changeData = function(username, depth) {
+		d3.json('data/search.php?user='+username+'&depth='+depth, function(data) {
 			// empty current graph
 			graph.empty();
 			// apply new data for current graph
