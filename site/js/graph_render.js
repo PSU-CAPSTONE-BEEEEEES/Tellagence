@@ -5,6 +5,9 @@ function GraphRender(graph) {
 	this.w = $(window).width();
 	this.h = $(window).height();
 	
+	// temp
+	this.ready = false;
+	
 	// init svg area to draw
 	this.svg = d3.select("#d3")
 		.append("svg:svg")
@@ -14,18 +17,43 @@ function GraphRender(graph) {
 	          .call(d3.behavior.zoom().on("zoom", redraw))
 	        .append('g')
 	          .attr("id", "inner")
-              	  .attr("transform", "translate(0,0) scale(1)");
+              	  .attr("transform", "translate(0, 0) scale(1)");
 
 	this.svg.append('rect')
 		.attr('width', this.w)
 		.attr('height', this.h)
 		.style("fill", "white");
 
-
 	function redraw(a) {
 		d3.select("#inner").attr("transform",
 			   "translate(" + d3.event.translate + ")"
 			   + " scale(" + d3.event.scale + ")");
+	}
+	
+	this.drawCircles = function() {
+		// draw circles
+		this.circle.enter().append("circle")
+			.attr("r", function(d) { return 5+'px'; })
+			.attr("cx", function(d) {return d.x;})
+			.attr("cy", function(d) {return d.y;})
+			.attr("class", function(d) { return 'group: no group'; });
+		this.circle.append("title")
+			.text(function(d) { return d.id; });
+	}
+	
+	this.drawLines = function() {
+		this.line.enter().append("line")
+			.style("stroke-width", function(d) { return (d.influence/1000)+'px'; })
+			.style("opacity", function(d) {
+				if (d.shortestpath<0.0015) return .3;
+				else return 0;
+			})
+			.attr("x1", function(d) { return d.source.x; })
+			.attr("y1", function(d) { return d.source.y; })
+			.attr("x2", function(d) { return d.target.x; })
+			.attr("y2", function(d) { return d.target.y; });
+		this.line.append("title")
+			.text(function(d) { return 'i:notjhing for now' + ' ' + 'd:'+d.shortestpath; });
 	}
 
 	this.draw = function() {
@@ -34,40 +62,24 @@ function GraphRender(graph) {
 			.nodes(this.graph.nodes)
 			.links(this.graph.links);
 			
-		// init lines as links
-		this.line = this.svg.selectAll("line")
-			.data(this.graph.links);
-			
 		// init circles as nodes
 		this.circle = this.svg.selectAll("circle")
 			.data(this.graph.nodes);
 			
-		// define force graph
+		// init lines as links
+		this.line = this.svg.selectAll("line")
+			.data(this.graph.links);
+			
+		// define force graph nodes distances
 		this.force
-			.linkDistance(function(d) { return d.shortestpath * 10000; })
-			.charge(-1000)          // pos for node attraction, neg for repulsion
+			.linkDistance(function(d) { return d.shortestpath * 100000; })
+			.charge(-100)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
 			
-		// draw lines
-		this.line.enter().append("line")
-			.style("stroke-width", function(d) { return (d.influence/100)+'px'; })
-			.attr("x1", function(d) { return d.source.x; })
-			.attr("y1", function(d) { return d.source.y; })
-			.attr("x2", function(d) { return d.target.x; })
-			.attr("y2", function(d) { return d.target.y; });
-		this.line.append("title")
-			.text(function(d) { return 'i:notjhing for now' + ' ' + 'd:'+d.shortestpath; });
+		// draw circles first...
+		this.drawCircles();
 
-		// draw circles
-		this.circle.enter().append("circle")
-			.attr("r", function(d) { return 10+'px'; })
-			.attr("cx", function(d) {return d.x;})
-			.attr("cy", function(d) {return d.y;})
-			.attr("class", function(d) { return 'group: no group'; });
-		this.circle.append("title")
-			.text(function(d) { return d.id; });
-			
 		// handle events for graph (only for graph)
 		GraphEvent(this);
 	}
