@@ -10,7 +10,7 @@ $(document).ready(function() {
     // functions for controlling the help overlay visibility and position
     function loadPopup(){
         //loads popup only if it is disabled
-        if($("#bgPopup").data("state")==0){
+        if($("#bgPopup").data("state") === 0){
             $("#bgPopup").css({
                 "opacity": "0.7"
             });
@@ -59,7 +59,7 @@ $(document).ready(function() {
     $("#progress").progressBar(0, {boxImage:"static/bar.gif",
 				   barImage:{0:"static/bar_fill.gif",
 					     30:"static/bar_fill.gif",
-					     70:"static/bar_fill.gif",}});
+					     70:"static/bar_fill.gif"}});
 
     $(window).resize(function() {
         centerPopup();

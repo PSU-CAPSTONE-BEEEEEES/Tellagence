@@ -5,6 +5,13 @@ function GraphRender(graph) {
 	this.w = $(window).width();
 	this.h = $(window).height();
 	
+
+    function redraw(a) {
+	d3.select("#inner").attr("transform",
+				 "translate(" + d3.event.translate + ")" +
+				 " scale(" + d3.event.scale + ")");
+    }
+
 	// init svg area to draw
 	this.svg = d3.select("#d3")
 		.append("svg:svg")
@@ -16,17 +23,11 @@ function GraphRender(graph) {
 	          .attr("id", "inner")
               	  .attr("transform", "translate(0,0) scale(1)");
 
-this.svg.append('rect')
-    .attr('width', this.w)
-    .attr('height', this.h)
-    .style("fill", "white");
+    this.svg.append('rect')
+	.attr('width', this.w)
+	.attr('height', this.h)
+	.style("fill", "white");
 
-
-function redraw(a) {
-    d3.select("#inner").attr("transform",
-		   "translate(" + d3.event.translate + ")"
-		   + " scale(" + d3.event.scale + ")");
-}
 
 	this.draw = function() {
 		// init force graph
@@ -57,7 +58,7 @@ function redraw(a) {
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; });
 		this.line.append("title")
-			.text(function(d) { return 'i:notjhing for now' + ' ' + 'd:'+d.shortestpath; });
+			.text(function(d) { return 'i:nothing for now' + ' ' + 'd:'+d.shortestpath; });
 
 		// draw circles
 		this.circle.enter().append("circle")
@@ -69,13 +70,13 @@ function redraw(a) {
 			.text(function(d) { return d.id; });
 			
 		// handle events for graph (only for graph)
-		GraphEvent(this);
-	}
+	        return new GraphEvent(this);
+	};
 	
 	this.erase = function() {
 		this.circle.remove();
 		this.line.remove();
-	}
+	};
 	
 	this.changeData = function(depth) {
 		d3.json('data/search.php?id=100&depth='+depth, function(data) {
@@ -84,5 +85,5 @@ function redraw(a) {
 			// apply new data for current graph
 			graph.data(data.nodes, data.links);
 		});
-	}
+	};
 }
