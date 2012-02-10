@@ -3,16 +3,28 @@ error_reporting(0);
 
 //Search for x number of nodes closest to some center node
 
-//the center of our graph
-$user = 1;
-if (isset($_GET["id"])) {
-    $id = $_GET["id"];
-
-    if ( (int)$id == $id && $id >= 0 ) {
-	$user = (int)$id;
-    }
+//connect to the database
+$dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=fake user=postgres password=bees");
+if (!$dbconn) {
+    die("Error connecting to database.");
 }
-$user = (string)$user;
+
+//the center of our graph
+if (isset($_GET["user"])) {
+    $username = $_GET["user"];
+
+    $user = findUser($username);
+} else {
+    $user = 1;
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+
+        if ( (int)$id == $id && $id >= 0 ) {
+            $user = (int)$id;
+        }
+    }
+    $user = (string)$user;
+}
 
 //how many nodes to find around our center
 $total = 100;
@@ -37,12 +49,6 @@ $path = array();
 //create the json skeleton
 $json['nodes'] = array();
 $json['links'] = array();
-
-//connect to the database
-$dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=fake user=postgres password=bees");
-if (!$dbconn) {
-    die("Error connecting to database.");
-}
 
 //add the central node
 addNode($user);
@@ -72,6 +78,15 @@ pg_close($dbconn);
 
 
 //here be dragons^Wfunctions
+
+function findUser($who) {
+    global $dbconn;
+
+    $result = pg_Exec($dbconn, "SELECT user_id FROM users WHERE username = $who;");
+    $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
+
+    return (string)$row[0];
+}
 
 function getPath($who) {
     global $dbconn, $path;
