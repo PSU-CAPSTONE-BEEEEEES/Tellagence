@@ -1,14 +1,21 @@
 function GuiEvent(graphRender) {
     // graph render for this gui event
     this.graphRender = graphRender;
-    graphRender.draw();
 
     // extract input capture on enter
     $("#search").keypress(function(e) {
         // 13 is the ascii code for the enter key
         if (e.which == 13) {
-	    alert("enter pressed with " + $("#searchbar").val());
-        // graphRender.changeData($("#searchbar").val(), 100);
+			var username = $("#searchbar").val();
+			var depth = 20;
+			d3.json('data/search.php?user='+username+'&depth='+depth, function(data) {
+				// erase and empty current render
+				graphRender.empty();
+				// data for new graph
+				graphRender.data(data.nodes, data.links);
+				// redraw with new graph and new graph events
+				graphRender.draw();
+			});
         }
     });
 
