@@ -78,8 +78,6 @@ function GraphRender(nodes, links) {
 			.size([this.w, this.h])
 			.start();
 			
-		this.drawCircles();
-			
 		// handle events for graph (only for graph)
 		return new GraphEvent(this);
 	};
