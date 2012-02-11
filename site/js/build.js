@@ -1,4 +1,4 @@
-d3.json("data/search.php?id=500&depth=20", function(data) {
+d3.json("data/search.php?id=100&depth=20", function(data) {
 	// init a new graph upload new page loading
 	var g = new Graph(data.nodes, data.links);
 	
@@ -9,4 +9,5 @@ d3.json("data/search.php?id=500&depth=20", function(data) {
 	
 	// gui event handler for this graph render
 	var ge = new GuiEvent(gr);
+	
 });
