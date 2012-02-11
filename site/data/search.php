@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+//error_reporting(0);
 
 //Search for x number of nodes closest to some center node
 
@@ -172,7 +172,7 @@ function addLinks($here) {
 		$link['source'] =  $source;
 		$link['target'] =  $target;
 		$link['influence'] = (int)$row[1] + (int)$row[2];
-		$link['shortestpath'] = (float)$path[$there[id] - 1];
+		$link['shortestpath'] = (float)$path[$there['id'] - 1];
 		$json['links'][] = $link;
 
 		//move on to the next node in the nodes array
@@ -187,7 +187,7 @@ function addLinks($here) {
 		$link['source'] =  $source;
 		$link['target'] =  $target;
 		$link['influence'] = (int)$row[1] + (int)$row[2];
-		$link['shortestpath'] = (float)$path[$there[id] - 1];
+		$link['shortestpath'] = (float)$path[$there['id'] - 1];
 		$json['links'][] = $link;
 
 		//move on to the next node in the nodes array
@@ -199,7 +199,7 @@ function addLinks($here) {
 	$link['source'] =  $source;
 	$link['target'] =  $target;
 	$link['influence'] = 0;
-	$link['shortestpath'] = (float)$path[$there[id] - 1];
+	$link['shortestpath'] = (float)$path[$there['id'] - 1];
 	$json['links'][] = $link;
     }
 }
