@@ -6,11 +6,13 @@ function GuiEvent(graphRender) {
     $("#search").keypress(function(e) {
         // 13 is the ascii code for the enter key
         if (e.which == 13) {
+			// retrieve username and depth
 			var username = $("#searchbar").val();
 			var depth = 20;
+			// erase and empty current render
+			graphRender.empty();
+			// call to server to obtain new graph info
 			d3.json('data/search.php?user='+username+'&depth='+depth, function(data) {
-				// erase and empty current render
-				graphRender.empty();
 				// data for new graph
 				graphRender.data(data.nodes, data.links);
 				// redraw with new graph and new graph events

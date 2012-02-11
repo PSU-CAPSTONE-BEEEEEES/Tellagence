@@ -96,7 +96,7 @@ function GraphRender(nodes, links) {
 		this.drawLines();
 	}
 	
-	this.empty = function(username, depth) {
+	this.empty = function() {
 		// empty nodes and links
 		this.nodes = [];
 		this.links = [];

@@ -23,7 +23,7 @@ function GraphEvent(graphRender) {
 	};
 	*/
 	
-        var progress = function(alpha) {
+	var progress = function(alpha) {
 	    var range = 0.1 - 0.005009;
 	    var percent = ((0.1 - alpha) / range) * 100;
 	    return Math.floor(percent);
@@ -42,9 +42,11 @@ function GraphEvent(graphRender) {
 		if (alpha<0.01 && graphRender.ready==false) {
 			graphRender.drawLines();
 			graphRender.drawCircles();
+			/*
 			$("circle").wTooltip({
 				content: function() {return 'userID='+this.title;}
 			}); 
+			*/
 			graphRender.ready = true;
 		}
 		
