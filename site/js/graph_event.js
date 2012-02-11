@@ -23,37 +23,6 @@ function GraphEvent(graphRender) {
 	};
 	*/ 
 	
-	/*
-	var circlesPreview = function(){	
-		// configs
-		xOffset = 10;
-		yOffset = 30;
-		// these 2 variable determine popup's distance from the cursor
-		// you might want to adjust to get the right result
-			
-		$("circle.circle_tooltip").hover(function(e){
-			alert(this.title);
-			this.t = this.title;
-			this.title = "";	
-			var c = (this.t != "") ? "<br/>" + this.t : "";
-			$("body").append("<p id='preview'><img src='"+ this.href +"' alt='Image preview' />"+ c +"</p>");								 
-			$("#preview")
-				.css("top",(e.pageY - xOffset) + "px")
-				.css("left",(e.pageX + yOffset) + "px")
-				.fadeIn("fast");						
-		},
-		function(){
-			this.title = this.t;	
-			$("#preview").remove();
-		});	
-		$("a.preview").mousemove(function(e){
-			$("#preview")
-				.css("top",(e.pageY - xOffset) + "px")
-				.css("left",(e.pageX + yOffset) + "px");
-		});			
-	};
-	*/
-	
 	var progress = function(alpha) {
 	    var range = 0.1 - 0.005009;
 	    var percent = ((0.1 - alpha) / range) * 100;
@@ -85,15 +54,11 @@ function GraphEvent(graphRender) {
 				d3.json('data/search.php?id='+d.id+'&depth='+depth, function(data) {
 					// data for new graph
 					graphRender.data(data.nodes, data.links);
+					graphRender.setCenterNode(d.id);
 					// redraw with new graph and new graph events
 					graphRender.draw();
 				});
 			});
-			/*
-			$("circle").wTooltip({
-				content: function() {return 'userID='+this.title;}
-			}); 
-			*/
 			
 			// mark that graph is completely ready
 			graphRender.ready = true;
@@ -107,8 +72,6 @@ function GraphEvent(graphRender) {
 
 		graphRender.circle.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) { return d.y; });
-			
-		//circlesPreview();
 	});
 	
 	// changes the svg size on window
