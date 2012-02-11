@@ -59,6 +59,10 @@ while (count($visited) < $total && count($toVisit) > 0) {
     //get the first node to visit
     $next = array_shift($toVisit);
 
+    if(in_array($next, $visited)) {
+	continue;
+    }
+
     addNode($next);
     findNodes($next);
 
@@ -71,6 +75,8 @@ foreach ($json['nodes'] as $node) {
 }
 
 //print out the json
+//echo(sizeof($json['links']));
+//echo(" ");
 echo(json_encode($json));
 
 //close the database connection
