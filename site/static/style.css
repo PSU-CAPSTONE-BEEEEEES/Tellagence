@@ -35,6 +35,12 @@ line {
     stroke-width: 1px;
     opacity: .3;
 }
+circle.center {
+	fill:blue;
+}
+circle:hover{
+	fill:red;
+}
 
 svg {
     pointer-events: all;

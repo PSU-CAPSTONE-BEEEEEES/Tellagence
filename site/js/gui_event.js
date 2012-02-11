@@ -15,6 +15,7 @@ function GuiEvent(graphRender) {
 			d3.json('data/search.php?user='+username+'&depth='+depth, function(data) {
 				// data for new graph
 				graphRender.data(data.nodes, data.links);
+				graphRender.centerNode(0);
 				// redraw with new graph and new graph events
 				graphRender.draw();
 			});

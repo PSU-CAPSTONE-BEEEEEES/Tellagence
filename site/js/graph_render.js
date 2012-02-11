@@ -2,6 +2,7 @@ function GraphRender(nodes, links) {
 	// nodes and links for this graph render
 	this.nodes = nodes;
 	this.links = links;
+	this.centerNode = 100;
 	// defined width & height of svg
 	this.w = $(window).width();
 	this.h = $(window).height();
@@ -34,14 +35,14 @@ function GraphRender(nodes, links) {
 
     this.drawCircles = function() {
 		// draw circles
+		var center = this.centerNode;
 		this.circle.enter().append("circle")
 			.attr("r", function(d) { return 2+'px'; })
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
-			.attr("href", function(d) {return 'static/troll.png';})
-			//.attr("class", function(d) { return 'group: no group'; })
-			.attr("class", function(d) { return 'circle_tooltip'; })
-			.append("title").text(function(d) { return 'UserId='+d.id; });
+			.attr("title", function(d) {return 'UserId='+d.id;})
+			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
+			.append("svg:title").text(function(d) { return 'UserId='+d.id; });
 	}
 	
 	this.drawLines = function() {
@@ -87,6 +88,10 @@ function GraphRender(nodes, links) {
 	this.data = function(nodes, links) {
 		this.nodes = nodes;
 		this.links = links;
+	}
+	
+	this.setCenterNode = function(id) {
+		this.centerNode = id;
 	}
 	
 	this.hide = function() {
