@@ -41,6 +41,10 @@ function GraphEvent(graphRender) {
 		// start drawing lines when the graph is about to stay stable
 		if (alpha<0.01 && graphRender.ready==false) {
 			graphRender.drawLines();
+			graphRender.drawCircles();
+			$("circle").wTooltip({
+				content: function() {return 'userID='+this.title;}
+			}); 
 			graphRender.ready = true;
 		}
 		

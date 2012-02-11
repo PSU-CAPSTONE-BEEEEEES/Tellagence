@@ -8,11 +8,6 @@ function GraphRender(graph) {
 	// temp
 	this.ready = false;
 	
-
-
-
-
-
     function redraw(a) {
 	d3.select("#inner").attr("transform",
 				 "translate(" + d3.event.translate + ")" +
@@ -25,46 +20,38 @@ function GraphRender(graph) {
 		.attr("width", this.w)
 		.attr("height", this.h)
 	        .append('g')
-	          .call(d3.behavior.zoom().on("zoom", redraw))
-	        .append('g')
-	          .attr("id", "inner")
-              	  .attr("transform", "translate(0, 0) scale(1)");
+				.call(d3.behavior.zoom().on("zoom", redraw))
+			.append('g')
+				.attr("id", "inner")
+				.attr("transform", "translate(0, 0) scale(1)");
 
     this.svg.append('rect')
-	.attr('width', this.w)
-	.attr('height', this.h)
-	.style("fill", "white");
+		.attr('width', this.w)
+		.attr('height', this.h)
+		.style("fill", "white");
 
-	function redraw(a) {
-		d3.select("#inner").attr("transform",
-			   "translate(" + d3.event.translate + ")"
-			   + " scale(" + d3.event.scale + ")");
-	}
-	
 	this.drawCircles = function() {
 		// draw circles
 		this.circle.enter().append("circle")
-			.attr("r", function(d) { return 5+'px'; })
+			.attr("r", function(d) { return 2+'px'; })
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
-			.attr("class", function(d) { return 'group: no group'; });
-		this.circle.append("title")
-			.text(function(d) { return d.id; });
+			.attr("class", function(d) { return 'group: no group'; })
+			.attr("title", function(d) { return d.id; });
 	}
 	
 	this.drawLines = function() {
 		this.line.enter().append("line")
 			.style("stroke-width", function(d) { return (d.influence/1000)+'px'; })
-			.style("opacity", function(d) {
-				if (d.shortestpath<0.0015) return .3;
-				else return 0;
-			})
+			.style("opacity", .3)
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; });
+		/*
 		this.line.append("title")
 			.text(function(d) { return 'i:notjhing for now' + ' ' + 'd:'+d.shortestpath; });
+		*/
 	}
 
 	this.draw = function() {
@@ -84,15 +71,12 @@ function GraphRender(graph) {
 		// define force graph nodes distances
 		this.force
 			.linkDistance(function(d) { return d.shortestpath * 100000; })
-			.charge(-100)          // pos for node attraction, neg for repulsion
+			.charge(-1000)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
 			
-		// draw circles first...
-		this.drawCircles();
-
 		// handle events for graph (only for graph)
-	        return new GraphEvent(this);
+		return new GraphEvent(this);
 	};
 	
 	this.erase = function() {
