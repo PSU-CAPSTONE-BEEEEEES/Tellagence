@@ -6,5 +6,4 @@ d3.json("data/search.php?id=100&depth=10", function(data) {
 	
 	// gui event handler for this graph render
 	var ge = new GuiEvent(gr);
-	
 });

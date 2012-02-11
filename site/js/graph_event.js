@@ -21,6 +21,37 @@ function GraphEvent(graphRender) {
 		d3.select(this).transition()
 		.attr("r", r / 1.5);
 	};
+	*/ 
+	
+	/*
+	var circlesPreview = function(){	
+		// configs
+		xOffset = 10;
+		yOffset = 30;
+		// these 2 variable determine popup's distance from the cursor
+		// you might want to adjust to get the right result
+			
+		$("circle.circle_tooltip").hover(function(e){
+			alert(this.title);
+			this.t = this.title;
+			this.title = "";	
+			var c = (this.t != "") ? "<br/>" + this.t : "";
+			$("body").append("<p id='preview'><img src='"+ this.href +"' alt='Image preview' />"+ c +"</p>");								 
+			$("#preview")
+				.css("top",(e.pageY - xOffset) + "px")
+				.css("left",(e.pageX + yOffset) + "px")
+				.fadeIn("fast");						
+		},
+		function(){
+			this.title = this.t;	
+			$("#preview").remove();
+		});	
+		$("a.preview").mousemove(function(e){
+			$("#preview")
+				.css("top",(e.pageY - xOffset) + "px")
+				.css("left",(e.pageX + yOffset) + "px");
+		});			
+	};
 	*/
 	
 	var progress = function(alpha) {
@@ -28,7 +59,7 @@ function GraphEvent(graphRender) {
 	    var percent = ((0.1 - alpha) / range) * 100;
 	    return Math.floor(percent);
 	};
-
+	
 	// circles stay stacked unless they change every tick
 	this.graphRender.force.on("tick", function() {
 		var alpha = graphRender.force.alpha();
@@ -40,13 +71,31 @@ function GraphEvent(graphRender) {
 			
 		// start drawing lines when the graph is about to stay stable
 		if (alpha<0.01 && graphRender.ready==false) {
+			// draw lines and circles
 			graphRender.drawLines();
 			graphRender.drawCircles();
+			
+			// on click redraw the graph with the selected node being the center node of the new graph
+			graphRender.circle.on('click', function(d, i) {
+				// retrieve depth
+				var depth = 30;
+				// erase and empty current render
+				graphRender.empty();
+				// call to server to obtain new graph info
+				d3.json('data/search.php?id='+d.id+'&depth='+depth, function(data) {
+					// data for new graph
+					graphRender.data(data.nodes, data.links);
+					// redraw with new graph and new graph events
+					graphRender.draw();
+				});
+			});
 			/*
 			$("circle").wTooltip({
 				content: function() {return 'userID='+this.title;}
 			}); 
 			*/
+			
+			// mark that graph is completely ready
 			graphRender.ready = true;
 		}
 		
@@ -58,6 +107,8 @@ function GraphEvent(graphRender) {
 
 		graphRender.circle.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) { return d.y; });
+			
+		//circlesPreview();
 	});
 	
 	// changes the svg size on window

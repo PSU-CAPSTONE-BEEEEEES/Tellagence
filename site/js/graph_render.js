@@ -38,8 +38,10 @@ function GraphRender(nodes, links) {
 			.attr("r", function(d) { return 2+'px'; })
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
-			.attr("class", function(d) { return 'group: no group'; })
-			.attr("title", function(d) { return d.id; });
+			.attr("href", function(d) {return 'static/troll.png';})
+			//.attr("class", function(d) { return 'group: no group'; })
+			.attr("class", function(d) { return 'circle_tooltip'; })
+			.append("title").text(function(d) { return 'UserId='+d.id; });
 	}
 	
 	this.drawLines = function() {
