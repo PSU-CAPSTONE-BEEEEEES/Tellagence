@@ -8,6 +8,7 @@ function GuiEvent(graphRender) {
         // 13 is the ascii code for the enter key
         if (e.which == 13) {
 	    alert("enter pressed with " + $("#searchbar").val());
+        // graphRender.changeData($("#searchbar").val(), 100);
         }
     });
 
