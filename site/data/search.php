@@ -1,18 +1,31 @@
 <?php
-error_reporting(0);
+set_time_limit(0);
+//error_reporting(0);
 
 //Search for x number of nodes closest to some center node
 
-//the center of our graph
-$user = 1;
-if (isset($_GET["id"])) {
-    $id = $_GET["id"];
-
-    if ( (int)$id == $id && $id >= 0 ) {
-	$user = (int)$id;
-    }
+//connect to the database
+$dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=fake user=postgres password=bees");
+if (!$dbconn) {
+    die("Error connecting to database.");
 }
-$user = (string)$user;
+
+//the center of our graph
+if (isset($_GET["user"])) {
+    $username = $_GET["user"];
+
+    $user = findUser($username);
+} else {
+    $user = 1;
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+
+        if ( (int)$id == $id && $id >= 0 ) {
+            $user = (int)$id;
+        }
+    }
+    $user = (string)$user;
+}
 
 //how many nodes to find around our center
 $total = 100;
@@ -38,12 +51,6 @@ $path = array();
 $json['nodes'] = array();
 $json['links'] = array();
 
-//connect to the database
-$dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=fake user=postgres password=bees");
-if (!$dbconn) {
-    die("Error connecting to database.");
-}
-
 //add the central node
 addNode($user);
 findNodes($user);
@@ -52,6 +59,10 @@ findNodes($user);
 while (count($visited) < $total && count($toVisit) > 0) {
     //get the first node to visit
     $next = array_shift($toVisit);
+
+    if(in_array($next, $visited)) {
+	continue;
+    }
 
     addNode($next);
     findNodes($next);
@@ -73,11 +84,29 @@ pg_close($dbconn);
 
 //here be dragons^Wfunctions
 
+function findUser($who) {
+    global $dbconn;
+
+    $result = pg_Exec($dbconn, "SELECT user_id FROM users WHERE username = '$who';");
+    $num = pg_numrows($result);
+    if ($num == 0) {
+	die("No user '$who' found.");
+    }
+    $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
+    return (string)$row[0];
+}
+
 function getPath($who) {
     global $dbconn, $path;
 
     $result = pg_Exec($dbconn, "SELECT shortestpath FROM test2 WHERE user_id = $who;");
-    $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
+    if (pg_numrows($result) == 0) {
+	$path = NULL;
+	return;
+    }
+
+    //if there are multiple entries, just use the first
+    $row = pg_fetch_array($result, 0);
 
     //turn the string '1:2:3' into the array '1','2','3'
     $path = explode(":",$row[0]);
@@ -157,7 +186,7 @@ function addLinks($here) {
 		$link['source'] =  $source;
 		$link['target'] =  $target;
 		$link['influence'] = (int)$row[1] + (int)$row[2];
-		$link['shortestpath'] = (float)$path[$there[id] - 1];
+		$link['shortestpath'] = (float)$path[$there['id'] - 1];
 		$json['links'][] = $link;
 
 		//move on to the next node in the nodes array
@@ -172,7 +201,7 @@ function addLinks($here) {
 		$link['source'] =  $source;
 		$link['target'] =  $target;
 		$link['influence'] = (int)$row[1] + (int)$row[2];
-		$link['shortestpath'] = (float)$path[$there[id] - 1];
+		$link['shortestpath'] = (float)$path[$there['id'] - 1];
 		$json['links'][] = $link;
 
 		//move on to the next node in the nodes array
@@ -184,7 +213,7 @@ function addLinks($here) {
 	$link['source'] =  $source;
 	$link['target'] =  $target;
 	$link['influence'] = 0;
-	$link['shortestpath'] = (float)$path[$there[id] - 1];
+	$link['shortestpath'] = (float)$path[$there['id'] - 1];
 	$json['links'][] = $link;
     }
 }

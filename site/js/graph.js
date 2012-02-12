@@ -6,10 +6,10 @@ function Graph(nodes, links) {
 	this.empty = function() {
 		this.nodes = [];
 		this.links = [];
-	}
+	};
 	
 	this.data = function(nodes, links) {
 		this.nodes = nodes;
 		this.links = links;
-	}
+	};
 }

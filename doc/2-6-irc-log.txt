@@ -1,0 +1,290 @@
+17:57:19     @d-_-b | hrm, everyone around already?
+17:59:18       aren | John is going to be 10 to 15 mins late
+17:59:39     @d-_-b | aren, class or something?
+18:00:06     @d-_-b | hptran, longuyen, blackcat?
+18:00:25       aren | not sure, he didn't say
+18:00:33     @d-_-b | alright
+18:00:39     hptran | me
+18:01:25     @d-_-b | hptran, longuyen or blackcat around?
+18:02:11   longuyen | longuyen's here
+18:02:12     hptran | yes, just a second
+18:02:26     hptran | don't know blackcat
+18:02:29     @d-_-b | longuyen, heh, it's '/me here'
+18:03:29          * | d-_-b texted him
+18:03:54          * | blackcat is here
+18:03:57     @d-_-b | cool
+18:04:08     @d-_-b | good to go for now. updates everyone?
+18:04:21       aren | ZOOM WORKS!
+18:04:22          * | longuyen here
+18:04:23     @d-_-b | interface has a few things to say. aren?
+18:04:26     @d-_-b | heh
+18:04:27   longuyen | d-_-b: I c
+18:04:38     @d-_-b | ZOOM: http://web.cecs.pdx.edu/~dhurley/capstone/
+18:04:48     @d-_-b | it's in gui_events.js on interface
+18:04:54     @d-_-b | aren++ for that
+18:05:18     @d-_-b | http://web.cecs.pdx.edu/~dhurley/scratch/ is a demo of the progress bar i made over the weekend
+18:05:32       aren | and I talked to long about how to link up search with John and he showed me, so one more meeting to get that going
+18:05:43     @d-_-b | sweet
+18:06:10     @d-_-b | hptran, longuyen, anything new on render since friday?
+18:06:35   blackcat | aren: do we need to map zoom in and out with up and down key?
+18:06:42     hptran | worked with Jon to get all of requirements for his php function which is showing #nodes surrounding 1 node entered by user
+18:07:14     @d-_-b | hptran, and that's good? i saw a push to data sunday
+18:07:16   longuyen | nothing new from me, I just started reading over a bit for the arrow visualization of directed relationship
+18:07:23     @d-_-b | longuyen, cool
+18:07:33   longuyen | also, reconstructed render's tasks with Huy
+18:07:41       aren | blackcat: that is in the future
+18:07:43     hptran | also, looking at the codes for implementing subgraph, found that it's not easy though
+18:08:07     hptran | also, reconstructed render's take with Long :)
+18:08:13   blackcat | hptran: what is the problem with subgraph?
+18:08:46   longuyen | hptran: isn't it just spreading all the nodes using BFS until we get them all visited?
+18:08:47     @d-_-b | hptran, should i make that a topic for friday with them?
+18:09:42     hptran | i don't know yet, need to look at it more, and work with Jon for the real data first, I let you know later
+18:09:51     @d-_-b | sure thing
+18:10:03     @d-_-b | blackcat, anything new on your side?
+18:10:30   blackcat | d-_-b: I delete all lonely nodes from users table
+18:10:55     @d-_-b | blackcat, did that shrink the data set any?
+18:11:04   blackcat | I'm writing phpUnit test now
+18:11:21     @d-_-b | hooray! i need to start writing js unit tests.
+18:11:31   blackcat | I can help hptran and jesusaurus  with subgraphs if they want
+18:11:59     hptran | blackcat: yes
+18:12:00   blackcat | it sounds like sponsors really want that features
+18:12:37   blackcat | * subgraph feature
+18:13:01     @d-_-b | blackcat, i think for the next demo, let's focus on getting all the data to the render
+18:13:11     @d-_-b | that sounded like the biggest req
+18:13:37     hptran | yes, they and all of us want to see the real data
+18:13:48   blackcat | hptran:  can you and Jon make the real data visualization worked on Thursday?
+18:13:58     @d-_-b | hptran, for sure, i'm excited
+18:14:08     hptran | blackcat: it depends on Jon's php
+18:14:37     @d-_-b | before we too deep in talks about the next two weeks, i wanted to share the feedback from the fall presentation
+18:14:41 jesusaurus | im here
+18:14:49     @d-_-b | jesusaurus, o/
+18:15:04     @d-_-b | this is the sanitized version i got from wicker: http://pastie.org/3331511
+18:15:40     @d-_-b | the agenda calls for some discussion, then more on the next two weeks
+18:16:00     @d-_-b | what are people's feelings on the feedback?
+18:19:04   blackcat | I think we did a good job. Our Spring presentation will amaze them
+18:19:53     @d-_-b | blackcat, i think we did alright, but we can improve and really amaze them at the end of this term
+18:20:18     @d-_-b | for one, eventually drawing graphics up instead of whiteboards would help
+18:20:29   blackcat | d-_-b: yeah, they didn't want a picture of handwriting, I guess
+18:20:32 jesusaurus | i agree with most of what they say
+18:20:42     @d-_-b | this is more for people's radars than anything. this is the start of week 5 and all.
+18:20:47 jesusaurus | i think what hurt us the most was putting it all together an hour beforehand
+18:21:26     @d-_-b | jesusaurus, i agree, we'll spend much more time on the final one.
+18:22:06   blackcat | jesusaurus: how is your php file?
+18:22:07     @d-_-b | and keeping a higher level description that leads to a demo might be best
+18:22:13   blackcat | need any help from me?
+18:23:14     @d-_-b | any other reactions or opinions?
+18:23:14 jesusaurus | blackcat: it runs fine on my local apache, but on web.cecs, i dont know why
+18:23:37     @d-_-b | suggestions for the final structure?
+18:23:42 jesusaurus | d-_-b: yeah, we went into a lot of detail of our project plan
+18:23:56 jesusaurus | most group just skimmed over it
+18:24:12   blackcat | jesusaurus: can it work on capstone06.cs.pdx.edu?
+18:24:32   blackcat | we can check the log file on capstone06
+18:24:44     hptran | I think we need to show them the background about our project more, since class didn't get it clear when Matt and Nitin presented
+18:25:01     @d-_-b | jesusaurus, that may be fixed with a shifted focus on the project work itself, such as shortest path and demo
+18:25:01   blackcat | I think web.cecs doesn't have some php extension for your file to run
+18:25:01     hptran | more picture, more graph
+18:25:15     @d-_-b | hptran, i agree
+18:25:24     @d-_-b | high level product description
+18:25:44     @d-_-b | i think we have the same time constraints
+18:26:09     @d-_-b | and since we're budgeting time for the demo, we can talk less on slides
+18:26:22   blackcat | d-_-b: we can make a demo video :D
+18:26:47     @d-_-b | blackcat, i don't think so, bart wants a real demo
+18:26:51   blackcat | to advertise our prototype
+18:27:06   blackcat | ah
+18:27:33     @d-_-b | so that if people ask questions, we can show them rather than tell them
+18:27:56 jesusaurus | hptran: http://capstone06.cs.pdx.edu/data/search.php
+18:28:07     hptran | jesusaurus: thanks
+18:28:20     @d-_-b | keep in mind we've got the dev schedule out to the end of week 8 still, despite the new scheduling process
+18:28:31     @d-_-b | that gives two solid weeks to fine tune the presentation
+18:28:44     @d-_-b | and catch bugs of course :)
+18:29:09     hptran | jesusaurus: can not input id, and depth?
+18:29:35     hptran | jesusaurus: got it, wrong input
+18:29:59     @d-_-b | i suppose that last two weeks is for project plan revision as well
+18:30:57     hptran | d-_-b: what is the demo day?
+18:31:25     @d-_-b | hptran, march 19, the class final session
+18:31:32     hptran | ok
+18:31:35     @d-_-b | the syllabus from last term is wrong
+18:32:07     hptran | so we got 2 weeks for the demo day
+18:32:08     @d-_-b | we've got a solid month of dev left too
+18:32:22     @d-_-b | hptran, yep
+18:32:52     @d-_-b | we can work more with matt/nitin on the presentation structure as well
+18:33:05     @d-_-b | getting feedback along the way
+18:33:08   blackcat | aren: d-_-b so our group will demo on March 12 or March 19 ?
+18:33:17     @d-_-b | blackcat, march 19
+18:33:39     @d-_-b | i'll clarify with bart to make sure, but that's what he told the leads
+18:34:49   blackcat | yeah, he didn't update the syllabus tho
+18:34:50     hptran | d-_-b: so, we end our dev at the end of week 8th right?
+18:35:25     @d-_-b | hptran, that's the plan. if we have demos every two weeks with matt and nitin, we've got this next one and one more
+18:35:48     hptran | okey
+18:37:15     @d-_-b | if there aren't more comments for now on the feedback, we can move to talking about the next two weeks
+18:37:20          * | d-_-b pulls up redmine
+18:37:20     hptran | jesusaurus: are you free after the meeting, small error in getting shortest path.
+18:37:53 jesusaurus | how small?
+18:38:04 jesusaurus | i have way too many things i need to be doing this evening
+18:38:44 jesusaurus | i can maybe stick around for about 20 min after
+18:39:06     @d-_-b | longuyen, #992, #993, and #991 need to be taken care of
+18:39:24   longuyen | d-_-b: let me check
+18:39:42     @d-_-b | jesusaurus, #1056 and #1061 might as well be closed
+18:40:05   longuyen | d-_-b: I see, will finalize them tonight
+18:40:17   longuyen | btw was 991 a rejected task which I just deleted today?
+18:40:49     @d-_-b | blackcat, jesusaurus the optional tickets that weren't scheduled yet should be able to be scheduled now
+18:41:01     @d-_-b | longuyen, it still shows as open for me
+18:42:04   longuyen | d-_-b: is me the assignee?
+18:43:04     @d-_-b | longuyen, it's a parent task to two of your tasks. complete the subtasks and the parent task should update.
+18:43:38     hptran | :|
+18:44:03     @d-_-b | aren, based on the plan for the next two weeks, want to adjust our tickets?
+18:44:33       aren | I guess. After search is hooked up to data I'm not sure what comes next. Make help look good?
+18:44:36       aren | key events?
+18:45:21     @d-_-b | aren, i don't think i've got the progress bar in as a ticket. was the zoom slider filed under the sidebar events work?
+18:45:32   blackcat | aren: I will handle SQL query after search
+18:45:35       aren | yeah
+18:45:55       aren | blackcat: okay
+18:46:07     @d-_-b | blackcat, aren, can you make sure the due dates on those tickets match up?
+18:46:11   blackcat | hptran: in order to to search do we need to have group table
+18:46:24   blackcat | for subgraph?
+18:46:31   blackcat | longuyen: ^
+18:47:04     @d-_-b | blackcat, the search was just checking to see if a given username was in the table, correct?
+18:47:11     hptran | blackcat: not really, we will discuss that later
+18:47:17     @d-_-b | it wouldn't know anything about subgraphs
+18:47:32   longuyen | d-_-b: got it, thanks
+18:47:49   longuyen | d-_-b: right, I filtered tasks by me being assignee, that's why I didn't see it
+18:47:51     @d-_-b | aren, maybe add a ticket for the initial zoom level after loading the graph? that's a task
+18:48:03   blackcat | d-_-b: it need to knwo which nodes that user connect to
+18:48:03       aren | will do
+18:48:24     @d-_-b | blackcat, wouldn't that be taken care of with jesusaurus' search?
+18:49:18     hptran | d-_-b: it should be, since the BSF can be used to find subgraph
+18:49:38   blackcat | d-_-b: yeah, I need to talk with hptran and jesusaurus to know which value I should query
+18:49:43 jesusaurus | blackcat: no, its not needed
+18:50:44     @d-_-b | blackcat, the value and query should focus on finding the username in the entire table, correct? nothing in there about groupings.
+18:51:25   blackcat | jesusaurus: wen we got the username from the search input --> query the user table to get user_id --> query the relationship table to get all the nodes that user_id connect to
+18:51:34 jesusaurus | blackcat: its the other way around, the search can find everyone in the same group if you let it run
+18:51:40     @d-_-b | the next demo, according to matt/nitin, will happen feb 17. do everyone's tickets align there?
+18:51:49       aren | they will
+18:52:09     hptran | yes
+18:52:40     @d-_-b | longuyen, i see #1173 due feb 20
+18:53:46   longuyen | right
+18:54:15   longuyen | it's about how I scale the graph in general and other elements like link and node sizes in specific to make the graph stay within the canvas
+18:54:20   longuyen | on first page load
+18:54:43   longuyen | as well, show subgraphs
+18:54:54     @d-_-b | longuyen, that's something aren and i were going to do with the zoom level, to keep everything on the screen
+18:55:03   longuyen | on dynamic random data means you can input how many nodes you want to view
+18:55:14   longuyen | basically more node will make me reduce the size of the graph
+18:55:23   longuyen | hm..
+18:56:05   longuyen | d-_-b: but node and link sizes are defined from render js files upon drawing
+18:56:05     @d-_-b | if aren and i just check the graph after it's loaded and adjust the zoom based on the node position, that should take care of it
+18:56:22   longuyen | d-_-b: I see what you mean. here's how it goes..
+18:56:30   longuyen | you and aren will work on the zoom level
+18:56:32     @d-_-b | right, but the zoom doesn't affect the node/link internals
+18:56:38   longuyen | while me making the node and link size
+18:56:39   longuyen | right
+18:57:05   longuyen | for example if you want to view 3 nodes I'll make 3 extremely big circles
+18:57:13   longuyen | much different from 100 nodes
+18:57:14     @d-_-b | size meaning strength and degree modelling?
+18:57:39     @d-_-b | longuyen, you mean subgraphs on the big 3 nodes?
+18:57:54   longuyen | yep. 3 nodes: maximum link width can be 10px. but 100 nodes: maximum link width should only be 3-5px or so
+18:58:23   longuyen | d-_-b: subgraphs mean using js gravity point to coordinate the positions of each group
+18:58:52   longuyen | let say if entire graphs have many groups, I'll place those groups really tightly close to one another
+18:59:02     @d-_-b | longuyen, i think that can still be taken care of with aren and i on zoom. we'd just change the level so the screen is reasonably filled with nodes/links.
+18:59:07     @d-_-b | aren, ?
+18:59:12   longuyen | and smaller graph -> subgraphs look sparser
+18:59:17     hptran | jesusaurus: this problem gone, great :)
+18:59:20       aren | yes, we will do that
+18:59:50 jesusaurus | (off by 1)--
+19:00:04   longuyen | d-_-b aren if so the entire new task I created should be taken care of from layout?
+19:00:05     @d-_-b | longuyen, so your task is adjusting the gravity points based on the subgraph size?
+19:00:16     @d-_-b | (off by 1)--
+19:00:22     hptran | :)
+19:00:30   longuyen | adjusting the gravity points sound like zooming in/out
+19:00:32   longuyen | , too
+19:00:44   longuyen | yes?
+19:00:47     @d-_-b | not quite
+19:01:23     @d-_-b | there is an extra element behind the svg, "rect", that is manipulated for the zoom effect
+19:02:40     @d-_-b | longuyen, knowing where to put the multiple gravity points so the subgraphs don't crowd each other, and how many points to put, isn't on aren and i
+19:03:05     @d-_-b | once they're set though, the zoom aren did should take care of it
+19:03:23     @d-_-b | and we don't have to worry about adjustments, since the graph is static once it settles
+19:03:27     @d-_-b | longuyen, make sense?
+19:04:18     @d-_-b | does everyone agree with the outline for the next two weeks on this meeting's agenda?
+19:04:50     @d-_-b | remember that ticket updates mean project plan updates
+19:06:30     hptran | jesusaurus: your codes pass all of my test :)
+19:06:47     @d-_-b | hptran, would those be automated?
+19:06:53 jesusaurus | hptran: we need to sit down and put those tests in buildbot
+19:06:54     hptran | d-_-b: I will update the project plan
+19:06:55 jesusaurus | ;)
+19:07:04     @d-_-b | that++
+19:07:22     @d-_-b | karmabot, that
+19:07:22     hptran | jesusaurus: agree, just do a few basic test
+19:07:24   karmabot | that(254): the damnedest thing, much more complicated than this, fixing the system from the inside out, an unbroken continuum, (getting gray hairs)
+19:08:10 jesusaurus | karmabot: that =~ s/(//
+19:08:10   karmabot | Huh?
+19:08:13     @d-_-b | i think we're in good shape for a successful deliverable by week 8. what does everyone else feel like?
+19:08:15   longuyen | d-_-b: ok
+19:08:24 jesusaurus | yeah
+19:08:24       aren | feeling good
+19:08:44     hptran | jesusaurus: let me know when you are free, properly after you finished your ML project :)
+19:08:45     @d-_-b | jesusaurus, 'forget that <thing> is <thing>'
+19:09:28 jesusaurus | d-_-b: there is a way to use the =~ operator to change the entries
+19:09:51     @d-_-b | i thought that was only plusplus
+19:09:53 jesusaurus | unless im thinking of a different bot
+19:09:56 jesusaurus | oh
+19:10:33     hptran | jesusaurus: I think we
+19:11:01     hptran | finish testing your php this week, then next week we go with real data
+19:11:12 jesusaurus | hptran: okay
+19:11:45          * | blackcat will go for phpUnit test
+19:12:12     @d-_-b | blackcat, the other tasks that were optional, are those being scheduled or waited on until after the next demo?
+19:12:16   blackcat | I will start sql query search when search.php are ready to use
+19:13:03     @d-_-b | aren, i'll get my stuff on the progress bar and better help in tickets tonight, so the overlay loads first
+19:13:08   blackcat | I think after next demo would be fine
+19:13:38   blackcat | they are small and unnessary task in our sponsors' view point
+19:14:20     @d-_-b | blackcat, true, so allocating time to phpunit and helping others is good
+19:14:50       aren | d-_-b: good stuff. I'll work toward search completion and then start working on key events
+19:15:09     @d-_-b | cool
+19:15:23     @d-_-b | aren, key events being later/into the next iteration
+19:15:34          * | d-_-b is thinking of the help outline
+19:15:38   blackcat | aren:  yeah, search completion can be done with our current users table
+19:15:42     hptran | jesusaurus: tried 200 nodes, 4 seconds, great speed!
+19:15:50 jesusaurus | thanks!
+19:16:13     @d-_-b | jesusaurus++
+19:16:14 jesusaurus | i was able to reduce my db queries from Cnlogn to 2Cn
+19:16:33     @d-_-b | yay big o
+19:17:04 jesusaurus | its actually a little bit longer on very small depths, silly contants
+19:17:23 jesusaurus | but it scales much better :)
+19:17:34     hptran | jesusaurus: did you check for the case that the subgraph have smaller number of node than depth value?
+19:17:43 jesusaurus | yes
+19:18:04     hptran | great
+19:18:07 jesusaurus | it keeps track of nodes that have already been visited
+19:19:31     hptran | 400 nodes, 10 seconds, hope d3 can do it too !
+19:19:48     @d-_-b | it sounds like everyone is feeling good and knows what needs to happen in the next few weeks. should we officially end a little early?
+19:20:09     hptran | okay
+19:20:13     @d-_-b | everyone saw the zoom slider and progress bar stuff?
+19:20:37     hptran | could not load it in IE
+19:20:39   blackcat | yes
+19:20:39 jesusaurus | yeah
+19:20:56     @d-_-b | hptran, for shame, ie?
+19:21:14 jesusaurus | d-_-b: fully tested...
+19:21:17     hptran | internet explorer in windows
+19:21:24 jesusaurus | so, can we officially call ie 'unsupported'?
+19:21:34     hptran | could you give the url again, i tried one more time
+19:21:41     hptran | tried->try
+19:22:05     @d-_-b | jesusaurus, hptran, i remember matt and nitin saying to pick 3 browsers, and we picked safari, chrome, and firefox
+19:22:18 jesusaurus | http://capstone06.cs.pdx.edu/data/search.php  ?
+19:22:22 jesusaurus | that link?
+19:22:42     hptran | d-_-b: sorry, forgot
+19:22:47     @d-_-b | no worries
+19:23:04          * | d-_-b could include requirements in the help overlay...
+19:23:05       aren | my zoom method is supported by all browsers :)
+19:23:25     @d-_-b | we need more windows testing too
+19:23:41     @d-_-b | aren, that's what pure js gets you :)
+19:23:53       aren | mmhmm
+19:24:32          * | jesusaurus tries it on elinks
+19:24:33 jesusaurus | :3
+19:24:58     @d-_-b | jesusaurus, psh, real men use wget
+19:25:11 jesusaurus | elinks has js support
+19:25:24 jesusaurus | no graphics support, but js support
+19:25:39 jesusaurus | w3m, now *theres* a manly web browser
+19:25:49     @d-_-b | that's interesting
+19:26:03       aren | :p
+19:26:12     @d-_-b | another reason i love that we give the platform requirements on this project
+19:26:16     @d-_-b | if no one has anything else of concern to mention, i'll stick a fork in the meeting and call it done.
+19:26:33       aren | cool, later
+19:26:36 jesusaurus | kk
+19:26:40     hptran | okay,bye all
