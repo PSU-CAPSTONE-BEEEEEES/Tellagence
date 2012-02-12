@@ -21,14 +21,14 @@ function GraphEvent(graphRender) {
 		d3.select(this).transition()
 		.attr("r", r / 1.5);
 	};
-	*/
+	*/ 
 	
-        var progress = function(alpha) {
+	var progress = function(alpha) {
 	    var range = 0.1 - 0.005009;
 	    var percent = ((0.1 - alpha) / range) * 100;
 	    return Math.floor(percent);
 	};
-
+	
 	// circles stay stacked unless they change every tick
 	this.graphRender.force.on("tick", function() {
 		var alpha = graphRender.force.alpha();
@@ -40,7 +40,27 @@ function GraphEvent(graphRender) {
 			
 		// start drawing lines when the graph is about to stay stable
 		if (alpha<0.01 && graphRender.ready==false) {
+			// draw lines and circles
 			graphRender.drawLines();
+			graphRender.drawCircles();
+			
+			// on click redraw the graph with the selected node being the center node of the new graph
+			graphRender.circle.on('click', function(d, i) {
+				// retrieve depth
+				var depth = 30;
+				// erase and empty current render
+				graphRender.empty();
+				// call to server to obtain new graph info
+				d3.json('data/search.php?id='+d.id+'&depth='+depth, function(data) {
+					// data for new graph
+					graphRender.data(data.nodes, data.links);
+					graphRender.setCenterNode(d.id);
+					// redraw with new graph and new graph events
+					graphRender.draw();
+				});
+			});
+			
+			// mark that graph is completely ready
 			graphRender.ready = true;
 		}
 		

@@ -1,6 +1,8 @@
-function GraphRender(graph) {
-	// graph for this graph render
-	this.graph = graph;
+function GraphRender(nodes, links) {
+	// nodes and links for this graph render
+	this.nodes = nodes;
+	this.links = links;
+	this.centerNode = 100;
 	// defined width & height of svg
 	this.w = $(window).width();
 	this.h = $(window).height();
@@ -8,78 +10,69 @@ function GraphRender(graph) {
 	// temp
 	this.ready = false;
 	
-
-
-
-
-
-    function redraw(a) {
-	d3.select("#inner").attr("transform",
-				 "translate(" + d3.event.translate + ")" +
-				 " scale(" + d3.event.scale + ")");
-    }
-
 	// init svg area to draw
 	this.svg = d3.select("#d3")
 		.append("svg:svg")
 		.attr("width", this.w)
 		.attr("height", this.h)
 	        .append('g')
-	          .call(d3.behavior.zoom().on("zoom", redraw))
-	        .append('g')
-	          .attr("id", "inner")
-              	  .attr("transform", "translate(0, 0) scale(1)");
+				.call(d3.behavior.zoom().on("zoom", redraw))
+			.append('g')
+				.attr("id", "inner")
+				.attr("transform", "translate(0, 0) scale(1)");
 
-    this.svg.append('rect')
-	.attr('width', this.w)
-	.attr('height', this.h)
-	.style("fill", "white");
-
+	// rect to move graph
+	this.svg.append('rect')
+		.attr('width', this.w)
+		.attr('height', this.h)
+		.style("fill", "white");
+				
 	function redraw(a) {
 		d3.select("#inner").attr("transform",
-			   "translate(" + d3.event.translate + ")"
-			   + " scale(" + d3.event.scale + ")");
-	}
-	
-	this.drawCircles = function() {
+				 "translate(" + d3.event.translate + ")" +
+				 " scale(" + d3.event.scale + ")");
+    }
+
+    this.drawCircles = function() {
 		// draw circles
+		var center = this.centerNode;
 		this.circle.enter().append("circle")
-			.attr("r", function(d) { return 5+'px'; })
+			.attr("r", function(d) { return 2+'px'; })
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
-			.attr("class", function(d) { return 'group: no group'; });
-		this.circle.append("title")
-			.text(function(d) { return d.id; });
+			.attr("title", function(d) {return 'UserId='+d.id;})
+			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
+			.append("svg:title").text(function(d) { return 'UserId='+d.id; });
 	}
 	
 	this.drawLines = function() {
 		this.line.enter().append("line")
 			.style("stroke-width", function(d) { return (d.influence/1000)+'px'; })
-			.style("opacity", function(d) {
-				if (d.shortestpath<0.0015) return .3;
-				else return 0;
-			})
+			.style("opacity", .3)
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; });
+		/*
 		this.line.append("title")
 			.text(function(d) { return 'i:notjhing for now' + ' ' + 'd:'+d.shortestpath; });
+		*/
 	}
 
 	this.draw = function() {
 		// init force graph
+		this.ready = false;
 		this.force = d3.layout.force()
-			.nodes(this.graph.nodes)
-			.links(this.graph.links);
+			.nodes(this.nodes)
+			.links(this.links);
 			
 		// init circles as nodes
 		this.circle = this.svg.selectAll("circle")
-			.data(this.graph.nodes);
+			.data(this.nodes);
 			
 		// init lines as links
 		this.line = this.svg.selectAll("line")
-			.data(this.graph.links);
+			.data(this.links);
 			
 		// define force graph nodes distances
 		this.force
@@ -88,24 +81,40 @@ function GraphRender(graph) {
 			.size([this.w, this.h])
 			.start();
 			
-		// draw circles first...
-		this.drawCircles();
-
 		// handle events for graph (only for graph)
-	        return new GraphEvent(this);
+		return new GraphEvent(this);
 	};
 	
-	this.erase = function() {
+	this.data = function(nodes, links) {
+		this.nodes = nodes;
+		this.links = links;
+	}
+	
+	this.setCenterNode = function(id) {
+		this.centerNode = id;
+	}
+	
+	this.hide = function() {
 		this.circle.remove();
 		this.line.remove();
 	};
+	this.show = function() {
+		this.drawCircles();
+		this.drawLines();
+	}
 	
-	this.changeData = function(username, depth) {
-		d3.json('data/search.php?user='+username+'&depth='+depth, function(data) {
-			// empty current graph
-			graph.empty();
-			// apply new data for current graph
-			graph.data(data.nodes, data.links);
-		});
+	this.empty = function() {
+		// empty nodes and links
+		this.nodes = [];
+		this.links = [];
+		// empty the force graph
+		this.force = d3.layout.force()
+			.nodes([])
+			.links([]);
+		// empty actual circles and links
+		this.circle = this.svg.selectAll("circle").data([]);
+		this.circle.exit().remove();
+		this.line = this.svg.selectAll("line").data([]);
+		this.line.exit().remove();
 	};
 }
