@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 //error_reporting(0);
 
 //Search for x number of nodes closest to some center node
@@ -75,8 +76,6 @@ foreach ($json['nodes'] as $node) {
 }
 
 //print out the json
-//echo(sizeof($json['links']));
-//echo(" ");
 echo(json_encode($json));
 
 //close the database connection
@@ -88,9 +87,12 @@ pg_close($dbconn);
 function findUser($who) {
     global $dbconn;
 
-    $result = pg_Exec($dbconn, "SELECT user_id FROM users WHERE username = $who;");
+    $result = pg_Exec($dbconn, "SELECT user_id FROM users WHERE username = '$who';");
+    $num = pg_numrows($result);
+    if ($num == 0) {
+	die("No user '$who' found.");
+    }
     $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
-
     return (string)$row[0];
 }
 
