@@ -98,7 +98,13 @@ function getPath($who) {
     global $dbconn, $path;
 
     $result = pg_Exec($dbconn, "SELECT shortestpath FROM test2 WHERE user_id = $who;");
-    $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
+    if (pg_numrows($result) == 0) {
+	$path = NULL;
+	return;
+    }
+
+    //if there are multiple entries, just use the first
+    $row = pg_fetch_array($result, 0);
 
     //turn the string '1:2:3' into the array '1','2','3'
     $path = explode(":",$row[0]);
