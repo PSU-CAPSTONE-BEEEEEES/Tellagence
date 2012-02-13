@@ -56,10 +56,7 @@ $(document).ready(function() {
     centerPopup();
     loadPopup();
     
-    $("#progress").progressBar(0, {boxImage:"static/bar.gif",
-				   barImage:{0:"static/bar_fill.gif",
-					     30:"static/bar_fill.gif",
-					     70:"static/bar_fill.gif"}});
+    $("#progress").progressBar(0);
 
     $(window).resize(function() {
         centerPopup();
