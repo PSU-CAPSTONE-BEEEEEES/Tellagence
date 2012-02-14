@@ -40,9 +40,9 @@ function GraphRender(nodes, links) {
 			.attr("r", function(d) { return 2+'px'; })
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
-			.attr("title", function(d) {return 'UserId='+d.id;})
+			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.user;})
 			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
-			.append("svg:title").text(function(d) { return 'UserId='+d.id; });
+			.append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.user; });
 	}
 	
 	this.drawLines = function() {
