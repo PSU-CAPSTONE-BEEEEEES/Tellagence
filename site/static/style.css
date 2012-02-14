@@ -107,6 +107,16 @@ svg {
     border: 2px solid #cecece;
     z-index: 4;			/* still higher index for another layer*/
     padding: 12px;
+    text-align: center;
+}
+
+#help ul {
+    padding: 0px;
+}
+
+#help li {
+    list-style: none;
+    line-height: 30px;
 }
 
 /* zoom slider
