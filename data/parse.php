@@ -78,8 +78,8 @@ function main(){
     $unique_total = array_merge(array_unique(array_merge($username, $ary)));
 
     // flood DB
-    /*
-    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
+
+    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=real user=postgres password=bees");
     if (!$dbcon) {
          die("Error in connection: " . pg_last_error());
     }
@@ -98,7 +98,7 @@ function main(){
     echo "END: Users successfully inserted!";
     // close connection
     pg_close($dbcon);
-    */
+
 
 
     //print_r($unique_total);
@@ -122,7 +122,6 @@ function main(){
                 'user_id2' => $index + 1,
                 );
             }
-
         }
     }
 
@@ -173,7 +172,7 @@ function main(){
     $ct = array_count_values($target);
 
     // flood database 3
-
+    /*
     $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
     if (!$dbcon) {
          die("Error in connection: " . pg_last_error());
@@ -227,8 +226,34 @@ function main(){
     // close connection
     pg_close($dbcon);
 
+    */
 
-    die;
+    // down & flood realusers table
+    $dbcon = pg_connect("host=capstone06.cs.pdx.edu dbname=vmworld user=postgres password=bees");
+    if (!$dbcon) {
+         die("Error in connection: " . pg_last_error());
+    }
+    // execute query
+    $sql = "SELECT * FROM users";
+    $result = pg_query($dbcon, $sql);
+    while($row = mysql_fetch_array($sql))
+    {
+        $inspector[] = $row['user_id'];
+    }
+    if (!$result) {
+     die("Error in SQL query: " . pg_last_error());
+    }
+    echo "Data successfully downloaded!";
+
+    // free memory
+    pg_free_result($result);
+
+    // close connection
+    pg_close($dbcon);
+
+    print_r($inspector);die;
+
+
     /*
     // swap order
     foreach($last as &$item){
