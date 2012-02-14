@@ -35,6 +35,9 @@ line {
     stroke-width: 1px;
     opacity: .3;
 }
+circle{
+	fill:green;
+}
 circle.center {
 	fill:blue;
 }
