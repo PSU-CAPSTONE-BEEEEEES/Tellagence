@@ -161,7 +161,10 @@ function addLinks($here) {
     getPath($here['id']);
 
     //our index in the nodes array
-    $source = array_search($here, $json['nodes']);
+    //here is the target, not the source
+    //because we want the source to have a lower user_id
+    //but the higher user_id has the relavent shortestpath information
+    $target = array_search($here, $json['nodes']);
 
     //get the influences from the db
     $result1 = pg_Exec($dbconn, "SELECT user_id2, inf_1to2, inf_2to1 FROM relationship WHERE user_id1 = " . $here['id'] . ";");
@@ -171,7 +174,7 @@ function addLinks($here) {
     $num2 = pg_numrows($result2);
 
     //create links between us and all the other nodes
-    foreach ($json['nodes'] as $target => $there) {
+    foreach ($json['nodes'] as $source => $there) {
 
 	//we only want to add the link once, lets use the node with more paths in the db
 	if ($here['id'] <= $there['id']) {
