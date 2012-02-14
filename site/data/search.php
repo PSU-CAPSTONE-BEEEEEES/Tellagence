@@ -76,7 +76,7 @@ foreach ($json['nodes'] as $node) {
 }
 
 //print out the json
-echo(json_encode($json, JSON_PRETTY_PRINT));
+echo(json_encode($json));
 
 //close the database connection
 pg_close($dbconn);
