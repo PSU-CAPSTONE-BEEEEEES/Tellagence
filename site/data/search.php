@@ -1,18 +1,31 @@
 <?php
-error_reporting(0);
+set_time_limit(0);
+//error_reporting(0);
 
 //Search for x number of nodes closest to some center node
 
-//the center of our graph
-$user = 1;
-if (isset($_GET["id"])) {
-    $id = $_GET["id"];
-
-    if ( (int)$id == $id && $id >= 0 ) {
-	$user = (int)$id;
-    }
+//connect to the database
+$dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=real user=postgres password=bees");
+if (!$dbconn) {
+    die("Error connecting to database.");
 }
-$user = (string)$user;
+
+//the center of our graph
+if (isset($_GET["user"])) {
+    $username = $_GET["user"];
+
+    $user = findUser($username);
+} else {
+    $user = 1;
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+
+        if ( (int)$id == $id && $id >= 0 ) {
+            $user = (int)$id;
+        }
+    }
+    $user = (string)$user;
+}
 
 //how many nodes to find around our center
 $total = 100;
@@ -38,12 +51,6 @@ $path = array();
 $json['nodes'] = array();
 $json['links'] = array();
 
-//connect to the database
-$dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=fake user=postgres password=bees");
-if (!$dbconn) {
-    die("Error connecting to database.");
-}
-
 //add the central node
 addNode($user);
 findNodes($user);
@@ -52,6 +59,10 @@ findNodes($user);
 while (count($visited) < $total && count($toVisit) > 0) {
     //get the first node to visit
     $next = array_shift($toVisit);
+
+    if(in_array($next, $visited)) {
+	continue;
+    }
 
     addNode($next);
     findNodes($next);
@@ -65,8 +76,7 @@ foreach ($json['nodes'] as $node) {
 }
 
 //print out the json
-//print_r($json); die;
-echo(json_encode($json));
+echo(json_encode($json, JSON_PRETTY_PRINT));
 
 //close the database connection
 pg_close($dbconn);
@@ -74,11 +84,29 @@ pg_close($dbconn);
 
 //here be dragons^Wfunctions
 
+function findUser($who) {
+    global $dbconn;
+
+    $result = pg_Exec($dbconn, "SELECT user_id FROM users WHERE username = '$who';");
+    $num = pg_numrows($result);
+    if ($num == 0) {
+	die("No user '$who' found.");
+    }
+    $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
+    return (string)$row[0];
+}
+
 function getPath($who) {
     global $dbconn, $path;
 
-    $result = pg_Exec($dbconn, "SELECT shortestpath FROM test2 WHERE user_id = $who;");
-    $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
+    $result = pg_Exec($dbconn, "SELECT shortestpath FROM shortestpaths WHERE user_id = $who;");
+    if (pg_numrows($result) == 0) {
+	$path = NULL;
+	return;
+    }
+
+    //if there are multiple entries, just use the first
+    $row = pg_fetch_array($result, 0);
 
     //turn the string '1:2:3' into the array '1','2','3'
     $path = explode(":",$row[0]);
@@ -88,12 +116,13 @@ function addNode($who) {
     global $dbconn, $toVisit, $visited, $json;
 
     //find this nodes name
-    $result = pg_Exec($dbconn, "SELECT username FROM users WHERE user_id = $who;");
+    $result = pg_Exec($dbconn, "SELECT username, sum_degree FROM users WHERE user_id = $who;");
     $num = pg_numrows($result);
 
     for ($i = 0; $i < $num; $i++) {
 	$row = pg_fetch_array($result, $i);
-	//$node['name'] = $row[0];
+	$node['name'] = $row[0];
+	$node['sum_degree'] = (int)$row[1];
 	$node['id'] = $who;
 	//add this node to the json
 	$json['nodes'][] = $node;
@@ -133,7 +162,10 @@ function addLinks($here) {
     getPath($here['id']);
 
     //our index in the nodes array
-    $source = array_search($here, $json['nodes']);
+    //here is the target, not the source
+    //because we want the source to have a lower user_id
+    //but the higher user_id has the relavent shortestpath information
+    $target = array_search($here, $json['nodes']);
 
     //get the influences from the db
     $result1 = pg_Exec($dbconn, "SELECT user_id2, inf_1to2, inf_2to1 FROM relationship WHERE user_id1 = " . $here['id'] . ";");
@@ -143,7 +175,7 @@ function addLinks($here) {
     $num2 = pg_numrows($result2);
 
     //create links between us and all the other nodes
-    foreach ($json['nodes'] as $target => $there) {
+    foreach ($json['nodes'] as $source => $there) {
 
 	//we only want to add the link once, lets use the node with more paths in the db
 	if ($here['id'] <= $there['id']) {
@@ -157,8 +189,9 @@ function addLinks($here) {
 	    if ($row[0] == $there['id']) {
 		$link['source'] =  $source;
 		$link['target'] =  $target;
-		$link['influence'] = (int)$row[1] + (int)$row[2];
-		$link['shortestpath'] = (float)$path[$there[id] - 1];
+		$link['inf_1to2'] = (int)$row[1];
+		$link['inf_2to1'] = (int)$row[2];
+		$link['shortestpath'] = (float)$path[$there['id'] - 1];
 		$json['links'][] = $link;
 
 		//move on to the next node in the nodes array
@@ -172,8 +205,9 @@ function addLinks($here) {
 	    if ($row[0] == $there['id']) {
 		$link['source'] =  $source;
 		$link['target'] =  $target;
-		$link['influence'] = (int)$row[1] + (int)$row[2];
-		$link['shortestpath'] = (float)$path[$there[id] - 1];
+		$link['inf_1to2'] = (int)$row[1];
+		$link['inf_2to1'] = (int)$row[2];
+		$link['shortestpath'] = (float)$path[$there['id'] - 1];
 		$json['links'][] = $link;
 
 		//move on to the next node in the nodes array
@@ -185,7 +219,7 @@ function addLinks($here) {
 	$link['source'] =  $source;
 	$link['target'] =  $target;
 	$link['influence'] = 0;
-	$link['shortestpath'] = (float)$path[$there[id] - 1];
+	$link['shortestpath'] = (float)$path[$there['id'] - 1];
 	$json['links'][] = $link;
     }
 }
