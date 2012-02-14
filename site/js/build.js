@@ -1,9 +1,6 @@
-d3.json("data/search.php?id=100&depth=100", function(data) {
-	// init a new graph upload new page loading
-	var g = new Graph(data.nodes, data.links);
-	
+d3.json("data/search.php?id=100&depth=30", function(data) {
 	// render for this graph
-	var gr = new GraphRender(g);
+	var gr = new GraphRender(data.nodes, data.links);
 	// draw this graph (w/ graph events ready)
 	gr.draw();
 	
