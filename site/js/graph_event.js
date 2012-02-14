@@ -11,11 +11,14 @@ function GraphEvent(graphRender) {
 	// circles stay stacked unless they change every tick
 	this.graphRender.force.on("tick", function() {
 		var alpha = graphRender.force.alpha();
+                $("#spingress").hide();
 		$("#progress").progressBar(progress(alpha));
 			
 		// start drawing lines when the graph is about to stay stable
 		if (alpha<0.01 && graphRender.ready==false) {
 			// draw lines and circles
+                        $("#step2").hide();
+                        $("#step3").show();
 			graphRender.drawLines();
 			graphRender.drawCircles();
 			
