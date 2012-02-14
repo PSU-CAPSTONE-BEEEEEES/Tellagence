@@ -122,7 +122,7 @@ function addNode($who) {
     for ($i = 0; $i < $num; $i++) {
 	$row = pg_fetch_array($result, $i);
 	$node['name'] = $row[0];
-	$node['sum_degree'] = (int)$row[1];
+	$node['sum_degree'] = $row[1];
 	$node['id'] = $who;
 	//add this node to the json
 	$json['nodes'][] = $node;
@@ -218,7 +218,8 @@ function addLinks($here) {
 	//i guess there's no direct link
 	$link['source'] =  $source;
 	$link['target'] =  $target;
-	$link['influence'] = 0;
+	$link['inf_1to2'] = 0;
+	$link['inf_2to1'] = 0;
 	$link['shortestpath'] = (float)$path[$there['id'] - 1];
 	$json['links'][] = $link;
     }
