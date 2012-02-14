@@ -1,0 +1,31 @@
+{
+    "type": "map",
+    "required" : true,
+    "mapping" : {
+	"nodes" : {
+	    "type" : "seq",
+	    "required" : true,
+	    "sequence" : [ {
+		"type" : "map",
+		"mapping" : {
+		    "id" : { "type" : "str" , "required" : true}
+		}
+	    } ]
+	},
+	"links" : {
+	    "type" : "seq",
+	    "required" : true,
+	    "sequence" : [ {
+		"type" : "map",
+		"required" : true,
+		"mapping" : {
+		    "source" : { "type" : "int" , "required" : true },
+		    "target" : { "type" : "int" , "required" : true },
+		    "influence" : { "type" : "int" , "required" : true },
+		    "shortestpath" : { "type" : "int" , "required" : true }
+		}
+	    } ]
+	}
+    }
+}
+
