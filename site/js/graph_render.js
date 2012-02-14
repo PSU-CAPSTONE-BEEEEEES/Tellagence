@@ -48,14 +48,14 @@ function GraphRender(nodes, links) {
 	
 	this.drawLines = function() {
 		this.line.enter().append("line")
-			.style("stroke-width", function(d) { return (d.inf_2to1+d.inf_1to2)/10+'px'; })
+			.style("stroke-width", function(d) { return (d.inf_2to1+d.inf_1to2)/5+'px'; })
 			.style("opacity", .3)
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; });
 		this.line.append("title")
-			.text(function(d) { console.log(d.inf_2to1); return 'frequency='+(d.inf_2to1+d.inf_1to2); });
+			.text(function(d) { console.log(d.inf_1to2+d.inf_2to1); return 'frequency='+(d.inf_2to1+d.inf_1to2); });
 	}
 
 	this.draw = function() {
