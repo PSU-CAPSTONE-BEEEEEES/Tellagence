@@ -37,28 +37,42 @@ function GraphRender(nodes, links) {
 		// draw circles
 		var center = this.centerNode;
 		this.circle.enter().append("circle")
-			.attr("r", function(d) { return 2+'px'; })
+			.attr("r", function(d) { return d.sum_degree/10+'px'; })
+			.attr("opacity", .5)
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
-			.attr("title", function(d) {return 'UserId='+d.id;})
+			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
 			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
-			.append("svg:title").text(function(d) { return 'UserId='+d.id; });
+			.append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
 	}
 	
 	this.drawLines = function() {
+		/*
+		// remove those lines with sum inf == 0
+		var lines = this.links;
+		for (i=0; i<lines.length; i++)
+			if (lines[i].inf_1to2+lines[i].inf_2to1==0) {
+				lines.splice(i, 1);
+				i=0;
+			}
+		this.line = this.svg.selectAll("line")
+			.data(lines);
+		*/
+		
+		// as a result, only draw lines with sum inf > 0
 		this.line.enter().append("line")
-			.style("stroke-width", function(d) { return (d.influence/1000)+'px'; })
+			.style("stroke-width", function(d) {
+				return (d.inf_2to1+d.inf_1to2)/2+'px'; 
+			})
 			.style("opacity", .3)
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; });
-		/*
 		this.line.append("title")
-			.text(function(d) { return 'i:notjhing for now' + ' ' + 'd:'+d.shortestpath; });
-		*/
+			.text(function(d) { console.log(d.inf_1to2+d.inf_2to1); return 'frequency='+(d.inf_2to1+d.inf_1to2); });
 	}
-
+	
 	this.draw = function() {
 		// init force graph
 		this.ready = false;
@@ -76,7 +90,7 @@ function GraphRender(nodes, links) {
 			
 		// define force graph nodes distances
 		this.force
-			.linkDistance(function(d) { return d.shortestpath * 100000; })
+			.linkDistance(function(d) { return d.shortestpath * 100; })
 			.charge(-100)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
