@@ -5,7 +5,7 @@ set_time_limit(0);
 //Search for x number of nodes closest to some center node
 
 //connect to the database
-$dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=fake user=postgres password=bees");
+$dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=real user=postgres password=bees");
 if (!$dbconn) {
     die("Error connecting to database.");
 }
@@ -76,7 +76,7 @@ foreach ($json['nodes'] as $node) {
 }
 
 //print out the json
-echo(json_encode($json));
+echo(json_encode($json, JSON_PRETTY_PRINT));
 
 //close the database connection
 pg_close($dbconn);
@@ -99,7 +99,7 @@ function findUser($who) {
 function getPath($who) {
     global $dbconn, $path;
 
-    $result = pg_Exec($dbconn, "SELECT shortestpath FROM test2 WHERE user_id = $who;");
+    $result = pg_Exec($dbconn, "SELECT shortestpath FROM shortestpaths WHERE user_id = $who;");
     if (pg_numrows($result) == 0) {
 	$path = NULL;
 	return;
@@ -116,12 +116,13 @@ function addNode($who) {
     global $dbconn, $toVisit, $visited, $json;
 
     //find this nodes name
-    $result = pg_Exec($dbconn, "SELECT username FROM users WHERE user_id = $who;");
+    $result = pg_Exec($dbconn, "SELECT username, sum_degree FROM users WHERE user_id = $who;");
     $num = pg_numrows($result);
 
     for ($i = 0; $i < $num; $i++) {
 	$row = pg_fetch_array($result, $i);
-	//$node['name'] = $row[0];
+	$node['name'] = $row[0];
+	$node['sum_degree'] = (int)$row[1];
 	$node['id'] = $who;
 	//add this node to the json
 	$json['nodes'][] = $node;
@@ -188,7 +189,8 @@ function addLinks($here) {
 	    if ($row[0] == $there['id']) {
 		$link['source'] =  $source;
 		$link['target'] =  $target;
-		$link['influence'] = (int)$row[1] + (int)$row[2];
+		$link['inf_1to2'] = (int)$row[1];
+		$link['inf_2to1'] = (int)$row[2];
 		$link['shortestpath'] = (float)$path[$there['id'] - 1];
 		$json['links'][] = $link;
 
@@ -203,7 +205,8 @@ function addLinks($here) {
 	    if ($row[0] == $there['id']) {
 		$link['source'] =  $source;
 		$link['target'] =  $target;
-		$link['influence'] = (int)$row[1] + (int)$row[2];
+		$link['inf_1to2'] = (int)$row[1];
+		$link['inf_2to1'] = (int)$row[2];
 		$link['shortestpath'] = (float)$path[$there['id'] - 1];
 		$json['links'][] = $link;
 
