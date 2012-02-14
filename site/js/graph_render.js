@@ -64,7 +64,9 @@ function GraphRender(nodes, links) {
 			.style("stroke-width", function(d) {
 				return (d.inf_2to1+d.inf_1to2)/2+'px'; 
 			})
-			.style("opacity", .3)
+			.style("opacity", function(d){
+				return d.inf_2to1+d.inf_1to2==0?0:0.3;//set the opacity =0 for those links whose sum_inf =0 to hide the links
+			})
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
