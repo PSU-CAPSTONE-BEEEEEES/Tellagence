@@ -2,8 +2,7 @@
 <head>
 <title>Ajax auto-suggest / auto-complete | BrandSpankingNew</title>
 
-
-<script type="text/javascript" src="js/bsn.AutoSuggest_c_2.0.js"></script>
+<script type="text/javascript" src="js/bsn.AutoSuggest_2.1.3.js" charset="utf-8"></script>
 
 <link rel="stylesheet" href="css/autosuggest_inquisitor.css" type="text/css" media="screen" charset="utf-8" />
 
@@ -73,11 +72,21 @@
 	}
 
 	#content h2 {
+		border-top: 1px solid #ddd;
+		padding-top: 5px;
 		font-size: 1.2em;
 		margin-top: 3em;
 	}
+	
+	#content h3 {
+		font-size: 1.1em;
+		margin-top: 3em;
+	}
 
-
+	small
+	{
+		color: #999;
+	}
 
 
 
@@ -89,7 +98,16 @@
 		font-weight: bold;
 	}
 
-
+	
+	
+	
+	/*
+	the parent element of an autosuggest input should have a relative position
+	*/
+	.asholder
+	{
+		position: relative;
+	}
 
 
 
@@ -106,13 +124,79 @@
 <div id="wrapper">
 <div id="content">
 
-<p>view the <a href="http://www.brandspankingnew.net/archive/2006/08/ajax_auto-suggest_auto-complete.html">original article</a> at BrandSpankingNew</p>
+<p>view the <a href="http://www.brandspankingnew.net/archive/2007/02/ajax_auto_suggest_v2.html">original article</a> at BrandSpankingNew</p>
 	
-<h1>Autosuggest / Autocomplete with Ajax <small>v. 2.0</small></h1>
+<h1>Autosuggest / Autocomplete with Ajax <small>v. 2.1.3</small></h1>
 
-<p>Here's <strong>Version 2</strong> of my Ajax-powered auto-suggestion, or auto-complete textfield.</p>
+<p>Here's <strong>Version 2.1.3</strong> of my Ajax-powered auto-suggestion, or auto-complete textfield.</p>
 
-<h2>What's new?</h2>
+
+<h2 id="examples">Examples &amp; description</h2>
+
+
+<h3>Example (JSON)</h3>
+
+<div>
+<form method="get" action="" class="asholder">
+	<small style="float:right">Hidden ID Field: <input type="text" id="testid" value="" style="font-size: 10px; width: 20px;" disabled="disabled" /></small>
+	<label for="testinput">Person</label>
+	<input style="width: 200px" type="text" id="testinput" value="" /> 
+	<input type="submit" value="submit" />
+</form>
+</div>
+
+<h3>Description</h3>
+
+<p>The AutoSuggest class adds a pulldown menu of suggested values to a text field. The user can either click directly on a suggestion to enter it into the field, or navigate the list using the up and down arrow keys, selecting a value using the enter key. The values for the suggestion list are to provided as XML, <em>or as JSON</em> (by a PHP script, or similar).</p>
+
+<p>The results of the first request are cached on the client machine and are filtered as the user continues to type, to reduce the number of requests hitting the server.</p>
+
+<p>In the JSON example above a callback function is passed to the autoSuggest instance. It is called when the user selects an entry, and inserts the entry id into a hidden field (visible for this example).</p>
+
+<p>In the XML example below supplementary information is being displayed along with the names, in this case an english county.</p>
+
+<h3>Example (XML)</h3>
+
+<div>
+<form method="get" action="" class="asholder">
+	<label for="testinput_xml">Person</label>
+	<input type="text" id="testinput_xml" value="" style="width:300px" /> 
+	<br /><br /><input type="submit" value="submit" />
+</form>
+</div>
+
+
+<h2 id="releasenotes">Release Notes</h2>
+
+
+<h3>What's new in 2.1.3? <small>2007-07-19</small></h3>
+
+<ul>
+	<li>Identitfied and fixed bug that caused "No results!" to appear every other character with longer lists</li>
+	<li>Added the <em>required</em> <code>maxresults</code> option</li>
+</ul>
+
+
+<h3>What's new in 2.1.2? <small>2007-07-07</small></h3>
+
+<ul>
+	<li>Smaller file size (under 9k)</li>
+	<li>Uses <code>encodeURIComponent</code> instead of <code>encodeURI</code></li>
+	<li><code>bsn</code> namespace is set as default - uses <code>new bsn.Autosuggest(...</code> instead of <code>new Autosuggest(...</code>. This avoids conflicts with other libraries (e.g. prototype) out of the box.</li>
+	
+</ul>
+
+
+<h3>What's new in 2.1?</h3>
+
+<ul>
+	<li>Smaller file size (under 10k)</li>
+	<li><code>script</code> variable can now be a function</li>
+	<li>'shownoresults' bug fix</li>
+</ul>
+
+
+<h3>What's new in 2.0?</h3>
 
 <ul>
 	<li>Optional JSON Support</li>
@@ -128,62 +212,37 @@
 	<li>CSS provided in an external folder, for easy tinkering</li>
 </ul>
 
-<h2>Example (JSON)</h2>
 
-<div>
-<form method="get" action="">
-	<small style="float:right">Hidden ID Field: <input type="text" id="testid" value="" style="font-size: 10px; width: 20px;" disabled="disabled" /></small>
-	<label for="testinput">Person</label>
-	<input style="width: 200px" type="text" id="testinput" value="" /> 
-	<input type="submit" value="submit" />
-</form>
-</div>
-
-<h2>Description</h2>
-
-<p>The AutoSuggest class adds a pulldown menu of suggested values to a text field. The user can either click directly on a suggestion to enter it into the field, or navigate the list using the up and down arrow keys, selecting a value using the enter key. The values for the suggestion list are to provided as XML, <em>or as JSON</em> (by a PHP script, or similar).</p>
-
-<p>The results of the first request are cached on the client machine and are filtered as the user continues to type, to reduce the number of requests hitting the server.</p>
-
-<p>In the JSON example above a callback function is passed to the autoSuggest instance. It is called when the user selects an entry, and inserts the entry id into a hidden field (visible for this example).</p>
-
-<p>In the XML example below supplementary information is being displayed along with the names, in this case an english county.</p>
-
-<h2>Example (XML)</h2>
-
-<div>
-<form method="get" action="">
-	<label for="testinput_xml">Person</label>
-	<input type="text" id="testinput_xml" value="" style="width:300px" /> 
-	<br /><br /><input type="submit" value="submit" />
-</form>
-</div>
-
-
-
-<h2>Usage</h2>
+<h2 id="usage">Usage</h2>
 
 <p>The script requires a single javascript file to be included in the HEAD:</p>
 
 <ul>
-	<li><code>bsn.AutoSuggest_c_2.0.js</code></li>
+	<li><code>bsn.AutoSuggest_2.1.3_comp.js</code></li>
 </ul>
 
-<p><a href="http://www.brandspankingnew.net/download.php?file=autosuggest_v2.zip" title="download the zip archive"><strong>Get the files here!</strong></a></p>
+<p><a href="http://www.brandspankingnew.net/download.php?file=autosuggest_v2.1.3.zip" title="download the zip archive"><strong>Get the files here!</strong></a></p>
 
 <p>A normal text field is transformed into an AutoSuggest text field by adding the following javascript to your code, either in a <code>body.onload</code> function or just before the <code>&lt;/body&gt;</code> tag.</p>
 
 <pre><code>var options = {
 	script: "pathToScript.php?",
 	varname: "variableName",
-	json: true
+	json: true,
+	maxresults: 35
 };
-var as = new AutoSuggest('idOfTextfield', options);</code>
+var as = new bsn.AutoSuggest('idOfTextfield', options);</code>
 </pre>
 
 <p>The <code>options</code> object contains the (surprise, surprise) the options for the AutoSuggest instance. Note that the script variable includes the question mark (<code>?</code>) at the end. This is to allow other variables to be passed to the script via <code>GET</code>, for example <code>script: "http://www.yourserver.com/backend.php?list=countries&amp;"</code>. The <code>varname</code> option is the name of the variable that should contain the current value of the text field, and is simpy added on to the end of the script variable when the script is called, along with the current value of the text field, giving:</p>
 
 <p><code>http://www.yourserver.com/backend.php?list=countries&amp;variableName=currentValue</code></p>
+
+<p>The script variable can also be a function:</p>
+
+<pre><code>script: function (input) { return "test.php?input="+input+"&amp;testid="+document.getElementById('testid').value; }</code></pre>
+
+<p>This allows you to build the script URL dynamically, passing variable data from somewhere else in your document (eg. from another field, as in the example above). If the script returns <code>false</code>, no AJAX request will be made.
 
 <p>The XML output from the script should have the following structure:</p>
 
@@ -243,7 +302,7 @@ var as = new AutoSuggest('idOfTextfield', options);</code>
 </p>
 
 
-<h2>Options</h2>
+<h3>Options</h3>
 
 <p>The options object can contain the following properties:</p>
 
@@ -256,9 +315,13 @@ var as = new AutoSuggest('idOfTextfield', options);</code>
 	</tr>
 	<tr>
 		<td><strong>script</strong></td>
-		<td>String</td>
+		<td>String / Function</td>
 		<td>-</td>
-		<td><strong>REQUIRED!</strong> The path to the script that returns the results in XML format.</td>
+		<td>
+			<strong>REQUIRED!</strong>
+			<br />Either: A string containing the path to the script that returns the results in XML format. (eg, "myscript.php?")
+			<br />Or: A function that accepts on attribute, the autosuggest field input as a string, and returns the path to the result script.
+		</td>
 	</tr>
 	<tr>
 		<td><strong>varname</strong></td>
@@ -331,6 +394,12 @@ var as = new AutoSuggest('idOfTextfield', options);</code>
 		<td>false</td>
 		<td>Whether or not a results are returned in JSON format. If not, script assumes results are in XML.</td>
 	</tr>
+	<tr>
+		<td><strong>maxentries</strong></td>
+		<td>Integer</td>
+		<td>25</td>
+		<td>The maximum number of entries being returned by the script. (Should correspond to the LIMIT clause in the SQL query.)</td>
+	</tr>
 </table>
 
 <h3>Timeouts</h3>
@@ -349,19 +418,21 @@ var as = new AutoSuggest('idOfTextfield', options);</code>
 
 <script type="text/javascript">
 	var options = {
-		script:"test.php?json=true&",
+		script:"test.php?json=true&limit=6&",
 		varname:"input",
 		json:true,
+		shownoresults:false,
+		maxresults:6,
 		callback: function (obj) { document.getElementById('testid').value = obj.id; }
 	};
-	var as_json = new AutoSuggest('testinput', options);
+	var as_json = new bsn.AutoSuggest('testinput', options);
 	
 	
 	var options_xml = {
-		script:"test.php?",
+		script: function (input) { return "test.php?input="+input+"&testid="+document.getElementById('testid').value; },
 		varname:"input"
 	};
-	var as_xml = new AutoSuggest('testinput_xml', options_xml);
+	var as_xml = new bsn.AutoSuggest('testinput_xml', options_xml);
 </script>
 
 

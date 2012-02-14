@@ -221,9 +221,11 @@ the returned xml has the following structure
 	
 	$input = strtolower( $_GET['input'] );
 	$len = strlen($input);
+	$limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 0;
 	
 	
 	$aResults = array();
+	$count = 0;
 	
 	if ($len)
 	{
@@ -233,10 +235,13 @@ the returned xml has the following structure
 			// not necessary if the results are coming from mysql
 			//
 			if (strtolower(substr(utf8_decode($aUsers[$i]),0,$len)) == $input)
+			{
+				$count++;
 				$aResults[] = array( "id"=>($i+1) ,"value"=>htmlspecialchars($aUsers[$i]), "info"=>htmlspecialchars($aInfo[$i]) );
+			}
 			
-			//if (stripos(utf8_decode($aUsers[$i]), $input) !== false)
-			//	$aResults[] = array( "id"=>($i+1) ,"value"=>htmlspecialchars($aUsers[$i]), "info"=>htmlspecialchars($aInfo[$i]) );
+			if ($limit && $count==$limit)
+				break;
 		}
 	}
 	
