@@ -25,15 +25,17 @@ function GuiEvent(graphRender) {
     var initial;
     $("#slider").mousedown(function () {
         initial = this.value;
-    }).bind("mouseup mouseleave", function () {
-        //alert(this.value - initial);
-        var diff = this.value - initial;
-        if (diff < 0) {
-            return new ChromeWheel( 1 , Math.abs(diff) / 5);
-        }
-        else {
-            return new ChromeWheel( 0 , diff / 5);
-        }
+        $(this).bind("mouseup", function () {
+            //alert(this.value - initial);
+            var diff = this.value - initial;
+            if (diff < 0) {
+                return new ChromeWheel( 1 , Math.abs(diff) / 5);
+            }
+            else {
+                return new ChromeWheel( 0 , diff / 5);
+            }
+            var diff = 0;
+        })
     });
 
     function ChromeWheel ( shift_key , clicks) {
