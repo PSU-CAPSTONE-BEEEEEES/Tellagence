@@ -1,6 +1,7 @@
 <?php
 set_time_limit(0);
-//error_reporting(0);
+ini_set('display_errors','On');
+ini_set('error_log','/tmp/search.error.log');
 
 //Search for x number of nodes closest to some center node
 
