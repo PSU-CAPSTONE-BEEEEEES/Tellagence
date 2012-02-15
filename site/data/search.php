@@ -71,13 +71,16 @@ while (count($visited) < $total && count($toVisit) > 0) {
     $visited[] = $next;
 }
 
+echo('{"nodes":' . json_encode($json['nodes']));
+
+echo(',"links":[');
+
 //link the nodes
 foreach ($json['nodes'] as $node) {
     addLinks($node);
 }
 
-//print out the json
-echo(json_encode($json));
+echo(']}');
 
 //close the database connection
 pg_close($dbconn);
@@ -193,7 +196,7 @@ function addLinks($here) {
 		$link['inf_1to2'] = (int)$row[1];
 		$link['inf_2to1'] = (int)$row[2];
 		$link['shortestpath'] = (float)$path[$there['id'] - 1];
-		$json['links'][] = $link;
+		echo(json_encode($link) . ',');
 
 		//move on to the next node in the nodes array
 		continue 2;
@@ -209,7 +212,7 @@ function addLinks($here) {
 		$link['inf_1to2'] = (int)$row[1];
 		$link['inf_2to1'] = (int)$row[2];
 		$link['shortestpath'] = (float)$path[$there['id'] - 1];
-		$json['links'][] = $link;
+		echo(json_encode($link) . ',');
 
 		//move on to the next node in the nodes array
 		continue 2;
@@ -222,7 +225,7 @@ function addLinks($here) {
 	$link['inf_1to2'] = 0;
 	$link['inf_2to1'] = 0;
 	$link['shortestpath'] = (float)$path[$there['id'] - 1];
-	$json['links'][] = $link;
+	echo(json_encode($link) . ',');
     }
 }
 
