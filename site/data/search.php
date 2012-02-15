@@ -76,7 +76,10 @@ echo('{"nodes":' . json_encode($json['nodes']));
 echo(',"links":[');
 
 //link the nodes
-foreach ($json['nodes'] as $node) {
+foreach ($json['nodes'] as $x => $node) {
+    if ($x > 0) {
+	echo(',');
+    }
     addLinks($node);
 }
 
@@ -187,6 +190,10 @@ function addLinks($here) {
 	    continue;
 	}
 
+	if ($source > 0) {
+	    echo(',');
+	}
+
 	//first check if we are user_id1
 	for ($i = 0; $i < $num1; $i++) {
 	    $row = pg_fetch_array($result1, $i);
@@ -196,7 +203,7 @@ function addLinks($here) {
 		$link['inf_1to2'] = (int)$row[1];
 		$link['inf_2to1'] = (int)$row[2];
 		$link['shortestpath'] = (float)$path[$there['id'] - 1];
-		echo(json_encode($link) . ',');
+		echo(json_encode($link));
 
 		//move on to the next node in the nodes array
 		continue 2;
@@ -212,7 +219,7 @@ function addLinks($here) {
 		$link['inf_1to2'] = (int)$row[1];
 		$link['inf_2to1'] = (int)$row[2];
 		$link['shortestpath'] = (float)$path[$there['id'] - 1];
-		echo(json_encode($link) . ',');
+		echo(json_encode($link));
 
 		//move on to the next node in the nodes array
 		continue 2;
@@ -225,7 +232,7 @@ function addLinks($here) {
 	$link['inf_1to2'] = 0;
 	$link['inf_2to1'] = 0;
 	$link['shortestpath'] = (float)$path[$there['id'] - 1];
-	echo(json_encode($link) . ',');
+	echo(json_encode($link));
     }
 }
 

@@ -19,7 +19,10 @@ for ($i = 1; $i < $num; $i++) {
 	die("Bad query at $i");
     }
     $array = pg_fetch_array($result, 0);
-    echo('{"subgraph_id": ' . $i . ', "num": ' . $array[0] . '}, ');
+    if ($i > 1) {
+	echo(', ');
+    }
+    echo('{"subgraph_id": ' . $i . ', "num": ' . $array[0] . '}');
 }
 
 echo('] }');
