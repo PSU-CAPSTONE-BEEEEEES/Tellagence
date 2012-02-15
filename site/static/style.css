@@ -35,6 +35,15 @@ line {
     stroke-width: 1px;
     opacity: .3;
 }
+circle{
+	fill:green;
+}
+circle.center {
+	fill:blue;
+}
+circle:hover{
+	fill:red;
+}
 
 svg {
     pointer-events: all;
@@ -101,6 +110,16 @@ svg {
     border: 2px solid #cecece;
     z-index: 4;			/* still higher index for another layer*/
     padding: 12px;
+    text-align: center;
+}
+
+#help ul {
+    padding: 0px;
+}
+
+#help li {
+    list-style: none;
+    line-height: 30px;
 }
 
 /* zoom slider
