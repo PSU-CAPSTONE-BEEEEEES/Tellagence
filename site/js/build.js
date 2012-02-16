@@ -1,4 +1,4 @@
-d3.json("data/search.php?id=100&depth=30", function(data) {
+d3.json("data/search.php?id=100&depth=20", function(data) {
 	// render for this graph
 	var gr = new GraphRender(data.nodes, data.links);
 	// draw this graph (w/ graph events ready)

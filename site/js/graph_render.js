@@ -28,9 +28,12 @@ function GraphRender(nodes, links) {
 		.style("fill", "white");
 				
 	function redraw(a) {
+		//lines = d3.select("#d3").selectAll("line");
+		//lines.remove();
 		d3.select("#inner").attr("transform",
 				 "translate(" + d3.event.translate + ")" +
 				 " scale(" + d3.event.scale + ")");
+		//GraphRender.drawLines();
     }
 
     this.drawCircles = function() {
@@ -47,18 +50,6 @@ function GraphRender(nodes, links) {
 	}
 	
 	this.drawLines = function() {
-		/*
-		// remove those lines with sum inf == 0
-		var lines = this.links;
-		for (i=0; i<lines.length; i++)
-			if (lines[i].inf_1to2+lines[i].inf_2to1==0) {
-				lines.splice(i, 1);
-				i=0;
-			}
-		this.line = this.svg.selectAll("line")
-			.data(lines);
-		*/
-		
 		// as a result, only draw lines with sum inf > 0
 		this.line.enter().append("line")
 			.style("stroke-width", function(d) {
