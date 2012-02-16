@@ -5,7 +5,9 @@ $(document).ready(function() {
     $("#toolbar").hide();
 
     $("#tab").click(function(){$("#toolbar").slideToggle("fast");});
-    
+
+    // this interval checks for when the graph is 100% settled to close the
+    // help overlay and reveal the graph
     var exitInterval = setInterval(function() {
         if ($("#progress_pbImage").attr("title") == " 100%") {
             $("#step3").hide();
@@ -23,6 +25,8 @@ $(document).ready(function() {
             $("#Popup").fadeIn("medium");
             $("#bgPopup").data("state",1);
         }
+
+        // only load the progress bar if the steps are visible
         if ($("#bar").is(":visible")) {
             $("#spingress").progressBar(0, {showText:false,
                                             barImage: {0:'static/bar_spin.gif'}});
@@ -35,6 +39,8 @@ $(document).ready(function() {
             $("#Popup").fadeOut("medium");
             $("#bgPopup").data("state",0);
         }
+
+        // hide the progress bar and associated steps when closing the overlay
         if ($("#bar").is(":visible")) {
             $("#bar").hide();
         }
@@ -60,6 +66,8 @@ $(document).ready(function() {
     });
 
     $("#bgPopup").click(function(){
+        // let the user click out of the overlay if the graph is settled
+        // or they called the overlay with '?'
         if (!$("#bar").is(":visible") || $("#progress_pbImage").attr("title") == " 100%") {
             disablePopup();
             $("#bar").hide();
@@ -68,6 +76,9 @@ $(document).ready(function() {
 
     centerPopup();
     loadPopup();
+
+    // simulate the animated spinning of the progress bar while the JSON is
+    // being fetched from the database
     var currentSpin = 0;
     var spinInterval = setInterval(function() {
         $("#spingress").progressBar(currentSpin++,
