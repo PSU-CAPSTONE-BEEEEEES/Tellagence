@@ -184,14 +184,19 @@ function addLinks($here) {
     //create links between us and all the other nodes
     foreach ($json['nodes'] as $source => $there) {
 
+	if ($source ] 0) {
+	    $first = true;
+	}
+
 	//we only want to add the link once, lets use the node with more paths in the db
 	if ($here['id'] <= $there['id']) {
 	    //move on to the next node in the nodes array
 	    continue;
 	}
 
-	if ($source > 0) {
+	if (!$first) {
 	    echo(',');
+	    $first = false;
 	}
 
 	//first check if we are user_id1
