@@ -77,7 +77,7 @@ echo(',"links":[');
 
 //link the nodes
 foreach ($json['nodes'] as $x => $node) {
-    if ($x > 0) {
+    if ($x > 1) {
 	echo(',');
     }
     addLinks($node);
