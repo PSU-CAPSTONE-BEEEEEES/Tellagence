@@ -29,7 +29,7 @@ $(document).ready(function() {
         // only load the progress bar if the steps are visible
         if ($("#bar").is(":visible")) {
             $("#spingress").progressBar(0, {showText:false,
-                                            barImage: {0:'static/bar_spin.gif'}});
+                                            barImage: {0:'static/images/bar_spin.gif'}});
         }
     }
     
@@ -83,7 +83,7 @@ $(document).ready(function() {
     var spinInterval = setInterval(function() {
         $("#spingress").progressBar(currentSpin++,
                                     {showText:false,
-                                     barImage: {0:'static/bar_spin.gif'}});
+                                     barImage: {0:'static/images/bar_spin.gif'}});
         if (!$("#step1").is(":visible")) {
             clearInterval(spinInterval);
         }

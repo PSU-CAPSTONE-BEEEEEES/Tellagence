@@ -5,7 +5,7 @@ function GuiEvent(graphRender) {
     $("#searchbar").autocomplete({
         //this is where the source.php goes
         source: ["vmworld", "herrod", "duncanyb", "rspruijt", "vcloud"],
-        minLength: 2,
+        minLength: 1,
         select: function(event, ui) {
 	    var depth = 20;
 	    // erase and empty current render
@@ -18,7 +18,6 @@ function GuiEvent(graphRender) {
 		// redraw with new graph and new graph events
 		graphRender.draw();
 	    });
-            alert("Selected: "+ui.item.value);
         }
     });
 
