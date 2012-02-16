@@ -2,27 +2,6 @@ function GraphEvent(graphRender) {
 	// graph render for this graph event
 	this.graphRender = graphRender;
 	
-	/*
-	// on circle click
-	this.graphRender.circle
-		.on("click", grow)
-		.on("mousemove", shrink);
-
-	// on circle hover
-	function grow(d) {
-		var r = +d3.select(this).attr("r");
-		d3.select(this).transition()
-		.attr("r", r * 1.5);
-	};
-	
-	// on mouse movement in circle
-	function shrink(d) {
-		var r = +d3.select(this).attr("r");
-		d3.select(this).transition()
-		.attr("r", r / 1.5);
-	};
-	*/ 
-	
 	var progress = function(alpha) {
 	    var range = 0.1 - 0.005009;
 	    var percent = ((0.1 - alpha) / range) * 100;
@@ -32,15 +11,14 @@ function GraphEvent(graphRender) {
 	// circles stay stacked unless they change every tick
 	this.graphRender.force.on("tick", function() {
 		var alpha = graphRender.force.alpha();
-		$("#progress").progressBar(progress(alpha),
-				   {boxImage:"static/bar.gif",
-					barImage:{0:"static/bar_fill.gif",
-						  30:"static/bar_fill.gif",
-						  70:"static/bar_fill.gif",}});
+                $("#spingress").hide();
+		$("#progress").progressBar(progress(alpha));
 			
 		// start drawing lines when the graph is about to stay stable
 		if (alpha<0.01 && graphRender.ready==false) {
 			// draw lines and circles
+                        $("#step2").hide();
+                        $("#step3").show();
 			graphRender.drawLines();
 			graphRender.drawCircles();
 			
