@@ -1,7 +1,6 @@
 $(document).ready(function() {
     // toolbar animation and help overlay functions
     $("#step2").hide();
-    $("#step3").hide();
     $("#toolbar").hide();
 
     $("#tab").click(function(){$("#toolbar").slideToggle("fast");});
@@ -10,7 +9,6 @@ $(document).ready(function() {
     // help overlay and reveal the graph
     var exitInterval = setInterval(function() {
         if ($("#progress_pbImage").attr("title") == " 100%") {
-            $("#step3").hide();
             disablePopup();
             clearInterval(exitInterval);
         }
@@ -68,8 +66,9 @@ $(document).ready(function() {
     $("#bgPopup").click(function(){
         // let the user click out of the overlay if the graph is settled
         // or they called the overlay with '?'
-        if (!$("#bar").is(":visible") || $("#progress_pbImage").attr("title") == " 100%") {
+        if (!$("#bar").is(":visible") || $("#progress_pbImage").attr("title") == " 95%") {
             disablePopup();
+            $("#step2").hide();
             $("#bar").hide();
         }
     });

@@ -3,7 +3,7 @@ function GraphEvent(graphRender) {
 	this.graphRender = graphRender;
 	
 	var progress = function(alpha) {
-	    var range = 0.1 - 0.005009;
+	    var range = 0.1 - 0.01;
 	    var percent = ((0.1 - alpha) / range) * 100;
 	    return Math.floor(percent);
 	};
@@ -17,8 +17,6 @@ function GraphEvent(graphRender) {
 		// start drawing lines when the graph is about to stay stable
 		if (alpha<0.01 && graphRender.ready==false) {
 			// draw lines and circles
-                        $("#step2").hide();
-                        $("#step3").show();
 			graphRender.drawLines();
 			graphRender.drawCircles();
 			
