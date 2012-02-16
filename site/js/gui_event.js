@@ -22,6 +22,15 @@ function GuiEvent(graphRender) {
         }
     });
 
+    $("#searchbar").autocomplete({
+        //this is where the source.php goes
+        source: ["Aren", "Derek", "Long", "Huy", "Tien", "John"],
+        minLength: 2,
+        select: function(event, ui) {
+            alert("Selected: "+ui.item.value);
+        }
+    });
+
     var initial;
     $("#slider").mousedown(function () {
         initial = this.value;
