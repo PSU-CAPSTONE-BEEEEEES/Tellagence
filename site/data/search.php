@@ -83,10 +83,7 @@ foreach ($json['nodes'] as $x => $node) {
     addLinks($node);
 }
 
-
-//print out the json
-//print_r($json); die;
-echo(json_encode($json));
+echo(']}');
 
 //close the database connection
 pg_close($dbconn);
