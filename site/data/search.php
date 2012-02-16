@@ -76,11 +76,12 @@ echo('{"nodes":' . json_encode($json['nodes']));
 echo(',"links":[');
 
 //link the nodes
+$prev = 0;
 foreach ($json['nodes'] as $x => $node) {
-    if ($x > 1) {
+    if ($x > 1 && $prev > 0) {
 	echo(',');
     }
-    addLinks($node);
+    $prev = addLinks($node);
 }
 
 echo(']}');
@@ -164,6 +165,7 @@ function findNodes($who) {
 
 function addLinks($here) {
     global $dbconn, $toVisit, $visited, $path, $json;
+    $numLinks = 0;
     
     //get the shortest paths from the db
     getPath($here['id']);
@@ -180,13 +182,11 @@ function addLinks($here) {
 
     $result2 = pg_Exec($dbconn, "SELECT user_id1, inf_1to2, inf_2to1 FROM relationship WHERE user_id2 = " . $here['id'] . ";");
     $num2 = pg_numrows($result2);
+    
+    $first = true;
 
     //create links between us and all the other nodes
     foreach ($json['nodes'] as $source => $there) {
-
-	if ($source ] 0) {
-	    $first = true;
-	}
 
 	//we only want to add the link once, lets use the node with more paths in the db
 	if ($here['id'] <= $there['id']) {
@@ -194,9 +194,12 @@ function addLinks($here) {
 	    continue;
 	}
 
-	if (!$first) {
-	    echo(',');
+	$numLinks += 1;
+
+	if ($first) {
 	    $first = false;
+	} else {
+	    echo(',');
 	}
 
 	//first check if we are user_id1
@@ -239,6 +242,7 @@ function addLinks($here) {
 	$link['shortestpath'] = (float)$path[$there['id'] - 1];
 	echo(json_encode($link));
     }
+    return $numLinks;
 }
 
 ?>
