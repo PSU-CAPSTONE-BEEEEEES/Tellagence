@@ -85,6 +85,7 @@ foreach ($json['nodes'] as $x => $node) {
 
 
 //print out the json
+//print_r($json); die;
 echo(json_encode($json));
 
 //close the database connection

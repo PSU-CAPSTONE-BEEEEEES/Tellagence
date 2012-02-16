@@ -78,8 +78,6 @@ function GraphRender(nodes, links) {
 		this.circle = this.svg.selectAll("circle")
 			.data(this.nodes);
 			
-		// init lines as links
-		
 		// only render links with sum inf >0
 		var render_links = new Array();//to make sure, we copy only link whose sum_inf >0 to another array, so d3 can still this.links array with all of the links
 		for (i=0;i<this.links.length;i++){
@@ -91,9 +89,6 @@ function GraphRender(nodes, links) {
 		this.line = this.svg.selectAll("line")
 			.data(render_links);
 			
-		// this.line = this.svg.selectAll("line")
-			// .data(this.links);
-				
 		// define force graph nodes distances
 		this.force
 			.linkDistance(function(d) { return d.shortestpath * 100; })
