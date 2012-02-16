@@ -55,13 +55,16 @@ function GraphRender(nodes, links) {
 			.style("stroke-width", function(d) {
 				return (d.inf_2to1+d.inf_1to2)/2+'px'; 
 			})
-			.style("opacity", .3)
+			.style("opacity", function(d){
+				return d.inf_2to1+d.inf_1to2==0?0:0.3;//set the opacity =0 for those links whose sum_inf =0 to hide the links
+			})
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; });
 		this.line.append("title")
 			.text(function(d) { console.log(d.inf_1to2+d.inf_2to1); return 'frequency='+(d.inf_2to1+d.inf_1to2); });
+			
 	}
 	
 	this.draw = function() {
@@ -76,9 +79,21 @@ function GraphRender(nodes, links) {
 			.data(this.nodes);
 			
 		// init lines as links
+		
+		// only render links with sum inf >0
+		var render_links = new Array();//to make sure, we copy only link whose sum_inf >0 to another array, so d3 can still this.links array with all of the links
+		for (i=0;i<this.links.length;i++){
+			if (this.links[i].inf_1to2+this.links[i].inf_2to1 >0){
+				console.log(this.links[i].inf_1to2+this.links[i].inf_2to1);
+				render_links.push(this.links[i]);
+			}
+		}
 		this.line = this.svg.selectAll("line")
-			.data(this.links);
+			.data(render_links);
 			
+		// this.line = this.svg.selectAll("line")
+			// .data(this.links);
+				
 		// define force graph nodes distances
 		this.force
 			.linkDistance(function(d) { return d.shortestpath * 100; })
