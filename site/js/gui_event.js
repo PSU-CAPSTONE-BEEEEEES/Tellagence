@@ -7,11 +7,15 @@ function GuiEvent(graphRender) {
         source: ["vmworld", "herrod", "duncanyb", "rspruijt", "vcloud"],
         minLength: 1,
         select: function(event, ui) {
+            // throw a new popup up
+            resetPopup();
 	    var depth = 20;
 	    // erase and empty current render
 	    graphRender.empty();
 	    // call to server to obtain new graph info
 	    d3.json('data/search.php?user='+ui.item.value+'&depth='+depth, function(data) {
+                // switch the spinning bar for the loading bar
+                switchBars();
 		// data for new graph
 		graphRender.data(data.nodes, data.links);
 		graphRender.setCenterNode(data.nodes[0].id);
@@ -35,7 +39,7 @@ function GuiEvent(graphRender) {
         else {
             return new ChromeWheel( 0 , (diff / 5));
         }
-        var diff = 0;
+        diff = 0;
     });
 
     function ChromeWheel ( shift_key , clicks) {
