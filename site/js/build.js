@@ -1,4 +1,5 @@
-d3.json("data/search.php?id=100&depth=30", function(data) {
+d3.json("data/search.php?id=1&depth=10", function(data) {
+    console.log('here');
         $("#step1").hide();
         $("#step2").show();
 	// render for this graph

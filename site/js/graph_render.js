@@ -28,9 +28,12 @@ function GraphRender(nodes, links) {
 		.style("fill", "white");
 				
 	function redraw(a) {
+		//lines = d3.select("#d3").selectAll("line");
+		//lines.remove();
 		d3.select("#inner").attr("transform",
 				 "translate(" + d3.event.translate + ")" +
 				 " scale(" + d3.event.scale + ")");
+		//GraphRender.drawLines();
     }
 
     this.drawCircles = function() {
@@ -47,30 +50,21 @@ function GraphRender(nodes, links) {
 	}
 	
 	this.drawLines = function() {
-		/*
-		// remove those lines with sum inf == 0
-		var lines = this.links;
-		for (i=0; i<lines.length; i++)
-			if (lines[i].inf_1to2+lines[i].inf_2to1==0) {
-				lines.splice(i, 1);
-				i=0;
-			}
-		this.line = this.svg.selectAll("line")
-			.data(lines);
-		*/
-		
 		// as a result, only draw lines with sum inf > 0
 		this.line.enter().append("line")
 			.style("stroke-width", function(d) {
 				return (d.inf_2to1+d.inf_1to2)/2+'px'; 
 			})
-			.style("opacity", .3)
+			.style("opacity", function(d){
+				return d.inf_2to1+d.inf_1to2==0?0:0.3;//set the opacity =0 for those links whose sum_inf =0 to hide the links
+			})
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; });
 		this.line.append("title")
 			.text(function(d) { console.log(d.inf_1to2+d.inf_2to1); return 'frequency='+(d.inf_2to1+d.inf_1to2); });
+			
 	}
 	
 	this.draw = function() {
@@ -84,9 +78,16 @@ function GraphRender(nodes, links) {
 		this.circle = this.svg.selectAll("circle")
 			.data(this.nodes);
 			
-		// init lines as links
+		// only render links with sum inf >0
+		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf >0 to another array, so d3 can still this.links array with all of the links
+		for (i=0;i<this.links.length;i++){
+			if (this.links[i].inf_1to2+this.links[i].inf_2to1 >0){
+				console.log(this.links[i].inf_1to2+this.links[i].inf_2to1);
+				renderLinks.push(this.links[i]);
+			}
+		}
 		this.line = this.svg.selectAll("line")
-			.data(this.links);
+			.data(renderLinks);
 			
 		// define force graph nodes distances
 		this.force
