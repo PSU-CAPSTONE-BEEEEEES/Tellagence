@@ -10,6 +10,12 @@ function GraphRender(nodes, links) {
 	// temp
 	this.ready = false;
 	
+	function redraw(a) {
+		d3.select("#inner").attr("transform",
+				 "translate(" + d3.event.translate + ")" +
+				 " scale(" + d3.event.scale + ")");
+        }
+
 	// init svg area to draw
 	this.svg = d3.select("#d3")
 		.append("svg:svg")
@@ -27,27 +33,18 @@ function GraphRender(nodes, links) {
 		.attr('height', this.h)
 		.style("fill", "white");
 				
-	function redraw(a) {
-		//lines = d3.select("#d3").selectAll("line");
-		//lines.remove();
-		d3.select("#inner").attr("transform",
-				 "translate(" + d3.event.translate + ")" +
-				 " scale(" + d3.event.scale + ")");
-		//GraphRender.drawLines();
-    }
-
     this.drawCircles = function() {
 		// draw circles
 		var center = this.centerNode;
 		this.circle.enter().append("circle")
 			.attr("r", function(d) { return d.sum_degree/10+'px'; })
-			.attr("opacity", .5)
+			.attr("opacity", 0.5)
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
 			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
 			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
 			.append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
-	}
+	};
 	
 	this.drawLines = function() {
 		// as a result, only draw lines with sum inf > 0
@@ -64,8 +61,7 @@ function GraphRender(nodes, links) {
 			.attr("y2", function(d) { return d.target.y; });
 		this.line.append("title")
 			.text(function(d) { console.log(d.inf_1to2+d.inf_2to1); return 'frequency='+(d.inf_2to1+d.inf_1to2); });
-			
-	}
+	};
 	
 	this.draw = function() {
 		// init force graph
@@ -103,11 +99,11 @@ function GraphRender(nodes, links) {
 	this.data = function(nodes, links) {
 		this.nodes = nodes;
 		this.links = links;
-	}
+	};
 	
 	this.setCenterNode = function(id) {
 		this.centerNode = id;
-	}
+	};
 	
 	this.hide = function() {
 		this.circle.remove();
@@ -116,7 +112,7 @@ function GraphRender(nodes, links) {
 	this.show = function() {
 		this.drawCircles();
 		this.drawLines();
-	}
+	};
 	
 	this.empty = function() {
 		// empty nodes and links
