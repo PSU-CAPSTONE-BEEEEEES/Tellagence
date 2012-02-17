@@ -19,13 +19,9 @@ function GraphEvent(graphRender) {
 		// start drawing lines when the graph is about to stay stable
 		if (alpha<0.01 && graphRender.ready===false) {
 			// draw lines and circles
-<<<<<<< HEAD
                         $("#step2").hide();
                         $("#step3").show();
 			graphRender.drawPaths();
-=======
-			graphRender.drawLines();
->>>>>>> 63f776c76c95ac6dfad0cecfa055a463bad878f2
 			graphRender.drawCircles();
 			
 			// on click redraw the graph with the selected node being the center node of the new graph
@@ -51,6 +47,13 @@ function GraphEvent(graphRender) {
 			// mark that graph is completely ready
 			graphRender.ready = true;
 		}
+		
+		graphRender.path.attr("d", function(d) {
+		var dx = d.target.x - d.source.x,
+			dy = d.target.y - d.source.y,
+			dr = Math.sqrt(dx * dx + dy * dy);
+		return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+	  });
 		
 		graphRender.circle.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) { return d.y; });
