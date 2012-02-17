@@ -1,4 +1,4 @@
-d3.json("data/search.php?id=1&depth=10", function(data) {
+d3.json("data/search.php?id=1&depth=5", function(data) {
     console.log('here');
         $("#step1").hide();
         $("#step2").show();

@@ -20,6 +20,20 @@ function GraphRender(nodes, links) {
 			.append('g')
 				.attr("id", "inner")
 				.attr("transform", "translate(0, 0) scale(1)");
+				
+	// Per-type markers, as they don't inherit styles.
+	this.svg.append("defs").selectAll("marker")
+		.data(["suit", "licensing", "resolved"])
+		.enter().append("marker")
+		.attr("id", String)
+		.attr("viewBox", "0 -5 10 10")
+		.attr("refX", 15)
+		.attr("refY", -1.5)
+		.attr("markerWidth", 6)
+		.attr("markerHeight", 6)
+		.attr("orient", "auto")
+		.append("path")
+		.attr("d", "M0,-5L10,0L0,5");
 
 	// rect to move graph
 	this.svg.append('rect')
@@ -49,22 +63,12 @@ function GraphRender(nodes, links) {
 			.append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
 	}
 	
-	this.drawLines = function() {
+	this.drawPaths = function() {
 		// as a result, only draw lines with sum inf > 0
-		this.line.enter().append("line")
-			.style("stroke-width", function(d) {
-				return (d.inf_2to1+d.inf_1to2)/2+'px'; 
-			})
-			.style("opacity", function(d){
-				return d.inf_2to1+d.inf_1to2==0?0:0.3;//set the opacity =0 for those links whose sum_inf =0 to hide the links
-			})
-			.attr("x1", function(d) { return d.source.x; })
-			.attr("y1", function(d) { return d.source.y; })
-			.attr("x2", function(d) { return d.target.x; })
-			.attr("y2", function(d) { return d.target.y; });
-		this.line.append("title")
-			.text(function(d) { console.log(d.inf_1to2+d.inf_2to1); return 'frequency='+(d.inf_2to1+d.inf_1to2); });
-			
+		this.path.enter().append("path")
+			.attr("class", function(d) { return "link"; })
+			.attr("marker-end", function(d) { return "url(#licensing)"; })
+			.style("stroke-width", function(d) { return (d.inf/2)+'px'; });
 	}
 	
 	this.draw = function() {
@@ -72,29 +76,39 @@ function GraphRender(nodes, links) {
 		this.ready = false;
 		this.force = d3.layout.force()
 			.nodes(this.nodes)
-			.links(this.links);
-			
-		// init circles as nodes
-		this.circle = this.svg.selectAll("circle")
-			.data(this.nodes);
-			
-		// only render links with sum inf >0
-		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf >0 to another array, so d3 can still this.links array with all of the links
-		for (i=0;i<this.links.length;i++){
-			if (this.links[i].inf_1to2+this.links[i].inf_2to1 >0){
-				console.log(this.links[i].inf_1to2+this.links[i].inf_2to1);
-				renderLinks.push(this.links[i]);
-			}
-		}
-		this.line = this.svg.selectAll("line")
-			.data(renderLinks);
-			
-		// define force graph nodes distances
-		this.force
+			.links(this.links)
 			.linkDistance(function(d) { return d.shortestpath * 100; })
 			.charge(-100)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
+			
+		// only render paths with inf>0
+		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf >0 to another array, so d3 can still this.links array with all of the links
+		for (i=0; i<this.links.length; i++){
+			if (this.links[i].inf_1to2 > 0){
+				console.log(this.links[i].inf_1to2);
+				var path = new Object();
+				path.source = this.links[i].source;
+				path.target = this.links[i].target;
+				path.inf = this.links[i].inf_1to2;
+				renderLinks.push(path);
+			}
+			if (this.links[i].inf_2to1 > 0){
+				console.log(this.links[i].inf_2to1);
+				var path = new Object();
+				path.source = this.links[i].target;
+				path.target = this.links[i].source;
+				path.inf = this.links[i].inf_2to1;
+				renderLinks.push(path);
+			}
+		}
+		this.path = this.svg.selectAll("path")
+			.data(renderLinks);
+			
+			
+		// init circles as nodes
+		this.circle = this.svg.selectAll("circle")
+			.data(this.nodes);
 			
 		// handle events for graph (only for graph)
 		return new GraphEvent(this);
