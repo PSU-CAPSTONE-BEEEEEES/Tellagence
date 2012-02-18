@@ -29,12 +29,19 @@ if (isset($_GET["user"])) {
 }
 
 //how many nodes to find around our center
-$total = 100;
-if (isset($_GET["depth"])) {
-    $depth = $_GET["depth"];
+if (isset($_GET["hops"])) {
+    $hops = $_GET["hops"];
+    if ( (int)$hops == $hops && $hops >= 0 ) {
+	$hopCount = $hops;
+    }
+} else {
+    $total = 100;
+    if (isset($_GET["depth"])) {
+	$depth = $_GET["depth"];
 
-    if ( (int)$depth == $depth && $depth >= 0 ) {
-	$total = (int)$depth;
+	if ( (int)$depth == $depth && $depth >= 0 ) {
+	    $total = (int)$depth;
+	}
     }
 }
 
@@ -57,21 +64,41 @@ addNode($user);
 findNodes($user);
 
 //get all the other nodes
-while (count($visited) < $total && count($toVisit) > 0) {
-    //get the first node to visit
-    $next = array_shift($toVisit);
+if (isset($hopCount) ) {
+    for ($i = 0; $i < $hopCount; $i++) {
+	foreach ($toVisit as $x => $next) {
+	    if(in_array($next, $visited)) {
+		continue;
+	    }
 
-    if(in_array($next, $visited)) {
-	continue;
+	    addNode($next);
+	    findNodes($next);
+
+	    $visited[] = $next;
+	    unset($toVisit[$x]);
+	}
+	//findNodes has modified toVisit,
+	//but the foreach has a stale version
+	//the next iteration will be the new copy
     }
+} else {
+    while (count($visited) < $total && count($toVisit) > 0) {
+	//get the first node to visit
+	$next = array_shift($toVisit);
 
-    addNode($next);
-    findNodes($next);
+	if(in_array($next, $visited)) {
+	    continue;
+	}
 
-    $visited[] = $next;
+	addNode($next);
+	findNodes($next);
+
+	$visited[] = $next;
+    }
 }
 
 echo('{"nodes":' . json_encode($json['nodes']));
+flush();
 
 echo(',"links":[');
 
@@ -82,6 +109,7 @@ foreach ($json['nodes'] as $node) {
 	echo(',');
     }
     $prev = addLinks($node);
+    flush();
 }
 
 echo(']}');
@@ -245,4 +273,4 @@ function addLinks($here) {
     return $numLinks;
 }
 
-?>
+/*?>*/
