@@ -1,15 +1,29 @@
 <?php
+//search.php
+//Search for nodes closest to some center node
+
+
+//these are useful
 set_time_limit(0);
 ini_set('display_errors','On');
 ini_set('error_log','/tmp/search.error.log');
 
-//Search for x number of nodes closest to some center node
+
+//print a help message (maybe api?)
+if (isset($_GET["help"])) {
+    echo("This is a help message.");
+    die;
+}
+
 
 //connect to the database
 $dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=real user=postgres password=bees");
 if (!$dbconn) {
     die("Error connecting to database.");
 }
+
+
+//Get parameters from _GET
 
 //the center of our graph
 if (isset($_GET["user"])) {
@@ -44,6 +58,17 @@ if (isset($_GET["hops"])) {
 	}
     }
 }
+
+//search for a specified subgraph
+if (isset($_GET["subgraph"])) {
+    $sub = $_GET["subgraph"];
+    if ( (int)$sub == $sub && $sub >= 0) {
+	//set $user to someone from the specified subgraph
+    }
+}
+
+//end of parameters
+
 
 //how many nodes we've visited so far
 //also used to map database index <-> json index
@@ -104,15 +129,20 @@ echo(',"links":[');
 
 //link the nodes
 $prev = 0;
+ob_start();
 foreach ($json['nodes'] as $node) {
     if ($prev > 0) {
 	echo(',');
     }
     $prev = addLinks($node);
-    flush();
+    if ($prev = 0) {
+	ob_clean();
+    }
+    ob_flush();
 }
 
 echo(']}');
+ob_end_flush();
 
 //close the database connection
 pg_close($dbconn);
