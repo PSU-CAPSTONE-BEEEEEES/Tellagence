@@ -1,7 +1,7 @@
 <?php
 //search.php
 //Search for nodes closest to some center node
-
+//
 
 //these are useful
 set_time_limit(0);
@@ -22,8 +22,9 @@ if (!$dbconn) {
     die("Error connecting to database.");
 }
 
-
+//
 //Get parameters from _GET
+//
 
 //the center of our graph
 if (isset($_GET["user"])) {
@@ -59,16 +60,17 @@ if (isset($_GET["hops"])) {
     }
 }
 
-//search for a specified subgraph
+//or maybe, search for a specified subgraph
 if (isset($_GET["subgraph"])) {
     $sub = $_GET["subgraph"];
     if ( (int)$sub == $sub && $sub >= 0) {
-	//set $user to someone from the specified subgraph
+	$subgraph = $sub;
     }
 }
 
+//
 //end of parameters
-
+//
 
 //how many nodes we've visited so far
 //also used to map database index <-> json index
@@ -84,13 +86,21 @@ $path = array();
 $json['nodes'] = array();
 $json['links'] = array();
 
-//add the central node
-addNode($user);
-findNodes($user);
-
 //get all the other nodes
-if (isset($hopCount) ) {
-    for ($i = 0; $i < $hopCount; $i++) {
+if (isset($subgraph)) {
+    $result = pg_Exec($dbconn, "SELECT user_ids FROM subgraphs WHERE subgraph_id = $subgraph;");
+    $row = pg_fetch_array($result, 0);
+    $toVisit = explode(":",$row[0]);
+
+    foreach($toVisit as $node) {
+	addnode($node);
+    }
+} else if (isset($hopCount) ) {
+    //add the central node
+    addNode($user);
+    findNodes($user);
+
+    for ($i = 0; $i < $hopCount && count($toVisit) > 0; $i++) {
 	foreach ($toVisit as $x => $next) {
 	    if(in_array($next, $visited)) {
 		continue;
@@ -107,6 +117,10 @@ if (isset($hopCount) ) {
 	//the next iteration will be the new copy
     }
 } else {
+    //add the central node
+    addNode($user);
+    findNodes($user);
+
     while (count($visited) < $total && count($toVisit) > 0) {
 	//get the first node to visit
 	$next = array_shift($toVisit);
@@ -122,10 +136,7 @@ if (isset($hopCount) ) {
     }
 }
 
-echo('{"nodes":' . json_encode($json['nodes']));
-flush();
-
-echo(',"links":[');
+echo('"links":[');
 
 //link the nodes
 $prev = 0;
@@ -142,13 +153,16 @@ foreach ($json['nodes'] as $node) {
 }
 
 echo(']}');
+echo(',');
+echo('{"nodes":' . json_encode($json['nodes']));
 ob_end_flush();
 
 //close the database connection
 pg_close($dbconn);
 
-
+//
 //here be dragons^Wfunctions
+//
 
 function findUser($who) {
     global $dbconn;
@@ -179,7 +193,7 @@ function getPath($who) {
 }
 
 function addNode($who) {
-    global $dbconn, $toVisit, $visited, $json;
+    global $dbconn, $json;
 
     //find this nodes name
     $result = pg_Exec($dbconn, "SELECT username, sum_degree FROM users WHERE user_id = $who;");
