@@ -81,19 +81,17 @@ if (isset($_GET["cutoff"])) {
 //end of parameters
 //
 
-//how many nodes we've visited so far
-//also used to map database index <-> json index
-$visited[] = $user;
-
 //list of nodes to visit
 $toVisit = array();
+
+//nodes we've visited so far
+$visited = array();
 
 //shortest paths from user X to all other users
 $path = array();
 
-//create the json skeleton
-$json['nodes'] = array();
-$json['links'] = array();
+//the list of nodes we've connected with links
+$nodes = array();
 
 //get all the other nodes
 if (isset($subgraph)) {
@@ -106,6 +104,7 @@ if (isset($subgraph)) {
     }
 } else if (isset($hopCount) ) {
     //add the central node
+    $visited[] = $user;
     addNode($user);
     findNodes($user);
 
@@ -127,6 +126,7 @@ if (isset($subgraph)) {
     }
 } else {
     //add the central node
+    $visited[] = $user;
     addNode($user);
     findNodes($user);
 
@@ -150,7 +150,7 @@ echo('"links":[');
 //link the nodes
 $prev = 0;
 ob_start();
-foreach ($json['nodes'] as $node) {
+foreach ($nodes as $node) {
     if ($prev > 0) {
 	echo(',');
     }
@@ -163,7 +163,7 @@ foreach ($json['nodes'] as $node) {
 
 echo(']}');
 echo(',');
-echo('{"nodes":' . json_encode($json['nodes']));
+echo('{"nodes":' . json_encode($nodes));
 ob_end_flush();
 
 //close the database connection
@@ -202,7 +202,7 @@ function getPath($who) {
 }
 
 function addNode($who) {
-    global $dbconn, $json;
+    global $dbconn, $nodes;
 
     //find this nodes name
     $result = pg_Exec($dbconn, "SELECT username, sum_degree FROM users WHERE user_id = $who;");
@@ -214,7 +214,7 @@ function addNode($who) {
 	$node['sum_degree'] = $row[1];
 	$node['id'] = $who;
 	//add this node to the json
-	$json['nodes'][] = $node;
+	$nodes[] = $node;
     }
 }
 
@@ -245,7 +245,7 @@ function findNodes($who) {
 }
 
 function addLinks($here) {
-    global $dbconn, $toVisit, $visited, $path, $json;
+    global $dbconn, $toVisit, $visited, $path, $nodes;
     $numLinks = 0;
     
     //get the shortest paths from the db
@@ -255,7 +255,7 @@ function addLinks($here) {
     //here is the target, not the source
     //because we want the source to have a lower user_id
     //but the higher user_id has the relavent shortestpath information
-    $target = array_search($here, $json['nodes']);
+    $target = array_search($here, $nodes);
 
     //get the influences from the db
     $result1 = pg_Exec($dbconn, "SELECT user_id2, inf_1to2, inf_2to1 FROM relationship WHERE user_id1 = " . $here['id'] . ";");
@@ -267,7 +267,7 @@ function addLinks($here) {
     $first = true;
 
     //create links between us and all the other nodes
-    foreach ($json['nodes'] as $source => $there) {
+    foreach ($nodes as $source => $there) {
 
 	//we only want to add the link once, lets use the node with more paths in the db
 	if ($here['id'] <= $there['id']) {
