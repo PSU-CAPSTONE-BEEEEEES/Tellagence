@@ -9,7 +9,7 @@ function GuiEvent(graphRender) {
         select: function(event, ui) {
             // throw a new popup up
             resetPopup();
-	    var depth = 20;
+	    var depth = 100;
 	    // erase and empty current render
 	    graphRender.empty();
 	    // call to server to obtain new graph info

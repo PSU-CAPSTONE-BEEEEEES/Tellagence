@@ -74,7 +74,7 @@ function GraphRender(nodes, links) {
 		this.force = d3.layout.force()
 			.nodes(this.nodes)
 			.links(this.links)
-			.linkDistance(function(d) { return d.shortestpath * 100; })
+			.linkDistance(function(d) { return d.shortestpath * 500; })
 			.charge(-100)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
@@ -140,7 +140,7 @@ function GraphRender(nodes, links) {
 		// empty actual circles and links
 		this.circle = this.svg.selectAll("circle").data([]);
 		this.circle.exit().remove();
-		this.line = this.svg.selectAll("line").data([]);
-		this.line.exit().remove();
+		this.path = this.svg.selectAll("path").data([]);
+		this.path.exit().remove();
 	};
 }

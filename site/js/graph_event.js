@@ -24,12 +24,15 @@ function GraphEvent(graphRender) {
 			graphRender.drawPaths();
 			graphRender.drawCircles();
 			
+			// stop ticking immeidately as the complete graph was drawn
+			graphRender.force.stop();
+			
 			// on click redraw the graph with the selected node being the center node of the new graph
 			graphRender.circle.on('click', function(d, i) {
                                 // throw a new popup up
                                 resetPopup();
 				// retrieve depth
-				var depth = 30;
+				var depth = 100;
 				// erase and empty current render
 				graphRender.empty();
 				// call to server to obtain new graph info
@@ -48,14 +51,17 @@ function GraphEvent(graphRender) {
 			graphRender.ready = true;
 		}
 		
+		// ticking the paths
 		graphRender.path.attr("d", function(d) {
-		var dx = d.target.x - d.source.x,
-			dy = d.target.y - d.source.y,
-			dr = Math.sqrt(dx * dx + dy * dy);
-		return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-	  });
+			var dx = d.target.x - d.source.x,
+				dy = d.target.y - d.source.y,
+				dr = Math.sqrt(dx * dx + dy * dy);
+			return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+	  	});
 		
-		graphRender.circle.attr("cx", function(d) { return d.x; })
+		// ticking the cirlces
+		graphRender.circle
+			.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) { return d.y; });
 	});
 	
