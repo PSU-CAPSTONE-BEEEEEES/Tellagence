@@ -68,6 +68,15 @@ if (isset($_GET["subgraph"])) {
     }
 }
 
+//only look at links with one influence of 0
+//and the other is greater than the limit
+if (isset($_GET["cutoff"])) {
+    $cutoff = $_GET["cutoff"];
+    if ( (int)$cutoff == $cutoff && $cutoff >= 0) {
+	$limit = $cutoff;
+    }
+}
+
 //
 //end of parameters
 //
