@@ -19,7 +19,7 @@ if (isset($_GET["help"])) {
 //connect to the database
 $dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=real user=postgres password=bees");
 if (!$dbconn) {
-    die("Error connecting to database.");
+    die("{}");
 }
 
 //
@@ -179,7 +179,7 @@ function findUser($who) {
     $result = pg_Exec($dbconn, "SELECT user_id FROM users WHERE username = '$who';");
     $num = pg_numrows($result);
     if ($num == 0) {
-	die("No user '$who' found.");
+	die('{"nodes":[]}');
     }
     $row = pg_fetch_array($result, 0);//if there are multiple entries, just use the first
     return (string)$row[0];
