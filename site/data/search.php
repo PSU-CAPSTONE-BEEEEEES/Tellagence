@@ -145,7 +145,9 @@ if (isset($subgraph)) {
     }
 }
 
-echo('"links":[');
+pruneNodes();
+
+echo('"{links":[');
 
 //link the nodes
 $prev = 0;
@@ -161,9 +163,9 @@ foreach ($nodes as $node) {
     ob_flush();
 }
 
-echo(']}');
+echo(']');
 echo(',');
-echo('{"nodes":' . json_encode($nodes));
+echo('"nodes":' . json_encode($nodes) . "}");
 ob_end_flush();
 
 //close the database connection
@@ -242,6 +244,30 @@ function findNodes($who) {
 	}
     }
 
+}
+
+function pruneNodes() {
+    global $dbconn, $nodes, $limit;
+    $tmpNodes = array();
+
+    foreach ($nodes as $node) {
+	$result = pg_exec($dbconn, "SELECT in_degree, out_degree FROM users WHERE user_id = " . $node['id'] . ';');
+	$array = pg_fetch_array($result, 0);
+	$in = $array[0];
+	$out = $array[1];
+
+	//we want to prune nodes where one of {in,out} is 0, and the other is below the limit
+	if ($in == 0 && $out < $limit) {
+	    continue;
+	}
+	if ($out == 0 && $in < $limit) {
+	    continue;
+	}
+
+	$tmpNodes[] = $node;
+    }
+
+    $nodes = $tmpNodes;
 }
 
 function addLinks($here) {
