@@ -3,9 +3,9 @@ function GuiEvent(graphRender) {
     this.graphRender = graphRender;
 
     $("#searchbar").autocomplete({
-        //this is where the source.php goes
-        source: ["vmworld", "herrod", "duncanyb", "rspruijt", "vcloud"],
-        minLength: 1,
+        source: names,  // usernames in database, gotten in toolbar.js
+        minLength: 2,   //minimum number of characters before matching
+        max: 5,         //maximum number of matched results
         select: function(event, ui) {
             // throw a new popup up
             resetPopup();

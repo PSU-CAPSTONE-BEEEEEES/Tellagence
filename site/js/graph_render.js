@@ -83,7 +83,6 @@ function GraphRender(nodes, links) {
 		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf >0 to another array, so d3 can still this.links array with all of the links
 		for (i=0; i<this.links.length; i++){
 			if (this.links[i].inf_1to2 > 0){
-				console.log(this.links[i].inf_1to2);
 				var path = new Object();
 				path.source = this.links[i].source;
 				path.target = this.links[i].target;
@@ -91,7 +90,6 @@ function GraphRender(nodes, links) {
 				renderLinks.push(path);
 			}
 			if (this.links[i].inf_2to1 > 0){
-				console.log(this.links[i].inf_2to1);
 				var path = new Object();
 				path.source = this.links[i].target;
 				path.target = this.links[i].source;

@@ -1,3 +1,12 @@
+// grab all usernames in db for autocomplete
+var names = new Array();
+$.getJSON("data/userlist.php", function(json) {
+    $.each(json.users, function(i, entry) {
+        // builds array from JSON
+        names.push(entry.username);
+    });
+});
+
 // brings up the popup overlay on screen
 function loadPopup() {
     //loads popup only if it is disabled
