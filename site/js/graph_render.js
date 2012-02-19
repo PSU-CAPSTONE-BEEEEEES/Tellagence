@@ -45,7 +45,7 @@ function GraphRender(nodes, links) {
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
 			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
-			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
+			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;})			
 			.append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
 	}
 	
@@ -55,8 +55,8 @@ function GraphRender(nodes, links) {
 			.style("stroke-width", function(d) {
 				return (d.inf_2to1+d.inf_1to2)/2+'px'; 
 			})
-			.style("opacity", function(d){
-				return d.inf_2to1+d.inf_1to2==0?0:0.3;//set the opacity =0 for those links whose sum_inf =0 to hide the links
+			.style("stroke", function(d){
+				return d.inf_2to1+d.inf_1to2;
 			})
 			.attr("x1", function(d) { return d.source.x; })
 			.attr("y1", function(d) { return d.source.y; })

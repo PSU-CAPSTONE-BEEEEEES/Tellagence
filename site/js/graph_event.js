@@ -25,7 +25,7 @@ function GraphEvent(graphRender) {
 			// on click redraw the graph with the selected node being the center node of the new graph
 			graphRender.circle.on('click', function(d, i) {
 				// retrieve depth
-				var depth = 30;
+				var depth = 100;
 				// erase and empty current render
 				graphRender.empty();
 				// call to server to obtain new graph info
