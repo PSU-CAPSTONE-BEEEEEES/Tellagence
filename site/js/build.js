@@ -1,4 +1,4 @@
-d3.json("data/search.php?id=1&depth=100", function(data) {
+d3.json("data/search.php?id=1&depth=300", function(data) {
         // switch the spinning bar for the loading bar
         switchBars();
 	// render for this graph
