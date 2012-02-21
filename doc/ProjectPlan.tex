@@ -55,7 +55,7 @@
   \subsection{Long Nguyen}
   {\bf Architectural Design and Tech Lead:} Prospect the scope of the entire project and construct architecture. Coordinate with all programmers to keep improving architectural design. Do major research on GUI tech and demo for other members.
   \subsection{Tien Le}
-  {\bf System Administrator Lead:} Keep all of the computers running 24/7, software and package installation, backup cron job, write PHPUnit test. 
+  {\bf System Administrator Lead:} Install, patch and upgrade servers. Keep all of the servers running 24/7. Build PHPUnit test.
 
 \section{Task Schedule}
 
@@ -157,10 +157,11 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       Task Description & Assignee & Start Date & Due Date \\
       \hline
 	    Parse Raw Data from XLSX into Multidimensional Array & Tien & 2012-1-9 & 2012-1-15 \\
-        Store userid and username into Database (Users Table) & Tien & 2012-1-15 & 2012-1-21 \\
+        Store user_id and username into Database (Users Table) & Tien & 2012-1-15 & 2012-1-21 \\
 	    Analyze Parsed Data for Influence & Tien & 2012-1-21 & 2012-2-1 \\
         Store Calculated Influence into Database (Relationship Table) & Tien & 2012-2-2 & 2012-2-11 \\
-		Write PHPUnit test for parsing task and fix bugs & Tien & 2012-2-12 & 2012-2-19 \\
+        Remove users who have sum_degree = 0 and update new user_id & Tien & 2012-2-12 & 2012-2-13 \\
+		Write PHPUnit test for parsing task and fix bugs & Tien & 2012-2-12 & 2012-2-29 \\
       \hline
     \end{tabular}
   \end{center}
@@ -173,7 +174,7 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
 	    Query Database for Data & Jon & 2012-2-20 & 2012-2-24 \\
 	    Generate JSON from Query Results & Jon & 2012-2-20 & 2012-2-24 \\
-	    Send JSON to Renderer & Tien & 2012-2-27 & 2012-3-2 \\
+	    Send JSON to Renderer & Jon & 2012-2-27 & 2012-3-2 \\
       \hline
     \end{tabular}
   \end{center}
@@ -184,9 +185,7 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-		Ensure user names exist in twitter database & Tien & & \\
 	    Accept Filter from Interface & Jon & & \\
-	    Sanitize Search Keyword & Tien & & \\
 	    Build SQL Query from Filter & Jon & & \\
       	Normalize Query Results & Jon & & \\
       \hline
