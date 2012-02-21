@@ -63,6 +63,17 @@ path.link.resolved {
   stroke-dasharray: 0,2 1;
 }
 
+text {
+  font: 10px sans-serif;
+  pointer-events: none;
+}
+
+text.shadow {
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-opacity: .8;
+}
+
 svg {
     pointer-events: all;
 }

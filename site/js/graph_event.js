@@ -23,6 +23,7 @@ function GraphEvent(graphRender) {
                         $("#step3").show();
 			graphRender.drawPaths();
 			graphRender.drawCircles();
+			graphRender.writeName();
 			
 			// stop ticking immeidately as the complete graph was drawn
 			graphRender.force.stop();
@@ -55,7 +56,7 @@ function GraphEvent(graphRender) {
 		graphRender.path.attr("d", function(d) {
 			var dx = d.target.x - d.source.x,
 				dy = d.target.y - d.source.y,
-				dr = Math.sqrt(dx * dx + dy * dy);
+				dr = 0;
 			return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
 	  	});
 		
@@ -63,6 +64,11 @@ function GraphEvent(graphRender) {
 		graphRender.circle
 			.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) { return d.y; });
+			
+		// ticking the texts
+		graphRender.text.attr("transform", function(d) {
+			return "translate(" + d.x + "," + d.y + ")";
+		});
 	});
 	
 	// changes the svg size on window

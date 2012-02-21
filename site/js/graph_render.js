@@ -56,9 +56,22 @@ function GraphRender(nodes, links) {
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
 			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
-			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;})			
-			.append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
+			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;});
 	};
+	
+	this.writeName = function() {
+		// A copy of the text with a thick white stroke for legibility.
+		this.text.enter().append("text")
+			.attr("x", 8)
+			.attr("y", ".31em")
+			.attr("class", "shadow")
+			.text(function(d) { return d.name; });
+		
+		this.text.enter().append("text")
+			.attr("x", 8)
+			.attr("y", ".31em")
+			.text(function(d) { return d.name; });
+	}
 	
 	this.drawPaths = function() {
 		// as a result, only draw lines with sum inf > 0
@@ -80,34 +93,28 @@ function GraphRender(nodes, links) {
 			.size([this.w, this.h])
 			.start();
 			
-		// only render paths with inf>0
-		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf >0 to another array, so d3 can still this.links array with all of the links
-		for (i=0; i<this.links.length; i++){
-			if (this.links[i].inf_1to2 > 0){
-				console.log(this.links[i].source.id+'->'+this.links[i].target.id+'='+this.links[i].inf_1to2);
+		// only render paths with sum influences > 0
+		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf>0 to another array, so d3 can still this.links array with all of the links
+		for (i=0; i<this.links.length; i++)
+			if ((this.links[i].inf_1to2+this.links[i].inf_2to1) > 0) {
+				console.log(this.links[i].source.name+'->'+this.links[i].target.name+'='+(this.links[i].inf_1to2+this.links[i].inf_2to1));
 				var path = new Object();
 				path.source = this.links[i].source;
 				path.target = this.links[i].target;
-				path.inf = this.links[i].inf_1to2;
+				path.inf = this.links[i].inf_1to2 + this.links[i].inf_2to1;
 				renderLinks.push(path);
-				console.log(renderLinks.length);
+				//console.log(renderLinks.length);
 			}
-			if (this.links[i].inf_2to1 > 0){
-				console.log(this.links[i].target.id+'->'+this.links[i].source.id+'='+this.links[i].inf_2to1);
-				var path = new Object();
-				path.source = this.links[i].target;
-				path.target = this.links[i].source;
-				path.inf = this.links[i].inf_2to1;
-				renderLinks.push(path);
-				console.log(renderLinks.length);
-			}
-		}
 		this.path = this.svg.selectAll("path")
 			.data(renderLinks);
-		console.log(this.path);
+		//console.log(this.path);
 			
 		// init circles as nodes
 		this.circle = this.svg.selectAll("circle")
+			.data(this.nodes);
+			
+		// init texts
+		this.text = this.svg.selectAll("text")
 			.data(this.nodes);
 			
 		// handle events for graph (only for graph)
