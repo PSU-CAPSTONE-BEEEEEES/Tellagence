@@ -23,7 +23,7 @@ function GraphEvent(graphRender) {
                         $("#step3").show();
 			graphRender.drawPaths();
 			graphRender.drawCircles();
-			graphRender.writeName();
+			//graphRender.writeName();
 			
 			// stop ticking immeidately as the complete graph was drawn
 			graphRender.force.stop();
