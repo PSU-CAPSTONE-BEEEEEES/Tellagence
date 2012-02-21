@@ -5,8 +5,7 @@
 
 //these are useful
 set_time_limit(0);
-ini_set('display_errors','On');
-ini_set('error_log','/tmp/search.error.log');
+//error_reporting(0);
 
 
 //print a help message (maybe api?)
