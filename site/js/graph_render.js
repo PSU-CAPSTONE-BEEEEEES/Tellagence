@@ -75,7 +75,6 @@ function GraphRender(nodes, links) {
 	
 	this.drawPaths = function() {
 		// as a result, only draw lines with sum inf > 0
-
 		this.path.enter().append("path")
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-end", function(d) { return "url(#licensing)"; })

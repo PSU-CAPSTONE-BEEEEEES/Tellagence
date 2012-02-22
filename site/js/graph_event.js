@@ -57,6 +57,32 @@ function GraphEvent(renderObject) {
 				renderObject.drawCircles();
 				// stop ticking immeidately as the complete graph was drawn
 				renderObject.force.stop();
+				
+				// on click render the selected subgraph
+				renderObject.circle.on('click', function(d, i) {
+					// remove current svg element on page
+					$('svg').remove();
+					// throw a new popup up
+					resetPopup();
+					// call to server to obtain the selected graph info
+					//d3.json('data/search.php?subgraph='+d.subgraph_id+'&cutoff=2', function(data) {
+					d3.json('data/search.php?id=1&depth=5', function(data) {
+						// switch the spinning bar for the loading bar
+						switchBars();
+						
+						// unset current render object
+						delete renderObject;
+						delete sgr;
+						
+						// new render for this selected graph
+						var gr = new GraphRender(data.nodes, data.links);
+						// draw this graph (w/ graph events ready)
+						gr.draw();
+						
+						// gui event handler for the  selected graph
+						var ge = new GuiEvent(gr);
+					});
+				});
 			}
 			
 			// mark render object as completely ready
