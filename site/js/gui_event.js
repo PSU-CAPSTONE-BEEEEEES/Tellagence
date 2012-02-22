@@ -2,23 +2,26 @@ function GuiEvent(graphRender) {
     // graph render for this gui event
     this.graphRender = graphRender;
 
-    // extract input capture on enter
-    $("#search").keypress(function(e) {
-        // 13 is the ascii code for the enter key
-        if (e.which == 13) {
-			// retrieve username and depth
-			var username = $("#searchbar").val();
-			var depth = 20;
-			// erase and empty current render
-			graphRender.empty();
-			// call to server to obtain new graph info
-			d3.json('data/search.php?user='+username+'&depth='+depth, function(data) {
-				// data for new graph
-				graphRender.data(data.nodes, data.links);
-				graphRender.setCenterNode(data.nodes[0].id);
-				// redraw with new graph and new graph events
-				graphRender.draw();
-			});
+    $("#searchbar").autocomplete({
+        source: names,  // usernames in database, gotten in toolbar.js
+        minLength: 2,   //minimum number of characters before matching
+        max: 5,         //maximum number of matched results
+        select: function(event, ui) {
+            // throw a new popup up
+            resetPopup();
+	    var depth = 100;
+	    // erase and empty current render
+	    graphRender.empty();
+	    // call to server to obtain new graph info
+	    d3.json('data/search.php?user='+ui.item.value+'&depth='+depth, function(data) {
+                // switch the spinning bar for the loading bar
+                switchBars();
+		// data for new graph
+		graphRender.data(data.nodes, data.links);
+		graphRender.setCenterNode(data.nodes[0].id);
+		// redraw with new graph and new graph events
+		graphRender.draw();
+	    });
         }
     });
 
@@ -36,7 +39,7 @@ function GuiEvent(graphRender) {
         else {
             return new ChromeWheel( 0 , (diff / 5));
         }
-        var diff = 0;
+        diff = 0;
     });
 
     function ChromeWheel ( shift_key , clicks) {
