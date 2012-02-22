@@ -11,7 +11,7 @@ function SubgraphRender(graphs) {
 	
 	// init svg area to draw
 	this.svg = d3.select("#d3")
-		.append("svg")
+		.append("svg:svg")
 		.attr("width", this.w)
 		.attr("height", this.h);
 		
@@ -46,6 +46,21 @@ function SubgraphRender(graphs) {
 			.data(this.graphs);
 		
 		// handle events for graph (only for graph)
-		return new GraphEvent(this);
+		return new SubgraphEvent(this);
+	};
+	
+	this.data = function(graphs) {
+		this.graphs = graphs;
+	};
+	
+	this.empty = function() {
+		// empty graphs
+		this.graphs = [];
+		// empty the force graph
+		this.force = d3.layout.force()
+			.nodes([]);
+		// empty actual circles as graphs
+		this.circle = this.svg.selectAll("circle").data([]);
+		this.circle.exit().remove();
 	};
 }

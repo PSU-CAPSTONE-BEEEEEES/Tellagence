@@ -1,4 +1,4 @@
-function GraphEvent(renderObject) {
+function SubgraphEvent(renderObject) {
 	// render object for this graph event
 	this.renderObject = renderObject;
 	
@@ -21,56 +21,44 @@ function GraphEvent(renderObject) {
 			$("#step2").hide();
 			$("#step3").show();
 			
-			
-			// draw paths, nodes, and name for each node
-			renderObject.drawPaths();
+			// draw nodes
 			renderObject.drawCircles();
-			//renderObject.writeName();
 			// stop ticking immeidately as the complete graph was drawn
 			renderObject.force.stop();
 			
-			// on click redraw the graph with the selected node being the center node of the new graph
+			// on click render the selected subgraph
 			renderObject.circle.on('click', function(d, i) {
 				// throw a new popup up
 				resetPopup();
-				// retrieve depth
-				var depth = 100;
-				// erase and empty current render
-				renderObject.empty();
-				// call to server to obtain new graph info
-				d3.json('data/search.php?id='+d.id+'&depth='+depth, function(data) {
-					// switch the spinning bar for the loading bar
-					switchBars();
-					// data for new graph
-					renderObject.data(data.nodes, data.links);
-					renderObject.setCenterNode(d.id);
-					// redraw with new graph and new graph events
-					renderObject.draw();
+				// call to server to obtain the selected graph info
+				//d3.json('data/search.php?subgraph='+d.subgraph_id+'&cutoff=2', function(data) {
+				d3.json('data/search.php?id=1&depth=5', function(data) {
+					// throw a new popup up
+					resetPopup();
+					// retrieve depth
+					var depth = 5;
+					// erase and empty current render
+					renderObject.empty();
+					// call to server to obtain new graph info
+					d3.json('data/search.php?id=1&depth=5', function(data) {
+						// switch the spinning bar for the loading bar
+						switchBars();
+						// data for new graph
+						renderObject.data(data.nodes, data.links);
+						renderObject.setCenterNode(d.id);
+						// redraw with new graph and new graph events
+						renderObject.draw();
+					});
 				});
-			});
+			});			
 			// mark render object as completely ready
 			renderObject.ready = true;
 		}
-		
-		// ticking the paths
-		renderObject.path.attr("d", function(d) {
-			var dx = d.target.x - d.source.x,
-				dy = d.target.y - d.source.y,
-				dr = 0;
-			return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-		});
 		
 		// ticking the cirlces
 		renderObject.circle
 			.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) { return d.y; });
-			
-		/*
-		// ticking the texts
-		renderObject.text.attr("transform", function(d) {
-			return "translate(" + d.x + "," + d.y + ")";
-		});
-		*/
 	});
 	
 	// changes the svg size on window
