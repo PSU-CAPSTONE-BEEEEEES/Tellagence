@@ -1,3 +1,6 @@
+// draw a gobal svg area
+var svg = new SVG();
+
 // render for subgraph
 var sgr = new SubgraphRender([]);
 // gui event for subgraphs
@@ -16,3 +19,6 @@ d3.json("data/subgraph.php", function(data) {
 	// draw subgraph (w/ graph events ready)
 	window.sgr.draw();
 });
+
+// events for global user gui
+var sgui = new SiteGuiEvent();

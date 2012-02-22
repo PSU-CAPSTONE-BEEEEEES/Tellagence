@@ -33,10 +33,10 @@ function GraphEvent(renderObject) {
 			renderObject.circle.on('click', function(d, i) {
 				// throw a new popup up
 				resetPopup();
-				// retrieve depth
-				var depth = 100;
 				// erase and empty current render
 				renderObject.empty();
+				// retrieve depth
+				var depth = 100;
 				// call to server to obtain new graph info
 				d3.json('data/search.php?id='+d.id+'&depth='+depth, function(data) {
 					// switch the spinning bar for the loading bar

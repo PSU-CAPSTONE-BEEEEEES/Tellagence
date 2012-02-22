@@ -30,25 +30,17 @@ function SubgraphEvent(renderObject) {
 			renderObject.circle.on('click', function(d, i) {
 				// throw a new popup up
 				resetPopup();
+				// erase and empty current render
+				renderObject.empty();
 				// call to server to obtain the selected graph info
-				//d3.json('data/search.php?subgraph='+d.subgraph_id+'&cutoff=2', function(data) {
-				d3.json('data/search.php?id=1&depth=5', function(data) {
-					// throw a new popup up
-					resetPopup();
-					// retrieve depth
-					var depth = 5;
-					// erase and empty current render
-					renderObject.empty();
-					// call to server to obtain new graph info
-					d3.json('data/search.php?id=1&depth=5', function(data) {
-						// switch the spinning bar for the loading bar
-						switchBars();
-						// data for new graph
-						renderObject.data(data.nodes, data.links);
-						renderObject.setCenterNode(d.id);
-						// redraw with new graph and new graph events
-						renderObject.draw();
-					});
+				d3.json('data/search.php?subgraph='+d.subgraph_id+'&cutoff=2', function(data) {
+					// switch the spinning bar for the loading bar
+					switchBars();
+					// data for new graph
+					window.gr.data(data.nodes, data.links);
+					window.gr.setCenterNode(0);
+					// redraw selected graph with new graph events
+					window.gr.draw();
 				});
 			});			
 			// mark render object as completely ready
@@ -59,15 +51,5 @@ function SubgraphEvent(renderObject) {
 		renderObject.circle
 			.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) { return d.y; });
-	});
-	
-	// changes the svg size on window
-	$(window).resize(function() {
-		var w = $("#d3").width();
-		var h = $(window).height();
-		this.renderObject.svg
-			.attr("width", w)
-			.attr("height", h);
-		this.renderObject.force.size([w, h]);
 	});
 }

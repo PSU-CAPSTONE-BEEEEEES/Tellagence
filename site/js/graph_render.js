@@ -15,13 +15,12 @@ function GraphRender(nodes, links) {
 				 "translate(" + d3.event.translate + ")" +
 				 " scale(" + d3.event.scale + ")");
         }
+		
+	// select the svg area to draw
+	this.svg = d3.select("#d3").select("svg");
 
 	// init svg area to draw
-	this.svg = d3.select("#d3")
-		.append("svg:svg")
-		.attr("width", this.w)
-		.attr("height", this.h)
-	        .append('g')
+	this.svg.append('g')
 				.call(d3.behavior.zoom().on("zoom", redraw))
 			.append('g')
 				.attr("id", "inner")
@@ -51,7 +50,7 @@ function GraphRender(nodes, links) {
 		// draw circles
 		var center = this.centerNode;
 		this.circle.enter().append("circle")
-			.attr("r", function(d) { return d.sum_degree/10+'px'; })
+			.attr("r", function(d) { return d.sum_degree*100/10+'px'; })
 			.attr("opacity", 0.5)
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
