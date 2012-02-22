@@ -30,6 +30,11 @@ a:hover {
     z-index: 1;
 }
 
+circle.sgnode {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
 line {
     stroke: black;
     stroke-width: 1px;
