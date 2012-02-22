@@ -146,7 +146,7 @@ if (isset($subgraph)) {
 
 pruneNodes();
 
-echo('"{links":[');
+echo('{"links":[');
 
 //link the nodes
 $prev = 0;
