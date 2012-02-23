@@ -1,7 +1,7 @@
 function GraphEvent(renderObject) {
 	// render object for this graph event
 	this.renderObject = renderObject;
-	
+
 	var progress = function(alpha) {
 		// range should match start to drawLines/drawCircles
 	    var range = 0.1 - 0.01;
@@ -13,8 +13,10 @@ function GraphEvent(renderObject) {
         this.renderObject.force.on("tick", function() {
                 var alpha = renderObject.force.alpha();
                 // use callback on bar to disable popup at 100%
-                $("#progress").progressBar(progress(alpha),
-                                           {callback:progressCallback});
+                if (renderObject.canTick === true) {
+                    $("#progress").progressBar(progress(alpha),
+                                               {callback:progressCallback});
+                }
 
                 // start drawing lines when the graph is about to stay stable
                 if (alpha<0.01 && renderObject.ready===false) {

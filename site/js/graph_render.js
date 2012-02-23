@@ -9,6 +9,7 @@ function GraphRender(nodes, links) {
 	
 	// temp
 	this.ready = false;
+        this.canTick = true;
 
 	// set the svg for resizing and use the inner for drawing
 	this.svg = d3.select("#d3").select("svg");

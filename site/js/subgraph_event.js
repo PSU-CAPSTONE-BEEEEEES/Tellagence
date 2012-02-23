@@ -12,10 +12,11 @@ function SubgraphEvent(renderObject) {
         // circles stay stacked unless they change every tick
         this.renderObject.force.on("tick", function() {
                 var alpha = renderObject.force.alpha();
-                                // use callback on bar to disable popup at 100%
-                $("#progress").progressBar(progress(alpha),
-                                           {callback:progressCallback});
-
+                // use callback on bar to disable popup at 100%
+                if (renderObject.canTick === true) {
+                    $("#progress").progressBar(progress(alpha),
+                                               {callback:progressCallback});
+                }
                 // start drawing lines when the graph is about to stay stable
                 if (alpha<0.01 && renderObject.ready===false) {
                         $("#step2").hide();
@@ -29,6 +30,9 @@ function SubgraphEvent(renderObject) {
 			renderObject.circle.on('click', function(d, i) {
 				// throw a new popup up
 				resetPopup();
+
+                                // make only the graph tick
+                                renderObject.canTick = false;
 
                                 // reenable the search
 	                        $("#searchbar").show();
