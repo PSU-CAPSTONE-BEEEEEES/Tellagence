@@ -9,8 +9,9 @@ function SubgraphRender(graphs) {
 	// temp
 	this.ready = false;
 
-	// select the svg area to draw
-	this.svg = d3.select("#inner");
+	// set the svg for resizing and use the inner for drawing
+	this.svg = d3.select("#d3").select("svg");
+        this.inner = d3.select("#inner");
 
 	this.drawCircles = function() {
 		// draw circles
@@ -40,7 +41,7 @@ function SubgraphRender(graphs) {
 			.start();
 			
 		// init circles as nodes
-		this.circle = this.svg.selectAll("circle")
+		this.circle = this.inner.selectAll("circle")
 			.data(this.graphs);
 		
 		// handle events for graph (only for graph)
@@ -58,7 +59,7 @@ function SubgraphRender(graphs) {
 		this.force = d3.layout.force()
 			.nodes([]);
 		// empty actual circles as graphs
-		this.circle = this.svg.selectAll("circle").data([]);
+		this.circle = this.inner.selectAll("circle").data([]);
 		this.circle.exit().remove();
 	};
 }

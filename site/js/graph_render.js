@@ -10,11 +10,12 @@ function GraphRender(nodes, links) {
 	// temp
 	this.ready = false;
 
-	// select the svg area to draw
-	this.svg = d3.select("#inner");
+	// set the svg for resizing and use the inner for drawing
+	this.svg = d3.select("#d3").select("svg");
+        this.inner = d3.select("#inner");
 				
 	// Per-type markers, as they don't inherit styles.
-	this.svg.append("defs").selectAll("marker")
+	this.inner.append("defs").selectAll("marker")
 		.data(["suit", "licensing", "resolved"])
 		.enter().append("marker")
 		.attr("id", String)
@@ -84,16 +85,16 @@ function GraphRender(nodes, links) {
 				renderLinks.push(path);
 				//console.log(renderLinks.length);
 			}
-		this.path = this.svg.selectAll("path")
+		this.path = this.inner.selectAll("path")
 			.data(renderLinks);
 		//console.log(this.path);
 			
 		// init circles as nodes
-		this.circle = this.svg.selectAll("circle")
+		this.circle = this.inner.selectAll("circle")
 			.data(this.nodes);
 			
 		// init texts
-		this.text = this.svg.selectAll("text")
+		this.text = this.inner.selectAll("text")
 			.data(this.nodes);
 			
 		// handle events for graph (only for graph)
@@ -127,9 +128,9 @@ function GraphRender(nodes, links) {
 			.nodes([])
 			.links([]);
 		// empty actual circles and links
-		this.circle = this.svg.selectAll("circle").data([]);
+		this.circle = this.inner.selectAll("circle").data([]);
 		this.circle.exit().remove();
-		this.path = this.svg.selectAll("path").data([]);
+		this.path = this.inner.selectAll("path").data([]);
 		this.path.exit().remove();
 	};
 }

@@ -76,6 +76,7 @@ function redraw(a) {
 
     // resize rect with inner
     var ssb = getScreenBBox_impl($("#inner")[0]);
+    console.log(ssb.width + " " + ssb.height);
     $("#rect").width(ssb.width);
     $("#rect").height(ssb.height);
 }
