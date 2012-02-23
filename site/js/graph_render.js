@@ -9,22 +9,9 @@ function GraphRender(nodes, links) {
 	
 	// temp
 	this.ready = false;
-	
-	function redraw(a) {
-		d3.select("#inner").attr("transform",
-				 "translate(" + d3.event.translate + ")" +
-				 " scale(" + d3.event.scale + ")");
-        }
-		
-	// select the svg area to draw
-	this.svg = d3.select("#d3").select("svg");
 
-	// init svg area to draw
-	this.svg.append('g')
-				.call(d3.behavior.zoom().on("zoom", redraw))
-			.append('g')
-				.attr("id", "inner")
-				.attr("transform", "translate(0, 0) scale(1)");
+	// select the svg area to draw
+	this.svg = d3.select("#inner");
 				
 	// Per-type markers, as they don't inherit styles.
 	this.svg.append("defs").selectAll("marker")
@@ -39,12 +26,6 @@ function GraphRender(nodes, links) {
 		.attr("orient", "auto")
 		.append("path")
 		.attr("d", "M0,-5L10,0L0,5");
-
-	// rect to move graph
-	this.svg.append('rect')
-		.attr('width', this.w)
-		.attr('height', this.h)
-		.style("fill", "white");
 				
     this.drawCircles = function() {
 		// draw circles

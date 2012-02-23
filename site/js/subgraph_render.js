@@ -5,13 +5,13 @@ function SubgraphRender(graphs) {
 	this.w = $(window).width();
 	this.h = $(window).height();
 	this.fill = d3.scale.category20();
-	
+
 	// temp
 	this.ready = false;
-	
+
 	// select the svg area to draw
-	this.svg = d3.select("#d3").select("svg");
-		
+	this.svg = d3.select("#inner");
+
 	this.drawCircles = function() {
 		// draw circles
 		this.circle.enter().append("circle")

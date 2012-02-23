@@ -5,25 +5,23 @@ function GraphEvent(renderObject) {
 	var progress = function(alpha) {
 		// range should match start to drawLines/drawCircles
 	    var range = 0.1 - 0.01;
-	    var percent = ((0.1 - alpha) / range) * 100;
-	    return Math.floor(percent);
-	};
-	
-	// circles stay stacked unless they change every tick
-	this.renderObject.force.on("tick", function() {
-		var alpha = renderObject.force.alpha();
-				// use callback on bar to disable popup at 100%
-		$("#progress").progressBar(progress(alpha),
-										   {callback:progressCallback});
-			
-		// start drawing lines when the graph is about to stay stable
-		if (alpha<0.01 && renderObject.ready===false) {
-			$("#step2").hide();
-			$("#step3").show();
-			
-			
-			// draw paths, nodes, and name for each node
-			renderObject.drawPaths();
+            var percent = ((0.1 - alpha) / range) * 100;
+            return Math.floor(percent);
+        };
+
+        // circles stay stacked unless they change every tick
+        this.renderObject.force.on("tick", function() {
+                var alpha = renderObject.force.alpha();
+                // use callback on bar to disable popup at 100%
+                $("#progress").progressBar(progress(alpha),
+                                           {callback:progressCallback});
+
+                // start drawing lines when the graph is about to stay stable
+                if (alpha<0.01 && renderObject.ready===false) {
+                        $("#step2").hide();
+
+                        // draw paths, nodes, and name for each node
+                        renderObject.drawPaths();
 			renderObject.drawCircles();
 			//renderObject.writeName();
 			// stop ticking immeidately as the complete graph was drawn
@@ -71,15 +69,5 @@ function GraphEvent(renderObject) {
 			return "translate(" + d.x + "," + d.y + ")";
 		});
 		*/
-	});
-	
-	// changes the svg size on window
-	$(window).resize(function() {
-		var w = $("#d3").width();
-		var h = $(window).height();
-		this.renderObject.svg
-			.attr("width", w)
-			.attr("height", h);
-		this.renderObject.force.size([w, h]);
 	});
 }

@@ -9,17 +9,16 @@ function SubgraphEvent(renderObject) {
 	    return Math.floor(percent);
 	};
 	
-	// circles stay stacked unless they change every tick
-	this.renderObject.force.on("tick", function() {
-		var alpha = renderObject.force.alpha();
-				// use callback on bar to disable popup at 100%
-		$("#progress").progressBar(progress(alpha),
-										   {callback:progressCallback});
-			
-		// start drawing lines when the graph is about to stay stable
-		if (alpha<0.01 && renderObject.ready===false) {
-			$("#step2").hide();
-			$("#step3").show();
+        // circles stay stacked unless they change every tick
+        this.renderObject.force.on("tick", function() {
+                var alpha = renderObject.force.alpha();
+                                // use callback on bar to disable popup at 100%
+                $("#progress").progressBar(progress(alpha),
+                                           {callback:progressCallback});
+
+                // start drawing lines when the graph is about to stay stable
+                if (alpha<0.01 && renderObject.ready===false) {
+                        $("#step2").hide();
 			
 			// draw nodes
 			renderObject.drawCircles();
