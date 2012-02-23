@@ -3,6 +3,4 @@ function SubgraphGuiEvent(renderObject) {
     this.renderObject = renderObject;
 	
 	$("#searchbar").hide();
-	$("#slider").hide();
-	$("#slider").hide();
 }

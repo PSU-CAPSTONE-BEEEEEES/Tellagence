@@ -29,6 +29,10 @@ function SubgraphEvent(renderObject) {
 			renderObject.circle.on('click', function(d, i) {
 				// throw a new popup up
 				resetPopup();
+
+                                // reenable the search
+	                        $("#searchbar").show();
+
 				// erase and empty current render
 				renderObject.empty();
 				// call to server to obtain the selected graph info
