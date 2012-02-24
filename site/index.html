@@ -7,11 +7,18 @@
 
     <!-- stylesheets -->
     <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/auto.css"/>
 
     <!-- core libraries -->
     <script src="js/lib/jquery-1.7.1.js"></script>
     <script src="js/lib/html5slider.js"></script>
     <script src="js/lib/jquery.progressbar.js"></script>
+
+    <!-- autocomplete via jquery ui -->
+    <script src="js/lib/jquery.ui.core.js"></script>
+    <script src="js/lib/jquery.ui.position.js"></script>
+    <script src="js/lib/jquery.ui.widget.js"></script>
+    <script src="js/lib/jquery.ui.autocomplete.js"></script>
 
     <!-- d3 libraries -->
     <script src="js/lib/d3.js"></script>
@@ -29,9 +36,9 @@
         <div id="help_button">?</div>
 
         <input type="range" id="slider" min="0" max="100" value="50" step="5"/>
-        <div id="search">
+        <div class="ui-widget" id="search">
           <div id="searchcell">
-            <input id="searchbar" type="text"/>
+            <input id="searchbar">
           </div>
         </div>
 
@@ -39,7 +46,7 @@
           <a href="http://mbostock.github.com/d3/" target="_blank">d3</a>
         </div>
       </div>
-      <img id="tab" src="static/tab.png" alt="click me!"/>
+      <img id="tab" src="static/images/tab.png" alt="click me!"/>
     </div>
 
     <div id="d3">
@@ -47,16 +54,22 @@
       Note that this calls an example script that draws the svg within the d3
       section and redraws it properly on resize
       -->
-    	<script type="text/javascript" src="js/graph_render.js" ></script>
-    	<script type="text/javascript" src="js/graph_event.js" ></script>
+      <script type="text/javascript" src="js/svg.js" ></script>
+      <script type="text/javascript" src="js/subgraph_render.js" ></script>
+      <script type="text/javascript" src="js/graph_render.js" ></script>
+      <script type="text/javascript" src="js/subgraph_event.js" ></script>
+      <script type="text/javascript" src="js/graph_event.js" ></script>
+      <script type="text/javascript" src="js/subgraph_gui_event.js" ></script>
       <script type="text/javascript" src="js/gui_event.js" ></script>
-    	<script type="text/javascript" src="js/build.js" ></script>
+      <script type="text/javascript" src="js/site_gui_event.js" ></script>
+      <script type="text/javascript" src="js/build.js" ></script>
     </div>
 
     <!-- help overlay, with the entered text formatted into the popup -->
     <div id="Popup">
       <h1>Visualizing Twitter</h1>
       <div id="help">
+        <!-- help instructions -->
         <ul>
           <li>Click and Drag to Pan Around the Visual</li>
           <li>Scroll or Use the Slider in the Menu to Zoom In and Out</li>
@@ -66,9 +79,9 @@
         </ul>
       </div>
       <div id="bar">
+        <!-- steps that are displayed at different states in the progress bar -->
         <h2 id="step1">Fetching Data From Database...</h2>
         <h2 id="step2">Building Visual...</h2>
-        <h2 id="step3">Drawing Visual...</h2>
         <div id="spingress"></div>
         <div id="progress"></div>
       </div>

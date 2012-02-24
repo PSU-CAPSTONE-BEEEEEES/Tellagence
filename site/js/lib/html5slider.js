@@ -93,18 +93,14 @@ function transform(slider) {
   // lazily create shared slider affordance
   if (!scale) {
     scale = document.body.appendChild(document.createElement('div'));
-    scale.setAttribute('id', "thumb");
     style(scale, {
-	'background-color': 'white',
-	border: '2px solid black',
-	width: '6px',
-	height: '20px',
-	cursor: 'pointer'
+       'background-color': 'white',
+       border: '2px solid black',
+       width: '6px',
+       height: '20px',
+       cursor: 'pointer'
     });
     document.mozSetImageElement('__sliderthumb__', scale);
-
-    var thumb = document.getElementById("thumb");
-    thumb.parentNode.removeChild(scale);
   }
 
   // reimplement value and type properties

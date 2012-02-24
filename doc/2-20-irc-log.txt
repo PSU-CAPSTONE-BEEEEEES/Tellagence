@@ -1,0 +1,271 @@
+17:55:19       aren | here
+17:55:24   blackcat | here
+17:55:35     @d-_-b | blackcat, aren, howdy.
+17:55:39 jesusaurus | hola
+17:55:50     @d-_-b | aren, you checkout out the notes from friday?
+17:56:05       aren | not yet sorry
+17:56:08   blackcat | I commit Unit test for PHP to dev
+17:56:10       aren | :|
+17:56:22     @d-_-b | blackcat, sweet
+17:56:43     @d-_-b | aren, guess the meeting should help
+17:58:28     hptran | d-_-b: for overlapping, i apply radius=log(sum_degree) -> no full overlapping, but line is still from center -> center
+17:58:36     @d-_-b | so, we're missing longuyen?
+17:59:03     hptran | longuyen: said, he had to come back home a little bit, will be back later
+17:59:25   blackcat | hptran:  didn't get your idea
+17:59:31     @d-_-b | well that's good to hear. hptran, he say when?
+17:59:33   blackcat | from center to center?
+17:59:47     hptran | about 15 mins
+17:59:53     @d-_-b | alright
+17:59:59     hptran | blackcat: center of a circle
+18:00:13 jesusaurus | instead of edge to edge
+18:00:14     @d-_-b | blackcat, i see your commit, but it looks like it's just library code
+18:00:26     hptran | blackcat: when will you come to school, need your help with git in windows
+18:00:35     hptran | jesusaurus: right
+18:00:47   blackcat | d-_-b: unitTest.php
+18:01:00   blackcat | can check for any missing ; */
+18:01:42   blackcat | my part is not directly taking input from user
+18:02:01     @d-_-b | blackcat, i see. can you talk with aren on getting this in buildbot?
+18:02:26   blackcat | so it is not much to create unitTest
+18:02:29       aren | HEY GUYS!: first thing first. I asked Michelle to marry me and she yes!
+18:02:41 jesusaurus | that++
+18:02:42     @d-_-b | aren++
+18:02:50     hptran | excellent :))
+18:02:51   blackcat | search form can be a good one after integration
+18:02:59     @d-_-b | karmabot, aren is engaged
+18:02:59   karmabot | Yes, d-_-b.
+18:03:08   blackcat | aren++
+18:03:08     @d-_-b | aren, stupendous mate
+18:03:28     @d-_-b | blackcat, yeah, the framework is in place though, so that's good
+18:04:22     @d-_-b | shall we talk about our weekend work? we know what aren was up to :)
+18:04:27   blackcat | d-_-b: where did you put unitTest for JS?
+18:04:42     @d-_-b | blackcat, haven't actually finished one yet
+18:05:03     @d-_-b | under test/data/ should be good for you
+18:06:01   blackcat | d-_-b: I saw only 2 json files
+18:06:23     @d-_-b | blackcat, json?
+18:06:26     @d-_-b | aren, https://projects.cecs.pdx.edu/news/123
+18:06:26 jesusaurus | blackcat: yeah, i made those to use kwalify to check my json output
+18:06:35       aren | d-_-b: cool
+18:06:52 jesusaurus | aren: blackcat i need to talk to you guys to get kwalify installed on the buildbot box
+18:07:06     @d-_-b | hptran, it sounded like work was done on subgraphs
+18:07:26     hptran | yep, will work with Long today for integration
+18:07:30       aren | jesusaurus: if you point me to the source I can do it
+18:07:57     @d-_-b | hptran, the color and radius is working though?
+18:08:08 jesusaurus | aren: im pretty sure its in apt
+18:08:25     hptran | yes, did you see the link for the subgraph demo
+18:08:29   blackcat | jesusaurus: what is kwalify?
+18:08:37 jesusaurus | i take that back
+18:08:40 jesusaurus | aren: its a ruby gem
+18:09:06     @d-_-b | hptran, yeah, looks good
+18:09:12 jesusaurus | blackcat: http://www.kuwata-lab.com/kwalify/
+18:09:27   blackcat | http://web.cecs.pdx.edu/~hptran/capstone/fa2011cs487-beeeeees/research/subgraphs/subgraphs.html
+18:09:44     @d-_-b | i got the autocomplete working with jesusaurus's userlist.php and displaying 5 results max
+18:09:45 jesusaurus | its a way to make sure that json has all the fields it needs
+18:09:57     hptran | so for the graph, if apply the same idea which is using logarithmic scale, then there is no full overlapping
+18:10:53       aren | d-_-b: what did you have to do to limit to 5 results?
+18:11:11     @d-_-b | aren, i found a hacked version with a 'max' option in some guys fork
+18:11:27       aren | interesting
+18:11:39       aren | so I take it they liked the demo!?
+18:11:39 jesusaurus | (some guys hacked version)++
+18:11:50 jesusaurus | aren: yeah!
+18:11:57     @d-_-b | aren, https://github.com/brafales/jquery-ui/blob/master/ui/jquery.ui.autocomplete.js
+18:12:22     @d-_-b | aren, for sure, the link to the photo in the news is our last set of tasks
+18:12:36   blackcat | aren: can you cp folder simpletest and unitTest.php (in dev) to buildbot
+18:13:02       aren | buildbot pulls everynight, so the files should be in the dev workdir
+18:13:25   blackcat | ah that's cool
+18:14:11     @d-_-b | anyone have anything else to share that they did over the weekend? we've got the dev state from friday in master now too.
+18:14:12     hptran | aren : we applied temporature ideas in subgraph :), may be applying to the graph also, but need sponsor agreement
+18:14:40 jesusaurus | ive added more get parameters to search.php
+18:14:58 jesusaurus | im going to add search.php?help that will output the api
+18:15:25   blackcat | hptran: how bout the arrows?
+18:15:28     @d-_-b | jesusaurus, sweet
+18:15:37       aren | hptran: love it!
+18:15:37     @d-_-b | longuyen around yet?
+18:15:46     hptran | blackcat: Long is working on that.
+18:16:03     hptran | blackcat: git in windows, help me ...
+18:16:16   blackcat | i'm in school tmr
+18:16:16     @d-_-b | let's get through the meeting first
+18:16:27     @d-_-b | shall we move on to tickets?
+18:16:41   blackcat | kk
+18:16:51     @d-_-b | there were a few things that we forgot in the photo
+18:17:02     hptran | blackcat: ok, let me know in IRC when you come to the lab, I will be at PSU after 2PM
+18:17:12   blackcat | I have only 2 tickets left :D
+18:18:01     @d-_-b | tiny bug fixes really, like the inner/rect element issue, the zoom slider thumb disappearing, and error messages in the search
+18:18:02   blackcat | hptran: ok, I will be inschool from 12 to 6
+18:18:31     hptran | blackcat: thanks
+18:19:14          * | longuyen here
+18:19:23     @d-_-b | longuyen, is everything alright?
+18:19:38   longuyen | yeah I just got outside a little bit
+18:19:39     hptran | longuyen: you missed a great new from aren :)
+18:19:47   longuyen | reading back...
+18:20:49     @d-_-b | what i want everyone to do now, since i assume most of you are on computers, is go to redmine and update your tickets
+18:21:12   blackcat | d-_-b: so we have already gotten the search feature, yes?
+18:21:15       aren | I'm on a typewritter
+18:21:25     @d-_-b | make sure to match them with the whiteboard photo and demos
+18:21:33     @d-_-b | blackcat, yeah, i'll close ones for that
+18:21:33     hptran | already :)
+18:22:19   blackcat | d-_-b: where is the source code located?
+18:23:04   blackcat | I can write some unitTest for that search form
+18:23:06     @d-_-b | blackcat, in dev among gui_event.js and toolbar.js
+18:23:22     @d-_-b | the php is site/data/userlist.php
+18:23:40   blackcat | got it
+18:23:44     @d-_-b | aren, can you close your stale tickets from last week?
+18:23:56       aren | doing that now
+18:24:04     @d-_-b | hptran, i'd like a ticket specifically for integration with long
+18:24:18     @d-_-b | longuyen, make sure your old tickets are updated as well
+18:24:54     hptran | d-_-b: okay, doing it
+18:26:02   longuyen | aren: CONGRATULATIONS!!!!
+18:26:18   blackcat | jesusaurus: #913 is done, yes?
+18:26:25 jesusaurus | no, its ongoing
+18:26:32 jesusaurus | search.php may never be done :)
+18:26:42   blackcat | oh what is it missing?
+18:26:52 jesusaurus | i need to update the ticket though
+18:26:59 jesusaurus | blackcat: well, i just keep adding to it
+18:27:30     @d-_-b | jesusaurus, could we break that into subtasks that make sense?
+18:27:47 jesusaurus | yeah
+18:28:13 jesusaurus | i need to take some time to go through what ive done and document it as subtasks
+18:28:26   blackcat | jesusaurus: yeah, I start to read your part to create UnitTest
+18:28:34 jesusaurus | or maybe subtasks of a related task, because i guess the db query is done
+18:28:57     @d-_-b | aren, are you clear on the tasks outlined in the notes?
+18:28:58 jesusaurus | its just working with the results that isnt
+18:29:10   blackcat | our unitTest right now is just checking for grammar errors
+18:29:36       aren | d-_-b: making sense of them now
+18:30:35     @d-_-b | aren, i was wondering if you want to do the hover info on the links, since you had a task like it already
+18:31:09     @d-_-b | the popup would display both usernames on the link and the influence either way in some metric
+18:31:10       aren | I thought that was done by Huy already.
+18:31:40     @d-_-b | aren, huy's is just the browser default of a popup, like alt text on an image
+18:31:48     @d-_-b | and it doesn't work everywhere
+18:31:53       aren | okay
+18:32:06   longuyen | https://projects.cecs.pdx.edu/news/123 http://www.kuwata-lab.com/kwalify/
+18:32:14     @d-_-b | yay right click
+18:32:50     @d-_-b | aren, and for search, we were thinking the "invalid user" and "not found" sort of stuff
+18:33:04     @d-_-b | longuyen, #999?
+18:33:09   longuyen | checking on it
+18:33:11       aren | so on empty array return?
+18:33:36     @d-_-b | probably
+18:33:46     @d-_-b | some sort of message to the user
+18:34:02   longuyen | d-_-b: the #99 task sounds like a long term task until we are agree on all features of the graph
+18:34:18   longuyen | d-_-b: I think I might have to reschedule it and extend the deadline
+18:34:34     @d-_-b | longuyen, can you update the timeline then or break it down to subtasks (one for each reschedule)
+18:34:34   longuyen | d-_-b: sorry, #99 -> #999
+18:35:37     @d-_-b | aren, do you understand the color palette deal that i'd work on?
+18:36:01       aren | no. Also, pulled from dev and scp to my public html and it is broke
+18:36:15     @d-_-b | i can get you up to speed tomorrow before funlangs
+18:36:18     @d-_-b | aren, how?
+18:36:40       aren | I think permissions
+18:36:44     @d-_-b | ah
+18:37:23     @d-_-b | does everyone have tasks up to date now?
+18:37:24       aren | fixed it
+18:37:35   blackcat | yes
+18:37:43     hptran | yes
+18:38:16     @d-_-b | hptran, #1281 looks like a long title :)
+18:39:11     @d-_-b | aren, could you redo #1028 for the link hover task if you're still alright with doing it?
+18:39:41       aren | mkay
+18:40:04     @d-_-b | also, with this (nearly) final reschedule of tasks, is everyone alright with the division of work?
+18:40:31     hptran | yes
+18:40:33   longuyen | d-_-b: dividing #999
+18:40:51     @d-_-b | longuyen, thanks
+18:42:04     @d-_-b | aren, don't know if you picked up on it, but we decided on sticking another demo in this week, on top of next week's final demo
+18:42:28       aren | okay
+18:43:28     @d-_-b | so by then, for your end, we're expecting a user proof search
+18:44:23       aren | yeah, we'll meet about the search. Not sure it is working. Found a user in the graph that autocomplete did not suggest, ever
+18:44:48     @d-_-b | weird, we'll talk indeed
+18:45:12     @d-_-b | jesusaurus, did you come close to finishing the leaf pruning this weekend?
+18:47:02 jesusaurus | yeah, thats done
+18:47:14     @d-_-b | is there a comp'ed ticket for it?
+18:47:18 jesusaurus | not yet
+18:47:38 jesusaurus | im going through and adding all of this to the 'generate json' ticket
+18:48:29     @d-_-b | fair enough. as long as work gets documented. we've got to make sure credit is given where credit is due.
+18:49:30     @d-_-b | for those that are done with ticket updates, can we get the project plan on master to match the new tasks?
+18:55:03          * | d-_-b just pushed his tasks to master on ProjectPlan.tex
+18:55:11     @d-_-b | is everyone else doing the same?
+18:55:26       aren | will do it when I know everybody is done
+18:56:00     @d-_-b | fair enough
+18:56:30     @d-_-b | aren, #1028 should be due on 3/2, right?
+18:56:40       aren | I think
+18:57:04     @d-_-b | that's the hover one, right? 3/2 is the friday demo
+18:58:55       aren | is that okay then?
+18:59:13     @d-_-b | i plan on assigning tasks after week 8 that relate to the project plan and presentation specifically, so just a heads up to everyone. that seems to be a good approach.
+18:59:43     @d-_-b | aren, what's okay?
+19:01:12     @d-_-b | heh, you still have (bow chicka bow bow) in the notes on that ticket.
+19:01:17       aren | yeah
+19:01:23       aren | is it okay to be on 3/2?
+19:01:44   longuyen | d-_-b: can you check #999. Is it too many subtasks for how I broke it down?
+19:01:48     @d-_-b | i think it should be, since that's when the demo is
+19:02:51     @d-_-b | longuyen, i think the number is fine, but the grouping may be off a bit. it should be fine for now though.
+19:03:08 jesusaurus | blackcat: 907 can be closed?
+19:04:00     @d-_-b | how's the project plan looking for everyone?
+19:05:27     hptran | look good
+19:06:23     hptran | actually, I need to update the requirements part
+19:06:45 jesusaurus | d-_-b: can we talk about 1088 for a sec?
+19:07:05     @d-_-b | by the end of the meeting, i want at least the tasks to match the tickets. reqs can be done sometime later.
+19:07:16 jesusaurus | i just want to give it a license now
+19:07:17     @d-_-b | jesusaurus, licensing?
+19:07:32 jesusaurus | i think its kind of silly to do that last
+19:07:36 jesusaurus | we shouldve done it first
+19:07:58     @d-_-b | we haven't had a real deliverable yet, but i see your point
+19:08:22 jesusaurus | we may not have a deliverable yet, but our code is on github
+19:08:32 jesusaurus | its publicly available to anyone right now
+19:08:47   blackcat | jesusaurus: what is 907?
+19:08:59 jesusaurus | blackcat: populate database
+19:09:01     @d-_-b | yeah. i'll bump that task up. freebsd 3-clause still good with folks?
+19:09:15 jesusaurus | d-_-b: yeah
+19:09:17   blackcat | I think its done
+19:09:30 jesusaurus | blackcat: its currently: New, 100%
+19:09:31   blackcat | jesusaurus: how can you search by usign ticket number?
+19:09:35     hptran | that's what I worry too, my mathlab code
+19:10:11     hptran | d-_-b: is freebsd work for matlab code?
+19:10:11 jesusaurus | blackcat: i actually dont know, i usually just use the gantt
+19:10:20     @d-_-b | i'll get it in tonight, tomorrow by the latest
+19:10:24 jesusaurus | hptran: i dont see why it wouldnt
+19:10:32     @d-_-b | blackcat, under the issues tab
+19:10:53     @d-_-b | hptran, since matlab is propprietary? hrm.
+19:11:40 jesusaurus | yeah, but the license of our code is completely seperate from the license of the software it runs on, right?
+19:11:41     hptran | sponsors said that it's okay,but just feel worry
+19:11:58 jesusaurus | theoretically, couldnt someone release a gpl program that would process the matlab code?
+19:12:20     hptran | right
+19:12:32     hptran | only Matlab program can compile matlab
+19:12:33     @d-_-b | jesusaurus, i also need to work out how to credit the libraries we're using too
+19:12:40 jesusaurus | d-_-b: right...
+19:13:00     @d-_-b | we've had to modify some as well
+19:13:00 jesusaurus | hptran: is that because the language is copyrighted?
+19:13:21     hptran | jesusaurus: i don't know
+19:13:30 jesusaurus | i dont know if you can copyright a language
+19:13:32     @d-_-b | some were public domain, so they aren't an issue
+19:13:43 jesusaurus | how is d3 licensed?
+19:13:52     @d-_-b | public domain
+19:13:56 jesusaurus | ah, great
+19:14:02     @d-_-b | hptran, http://www.mathworks.com/matlabcentral/answers/10616-step-by-step-getting-bsd-license makes me think we can use it fine
+19:14:26     @d-_-b | jesusaurus, a thread on google groups just mentions giving them credit like i did in the toolbar
+19:14:53 jesusaurus | cool
+19:14:55     @d-_-b | hptran, is there a reason #1281 has such a long title?
+19:15:19     @d-_-b | and most of the libraries we use have been forks or public
+19:16:18     @d-_-b | jesusaurus, i'll itemize everything that might affect licensing tonight and make sure we're safe
+19:17:36     hptran | d-_-b: also, i found some matlab project in github, using GNU General Public License
+19:18:29     hptran | d-_-b: how to change the title of a task?
+19:19:10     @d-_-b | hptran, near change properties, there is (more)
+19:19:27     @d-_-b | longuyen, you submitted the tasks as bugs. can you correct them to tasks?
+19:20:08     @d-_-b | are people pushing to master with updated project plan tasks?
+19:20:14     hptran | d-_-b: updated
+19:21:46     @d-_-b | hptran, http://www.mathworks.com/matlabcentral/fileexchange/ uses bsd licensing
+19:23:47     hptran | d-_-b: great
+19:24:23     hptran | updated, pushed projectplan
+19:26:24   longuyen | d-_-b: yeah I will do that
+19:26:25     hptran | okay, so we agree using free bsd ?
+19:26:39       aren | yes
+19:26:41     @d-_-b | hptran, yeah
+19:27:02     @d-_-b | if everyone else is finishing up with that, i might say this meeting is done. that's if no one has anything else to add.
+19:27:51 jesusaurus | pushed
+19:27:59     @d-_-b | aren, see you tomorrow around 12:30?
+19:28:40     @d-_-b | jesusaurus, who is your github icon of?
+19:29:07 jesusaurus | an image i found on deviantart of the servermonks
+19:29:16       aren | d-_-b: maybe, interview from 10 to potentially 1
+19:29:19 jesusaurus | (server monks)++
+19:29:20       aren | after funlangs?
+19:29:43     @d-_-b | aren, that could work too
+19:29:48       aren | mkay
+19:29:54     @d-_-b | jesusaurus, i'll have to check them out
+19:30:09     @d-_-b | if that's that, i'm out to the leads meeting.
+19:30:24 jesusaurus | http://crowchild85.deviantart.com/art/Server-Monks-20725714
+19:30:37 jesusaurus | d-_-b: its from (tales from the afternow)++
+19:31:17     @d-_-b | i'll keep the tab open for later
+19:31:22          * | d-_-b -> meeting
