@@ -58,7 +58,7 @@ function GraphRender(nodes, links) {
 	this.drawPaths = function() {
 		// as a result, only draw lines with sum inf > 0
 		this.path.enter().append("path")
-			.attr("class", function(d) { console.log('drawing path '+d.source.name+'->'+d.target.name); return "link"; })
+			.attr("class", function(d) { return "link"; })
 			.attr("marker-end", function(d) { return "url(#licensing)"; })
 			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
 	}
@@ -78,17 +78,14 @@ function GraphRender(nodes, links) {
 		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf>0 to another array, so d3 can still this.links array with all of the links
 		for (i=0; i<this.links.length; i++)
 			if ((this.links[i].inf_1to2+this.links[i].inf_2to1) > 0) {
-				console.log(this.links[i].source.name+'->'+this.links[i].target.name+'='+(this.links[i].inf_1to2+this.links[i].inf_2to1));
 				path = new Object();
 				path.source = this.links[i].source;
 				path.target = this.links[i].target;
 				path.inf = this.links[i].inf_1to2 + this.links[i].inf_2to1;
 				renderLinks.push(path);
-				console.log(renderLinks.length);
 			}
-		this.path = this.inner.selectAll("path")
+		this.path = this.inner.selectAll("path.link")
 			.data(renderLinks);
-		console.log(this.path);
 			
 		// init circles as nodes
 		this.circle = this.inner.selectAll("circle")
