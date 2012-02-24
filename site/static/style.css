@@ -163,6 +163,14 @@ svg {
    webkit styling applied here
 */
 
+#thumbcover {
+    width: 10px;
+    height: 30px;
+    background: white;
+    z-index: 0;
+    position: fixed;
+}
+
 input[type=range] {
     position: absolute;
     left: 25%;
