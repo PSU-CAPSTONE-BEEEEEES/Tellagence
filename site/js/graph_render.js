@@ -2,6 +2,8 @@ function GraphRender(nodes, links) {
 	// nodes and links for this graph render
 	this.nodes = nodes;
 	this.links = links;
+	this.singleLinks = [];
+	this.doubleLinks = [];
 	this.centerNode = 100;
 	// defined width & height of svg
 	this.w = $(window).width();
@@ -42,26 +44,53 @@ function GraphRender(nodes, links) {
 	}
 	
 	this.drawPaths = function() {
-		// define markers (arrow heads)
-		this.inner.append("defs").selectAll("marker")
-			.data(["suit", "licensing", "resolved"])
-			.enter().append("marker")
-				.attr("id", String)
-				.attr("viewBox", "0 -5 10 10")
-				.attr("refX", 50)
-				.attr("refY", 0)
-				.attr("markerWidth", 50)
-				.attr("markerHeight", 10)
-				.attr("orient", "auto")
-				.append("path")
-					//.attr("d", "M0,-5L10,0L0,5");
-					.attr("d", "M0,-5L10,0L0,5");
+		// define defs area to initialize all arrows
+		var defs = this.inner.append("defs").selectAll("marker");
+		// arrows for single links
+		defs.data(this.singleLinks).enter().append("marker")
+			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
+			.attr("viewBox", "0 -5 10 10")
+			.attr("refX", function(d) { return 10+d.target.sum_degree*10; })
+			.attr("refY", 0)
+			.attr("markerWidth", 10)
+			.attr("markerHeight", 10)
+			.attr("orient", "auto")
+			.append("path").attr("d", "M0,-5L10,0L0,5");
+			//.attr("d", "M 0 0 L 100 100 M 0 100 L 100 0");
+		// arrows for source->target in double links
+		defs.data([]);
+		defs.data(this.doubleLinks).enter().append("marker")
+			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
+			.attr("viewBox", "0 -5 10 10")
+			.attr("refX", function(d) { return 10+d.target.sum_degree*10; })
+			.attr("refY", 0)
+			.attr("markerWidth", 10)
+			.attr("markerHeight", 10)
+			.attr("orient", "auto")
+			.append("path").attr("d", "M0,-5L10,0L0,5");
+		// arrows for target->source in double links
+		defs.data([]);
+		defs.data(this.doubleLinks).enter().append("marker")
+			.attr("id", function(d) {return "marker-"+d.target.id+"-"+d.source.id; })
+			.attr("viewBox", "0 -5 10 10")
+			.attr("refX", function(d) { return -(10+d.target.sum_degree*10); })
+			.attr("refY", 0)
+			.attr("markerWidth", 10)
+			.attr("markerHeight", 10)
+			.attr("orient", "auto")
+			.append("path").attr("d", "M0,-5L10,0L0,5");
 		
-		// as a result, only draw lines with sum inf > 0
-		this.path.enter().append("svg:path")
+		// draw single paths
+		this.singlePath.enter().append("path")
 			.attr("class", function(d) { return "link"; })
-			.attr("marker-end", "url(#suit)")
-			.attr("marker-start", "url(#suit)")
+			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
+			//.attr("marker-start", "url(#suit)")
+			.style("stroke-width", function(d) { return d.inf+'px'; });
+		// draw double paths
+		this.doublePath.enter().append("path")
+			.attr("class", function(d) { return "link"; })
+			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
+			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
 			.style("stroke-width", function(d) { return d.inf+'px'; });
 	}
 	
@@ -77,17 +106,33 @@ function GraphRender(nodes, links) {
 			.start();
 			
 		// only render paths with sum influences > 0
-		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf>0 to another array, so d3 can still this.links array with all of the links
+		// to make sure, we copy only link whose sum_inf>0 to another array, so d3 can still this.links array with all of the links
+		var singles = new Array();	// 1-way relationships
+		var doubles = new Array();	// 2-way relationships
 		for (i=0; i<this.links.length; i++)
 			if ((this.links[i].inf_1to2+this.links[i].inf_2to1) > 0) {
+				// current influences
+				inf_1to2 = this.links[i].inf_1to2;
+				inf_2to1 = this.links[i].inf_2to1;
 				path = new Object();
-				path.source = this.links[i].source;
-				path.target = this.links[i].target;
 				path.inf = this.links[i].inf_1to2 + this.links[i].inf_2to1;
-				renderLinks.push(path);
+				// if this is a single relationship
+				if ( Math.max(inf_1to2, inf_2to1)==(inf_1to2+inf_2to1) ) {
+					path.source = (inf_1to2!=0) ?this.links[i].source :this.links[i].target ;
+					path.target = (path.source.id==this.links[i].source.id) ?this.links[i].target :this.links[i].source ;
+					singles.push(path);
+				} else {
+					path.source = this.links[i].source;
+					path.target = this.links[i].target;
+					doubles.push(path);
+				}
 			}
-		this.path = this.inner.selectAll("path")
-			.data(renderLinks);
+		this.singleLinks = singles;
+		this.doubleLinks = doubles;
+		this.singlePath = this.inner.selectAll("path")
+			.data(this.singleLinks);
+		this.doublePath = this.inner.selectAll("path")
+			.data(this.doubleLinks);
 			
 		// init circles as nodes
 		this.circle = this.inner.selectAll("circle")
