@@ -31,6 +31,9 @@ function disablePopup() {
         $("#Popup").fadeOut("medium");
         $("#bgPopup").data("state",0);
     }
+    if ($("#thumb").length > 0) {
+        $("<div id='thumbcover'></div>").insertBefore($("#thumb"));
+    }
 }
 
 // centers the popup window based on the window width/height
