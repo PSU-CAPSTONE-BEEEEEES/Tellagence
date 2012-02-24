@@ -38,7 +38,8 @@ function GraphEvent(renderObject) {
 				// retrieve depth
 				var depth = 100;
 				// call to server to obtain new graph info
-				d3.json('data/search.php?id='+d.id+'&depth='+depth, function(data) {
+				//d3.json('data/search.php?id='+d.id+'&depth='+depth, function(data) {
+				d3.json('data/search.php?user='+d.name, function(data) {
 					// switch the spinning bar for the loading bar
 					switchBars();
 					// data for new graph
