@@ -13,27 +13,13 @@ function GraphRender(nodes, links) {
 
 	// set the svg for resizing and use the inner for drawing
 	this.svg = d3.select("#d3").select("svg");
-        this.inner = d3.select("#inner");
-				
-	// Per-type markers, as they don't inherit styles.
-	this.inner.append("defs").selectAll("marker")
-		.data(["suit", "licensing", "resolved"])
-		.enter().append("marker")
-		.attr("id", String)
-		.attr("viewBox", "0 -5 10 10")
-		.attr("refX", 15)
-		.attr("refY", -1.5)
-		.attr("markerWidth", 6)
-		.attr("markerHeight", 6)
-		.attr("orient", "auto")
-		.append("path")
-		.attr("d", "M0,-5L10,0L0,5");
-				
-    this.drawCircles = function() {
+	this.inner = d3.select("#d3").select("svg").select("#inner");
+	
+	this.drawCircles = function() {
 		// draw circles
 		var center = this.centerNode;
 		this.circle.enter().append("circle")
-			.attr("r", function(d) { return d.sum_degree*100/10+'px'; })
+			.attr("r", function(d) { return d.sum_degree*10+'px'; })
 			.attr("opacity", 0.5)
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
@@ -56,11 +42,27 @@ function GraphRender(nodes, links) {
 	}
 	
 	this.drawPaths = function() {
+		// define markers (arrow heads)
+		this.inner.append("defs").selectAll("marker")
+			.data(["suit", "licensing", "resolved"])
+			.enter().append("marker")
+				.attr("id", String)
+				.attr("viewBox", "0 -5 10 10")
+				.attr("refX", 50)
+				.attr("refY", 0)
+				.attr("markerWidth", 50)
+				.attr("markerHeight", 10)
+				.attr("orient", "auto")
+				.append("path")
+					//.attr("d", "M0,-5L10,0L0,5");
+					.attr("d", "M0,-5L10,0L0,5");
+		
 		// as a result, only draw lines with sum inf > 0
-		this.path.enter().append("path")
+		this.path.enter().append("svg:path")
 			.attr("class", function(d) { return "link"; })
-			.attr("marker-end", function(d) { return "url(#licensing)"; })
-			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
+			.attr("marker-end", "url(#suit)")
+			.attr("marker-start", "url(#suit)")
+			.style("stroke-width", function(d) { return d.inf+'px'; });
 	}
 	
 	this.draw = function() {
@@ -84,7 +86,7 @@ function GraphRender(nodes, links) {
 				path.inf = this.links[i].inf_1to2 + this.links[i].inf_2to1;
 				renderLinks.push(path);
 			}
-		this.path = this.inner.selectAll("path.link")
+		this.path = this.inner.selectAll("path")
 			.data(renderLinks);
 			
 		// init circles as nodes

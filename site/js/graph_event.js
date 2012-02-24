@@ -3,32 +3,32 @@ function GraphEvent(renderObject) {
 	this.renderObject = renderObject;
 
 	var progress = function(alpha) {
-		// range should match start to drawLines/drawCircles
-	    var range = 0.1 - 0.01;
-            var percent = ((0.1 - alpha) / range) * 100;
-            return Math.floor(percent);
-        };
+	// range should match start to drawLines/drawCircles
+	var range = 0.1 - 0.01;
+		var percent = ((0.1 - alpha) / range) * 100;
+		return Math.floor(percent);
+	};
 
-        // circles stay stacked unless they change every tick
-        this.renderObject.force.on("tick", function() {
-                var alpha = renderObject.force.alpha();
-                // use callback on bar to disable popup at 100%
-                if (renderObject.canTick === true) {
-                    $("#progress").progressBar(progress(alpha),
-                                               {callback:progressCallback});
-                }
-
-                // start drawing lines when the graph is about to stay stable
-                if (alpha<0.01 && renderObject.ready===false) {
-                        $("#step2").hide();
-
-                        // draw paths, nodes, and name for each node
-                        renderObject.drawPaths();
+	// circles stay stacked unless they change every tick
+	this.renderObject.force.on("tick", function() {
+		var alpha = renderObject.force.alpha();
+		// use callback on bar to disable popup at 100%
+		if (renderObject.canTick === true) {
+			$("#progress").progressBar(progress(alpha),
+									   {callback:progressCallback});
+		}
+	
+		// start drawing lines when the graph is about to stay stable
+		if (alpha<0.01 && renderObject.ready===false) {
+			$("#step2").hide();
+	
+			// draw paths, nodes, and name for each node
+			renderObject.drawPaths();
 			renderObject.drawCircles();
 			//renderObject.writeName();
 			// stop ticking immeidately as the complete graph was drawn
 			renderObject.force.stop();
-			
+		
 			// on click redraw the graph with the selected node being the center node of the new graph
 			renderObject.circle.on('click', function(d, i) {
 				// throw a new popup up
@@ -52,7 +52,7 @@ function GraphEvent(renderObject) {
 			// mark render object as completely ready
 			renderObject.ready = true;
 		}
-		
+	
 		// ticking the paths
 		renderObject.path.attr("d", function(d) {
 			var dx = d.target.x - d.source.x,
