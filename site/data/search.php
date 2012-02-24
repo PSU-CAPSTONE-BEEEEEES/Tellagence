@@ -148,15 +148,23 @@ pruneNodes();
 echo('{"links":[');
 
 //link the nodes
-$prev = 0;
+
+$idx = 0;
+$prev == 0;
+while ($idx < sizeof($nodes) && $prev == 0) {
+    $prev = addLinks($nodes[$idx]);
+    $idx += 1;
+}
+
 ob_start();
-foreach ($nodes as $node) {
+while ($idx < sizeof($nodes)) {
+    ob_flush();
     echo(',');
-    $prev = addLinks($node);
+    $prev = addLinks($nodes[$idx]);
     if ($prev == 0) {
         ob_clean();
     }
-    ob_flush();
+    $idx += 1;
 }
 
 echo(']');
