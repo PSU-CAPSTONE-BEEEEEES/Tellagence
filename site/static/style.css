@@ -201,3 +201,14 @@ input[type=range]::-webkit-slider-thumb {
 #searchbar {
     width: 200px;
 }
+
+/* link to redraw the subgraphs */
+
+#dots {
+    position: absolute;
+    left: 50%;
+    margin-left: -13px;
+    top: 50%;
+    margin-top: -12px;
+    cursor: pointer;
+}

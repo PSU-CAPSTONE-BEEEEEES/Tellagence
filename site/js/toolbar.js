@@ -137,4 +137,30 @@ $(document).ready(function() {
     $(window).resize(function() {
         centerPopup();
     });	
+
+    $("#dots").click(function() {
+        // reload the help overlay
+        resetPopup();
+
+        // get rid of the existing graph
+        window.gr.empty();
+
+        // reset a few graph variables
+        window.gr.canTick = true;
+        window.sgr.canTick = true;
+        window.gr.ready = false;
+        window.sgr.ready = false;
+
+        // hide search and subgraph buttons
+        $("#searchbar").hide();
+        $("#dots").hide();
+
+        d3.json("data/subgraph.php", function(data) {
+	    switchBars();
+	    // retrieve data for subgraph render
+	    window.sgr.data(data.graphs);
+	    // draw subgraph (w/ graph events ready)
+	    window.sgr.draw();
+        });
+    });
 });
