@@ -34,8 +34,9 @@ function SubgraphEvent(renderObject) {
                                 // make only the graph tick
                                 renderObject.canTick = false;
 
-                                // reenable the search
+                                // reenable the search and subgraph button
 	                        $("#searchbar").show();
+                                $("#dots").show();
 
 				// erase and empty current render
 				renderObject.empty();
