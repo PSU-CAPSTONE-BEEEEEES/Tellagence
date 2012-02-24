@@ -3,9 +3,8 @@
 //Search for nodes closest to some center node
 //
 
-//these are useful
+//this is useful
 set_time_limit(0);
-//error_reporting(0);
 
 
 //print a help message (maybe api?)
@@ -152,9 +151,7 @@ echo('{"links":[');
 $prev = 0;
 ob_start();
 foreach ($nodes as $node) {
-    if ($prev > 0) {
-        echo(',');
-    }
+    echo(',');
     $prev = addLinks($node);
     if ($prev == 0) {
         ob_clean();
