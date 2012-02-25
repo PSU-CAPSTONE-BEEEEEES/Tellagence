@@ -25,7 +25,7 @@ function GraphRender(nodes, links) {
 			.attr("opacity", 0.5)
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
-			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
+			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name+'degree='+d.sum_degree;})
 			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;});
 	};
 	
@@ -49,36 +49,37 @@ function GraphRender(nodes, links) {
 		// arrows for single links
 		defs.data(this.singleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
-			.attr("viewBox", "0 -5 10 10")
-			.attr("refX", function(d) { return 10+d.target.sum_degree*10; })
-			.attr("refY", 0)
-			.attr("markerWidth", 10)
+			.attr("viewBox", "0 0 15 15")
+			.attr("refX", function(d) { return ((d.target.sum_degree*5)+15+10) + 10*d.inf; })
+			.attr("refY", 5)
+			.attr("markerWidth", 15)
 			.attr("markerHeight", 10)
 			.attr("orient", "auto")
-			.append("path").attr("d", "M0,-5L10,0L0,5");
+			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
 			//.attr("d", "M 0 0 L 100 100 M 0 100 L 100 0");
-		// arrows for source->target in double links
-		defs.data([]);
-		defs.data(this.doubleLinks).enter().append("marker")
-			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
-			.attr("viewBox", "0 -5 10 10")
-			.attr("refX", function(d) { return 10+d.target.sum_degree*10; })
-			.attr("refY", 0)
-			.attr("markerWidth", 10)
-			.attr("markerHeight", 10)
-			.attr("orient", "auto")
-			.append("path").attr("d", "M0,-5L10,0L0,5");
 		// arrows for target->source in double links
 		defs.data([]);
 		defs.data(this.doubleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.target.id+"-"+d.source.id; })
-			.attr("viewBox", "0 -5 10 10")
-			.attr("refX", function(d) { return -(10+d.target.sum_degree*10); })
-			.attr("refY", 0)
-			.attr("markerWidth", 10)
+			.attr("viewBox", "0 0 15 15")
+			.attr("refX", function(d) { return -((d.target.sum_degree*10)+15+10) + 10*d.inf; })
+			.attr("refY", 5)
+			.attr("markerWidth", 15)
 			.attr("markerHeight", 10)
 			.attr("orient", "auto")
-			.append("path").attr("d", "M0,-5L10,0L0,5");
+			.append("path").attr("d", "M 15 0 L 0 5 L 15 10 z");
+		// arrows for source->target in double links
+		defs.data([]);
+		defs.data(this.doubleLinks).enter().append("marker")
+			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
+			.attr("viewBox", "0 0 15 15")
+			.attr("refX", function(d) { return ((d.target.sum_degree*10)+15+10) - 6*d.inf; })
+			.attr("refY", 5)
+			.attr("markerWidth", 15)
+			.attr("markerHeight", 10)
+			.attr("orient", "auto")
+			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
+			//.append("path").attr("d", "M0,-5L10,0L0,5");
 		
 		// draw single paths
 		this.singlePath.enter().append("path")
