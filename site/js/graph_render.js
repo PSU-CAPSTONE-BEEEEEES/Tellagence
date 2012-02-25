@@ -2,6 +2,8 @@ function GraphRender(nodes, links) {
 	// nodes and links for this graph render
 	this.nodes = nodes;
 	this.links = links;
+	this.singleLinks = [];
+	this.doubleLinks = [];
 	this.centerNode = 100;
 	// defined width & height of svg
 	this.w = $(window).width();
@@ -13,31 +15,17 @@ function GraphRender(nodes, links) {
 
 	// set the svg for resizing and use the inner for drawing
 	this.svg = d3.select("#d3").select("svg");
-        this.inner = d3.select("#inner");
-				
-	// Per-type markers, as they don't inherit styles.
-	this.inner.append("defs").selectAll("marker")
-		.data(["suit", "licensing", "resolved"])
-		.enter().append("marker")
-		.attr("id", String)
-		.attr("viewBox", "0 -5 10 10")
-		.attr("refX", 15)
-		.attr("refY", -1.5)
-		.attr("markerWidth", 6)
-		.attr("markerHeight", 6)
-		.attr("orient", "auto")
-		.append("path")
-		.attr("d", "M0,-5L10,0L0,5");
-				
-    this.drawCircles = function() {
+	this.inner = d3.select("#d3").select("svg").select("#inner");
+	
+	this.drawCircles = function() {
 		// draw circles
 		var center = this.centerNode;
 		this.circle.enter().append("circle")
-			.attr("r", function(d) { return d.sum_degree*100/10+'px'; })
+			.attr("r", function(d) { return (d.sum_degree*10)+'px'; })
 			.attr("opacity", 0.5)
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
-			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
+			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name+'degree='+d.sum_degree;})
 			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;});
 	};
 	
@@ -56,10 +44,54 @@ function GraphRender(nodes, links) {
 	}
 	
 	this.drawPaths = function() {
-		// as a result, only draw lines with sum inf > 0
-		this.path.enter().append("path")
+		// define defs area to initialize all arrows
+		var defs = this.inner.append("defs").selectAll("marker");
+		// arrows for single links
+		defs.data(this.singleLinks).enter().append("marker")
+			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
+			.attr("viewBox", "0 0 15 15")
+			.attr("refX", function(d) { return 15; })
+			.attr("refY", 5)
+			.attr("markerWidth", 15)
+			.attr("markerHeight", 10)
+			.attr("orient", "auto")
+			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
+			//.attr("d", "M 0 0 L 100 100 M 0 100 L 100 0");
+		// arrows for target->source in double links
+		defs.data([]);
+		defs.data(this.doubleLinks).enter().append("marker")
+			.attr("id", function(d) {return "marker-"+d.target.id+"-"+d.source.id; })
+			.attr("viewBox", "0 0 15 15")
+			.attr("refX", function(d) { return 0; })
+			.attr("refY", 5)
+			.attr("markerWidth", 15)
+			.attr("markerHeight", 10)
+			.attr("orient", "auto")
+			.append("path").attr("d", "M 15 0 L 0 5 L 15 10 z");
+		// arrows for source->target in double links
+		defs.data([]);
+		defs.data(this.doubleLinks).enter().append("marker")
+			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
+			.attr("viewBox", "0 0 15 15")
+			.attr("refX", function(d) { return 15; })
+			.attr("refY", 5)
+			.attr("markerWidth", 15)
+			.attr("markerHeight", 10)
+			.attr("orient", "auto")
+			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
+			//.append("path").attr("d", "M0,-5L10,0L0,5");
+		
+		// draw single paths
+		this.singlePath.enter().append("path")
 			.attr("class", function(d) { return "link"; })
-			.attr("marker-end", function(d) { return "url(#licensing)"; })
+			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
+			.attr("title", "xyz - abc")
+			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
+		// draw double paths
+		this.doublePath.enter().append("path")
+			.attr("class", function(d) { return "link"; })
+			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
+			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
 			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
 	}
 	
@@ -75,17 +107,33 @@ function GraphRender(nodes, links) {
 			.start();
 			
 		// only render paths with sum influences > 0
-		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf>0 to another array, so d3 can still this.links array with all of the links
+		// to make sure, we copy only link whose sum_inf>0 to another array, so d3 can still this.links array with all of the links
+		var singles = new Array();	// 1-way relationships
+		var doubles = new Array();	// 2-way relationships
 		for (i=0; i<this.links.length; i++)
 			if ((this.links[i].inf_1to2+this.links[i].inf_2to1) > 0) {
+				// current influences
+				inf_1to2 = this.links[i].inf_1to2;
+				inf_2to1 = this.links[i].inf_2to1;
 				path = new Object();
-				path.source = this.links[i].source;
-				path.target = this.links[i].target;
 				path.inf = this.links[i].inf_1to2 + this.links[i].inf_2to1;
-				renderLinks.push(path);
+				// if this is a single relationship
+				if ( Math.max(inf_1to2, inf_2to1)==(inf_1to2+inf_2to1) ) {
+					path.source = (inf_1to2!=0) ?this.links[i].source :this.links[i].target ;
+					path.target = (path.source.id==this.links[i].source.id) ?this.links[i].target :this.links[i].source ;
+					singles.push(path);
+				} else {
+					path.source = this.links[i].source;
+					path.target = this.links[i].target;
+					doubles.push(path);
+				}
 			}
-		this.path = this.inner.selectAll("path.link")
-			.data(renderLinks);
+		this.singleLinks = singles;
+		this.doubleLinks = doubles;
+		this.singlePath = this.inner.selectAll("path")
+			.data(this.singleLinks);
+		this.doublePath = this.inner.selectAll("path")
+			.data(this.doubleLinks);
 			
 		// init circles as nodes
 		this.circle = this.inner.selectAll("circle")
@@ -121,14 +169,19 @@ function GraphRender(nodes, links) {
 		// empty nodes and links
 		this.nodes = [];
 		this.links = [];
+		this.singleLinks = [];
+		this.doubleLinks = [];
+		this.centerNode = 0;
 		// empty the force graph
 		this.force = d3.layout.force()
 			.nodes([])
 			.links([]);
-		// empty actual circles and links
+		// empty actual circles and paths
 		this.circle = this.inner.selectAll("circle").data([]);
 		this.circle.exit().remove();
 		this.path = this.inner.selectAll("path").data([]);
 		this.path.exit().remove();
+		// empty defs (arrows declaration)
+		var defs = this.inner.select("defs").remove();
 	};
 }
