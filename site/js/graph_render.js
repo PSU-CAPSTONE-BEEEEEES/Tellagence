@@ -50,7 +50,7 @@ function GraphRender(nodes, links) {
 		defs.data(this.singleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
 			.attr("viewBox", "0 0 15 15")
-			.attr("refX", function(d) { return ((d.target.sum_degree*5)+15+10) + 10*d.inf; })
+			.attr("refX", function(d) { return ((d.target.sum_degree*10)+15+10); })
 			.attr("refY", 5)
 			.attr("markerWidth", 15)
 			.attr("markerHeight", 10)
@@ -62,7 +62,7 @@ function GraphRender(nodes, links) {
 		defs.data(this.doubleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.target.id+"-"+d.source.id; })
 			.attr("viewBox", "0 0 15 15")
-			.attr("refX", function(d) { return -((d.target.sum_degree*10)+15+10) + 10*d.inf; })
+			.attr("refX", function(d) { return -((d.target.sum_degree*10)+15+10); })
 			.attr("refY", 5)
 			.attr("markerWidth", 15)
 			.attr("markerHeight", 10)
@@ -73,7 +73,7 @@ function GraphRender(nodes, links) {
 		defs.data(this.doubleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
 			.attr("viewBox", "0 0 15 15")
-			.attr("refX", function(d) { return ((d.target.sum_degree*10)+15+10) - 6*d.inf; })
+			.attr("refX", function(d) { return ((d.target.sum_degree*10)+15+10); })
 			.attr("refY", 5)
 			.attr("markerWidth", 15)
 			.attr("markerHeight", 10)
@@ -169,14 +169,19 @@ function GraphRender(nodes, links) {
 		// empty nodes and links
 		this.nodes = [];
 		this.links = [];
+		this.singleLinks = [];
+		this.doubleLinks = [];
+		this.centerNode = 0;
 		// empty the force graph
 		this.force = d3.layout.force()
 			.nodes([])
 			.links([]);
-		// empty actual circles and links
+		// empty actual circles and paths
 		this.circle = this.inner.selectAll("circle").data([]);
 		this.circle.exit().remove();
 		this.path = this.inner.selectAll("path").data([]);
 		this.path.exit().remove();
+		// empty defs (arrows declaration)
+		var defs = this.inner.select("defs").remove();
 	};
 }
