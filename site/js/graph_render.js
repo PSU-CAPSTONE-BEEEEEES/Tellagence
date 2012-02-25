@@ -21,7 +21,7 @@ function GraphRender(nodes, links) {
 		// draw circles
 		var center = this.centerNode;
 		this.circle.enter().append("circle")
-			.attr("r", function(d) { return d.sum_degree*10+'px'; })
+			.attr("r", function(d) { return (d.sum_degree*10)+'px'; })
 			.attr("opacity", 0.5)
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
@@ -50,7 +50,7 @@ function GraphRender(nodes, links) {
 		defs.data(this.singleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
 			.attr("viewBox", "0 0 15 15")
-			.attr("refX", function(d) { return ((d.target.sum_degree*10)+15+10); })
+			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
 			.attr("markerWidth", 15)
 			.attr("markerHeight", 10)
@@ -62,7 +62,7 @@ function GraphRender(nodes, links) {
 		defs.data(this.doubleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.target.id+"-"+d.source.id; })
 			.attr("viewBox", "0 0 15 15")
-			.attr("refX", function(d) { return -((d.target.sum_degree*10)+15+10); })
+			.attr("refX", function(d) { return 0; })
 			.attr("refY", 5)
 			.attr("markerWidth", 15)
 			.attr("markerHeight", 10)
@@ -73,7 +73,7 @@ function GraphRender(nodes, links) {
 		defs.data(this.doubleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
 			.attr("viewBox", "0 0 15 15")
-			.attr("refX", function(d) { return ((d.target.sum_degree*10)+15+10); })
+			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
 			.attr("markerWidth", 15)
 			.attr("markerHeight", 10)
@@ -85,14 +85,14 @@ function GraphRender(nodes, links) {
 		this.singlePath.enter().append("path")
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
-			//.attr("marker-start", "url(#suit)")
-			.style("stroke-width", function(d) { return d.inf+'px'; });
+			.attr("title", "xyz - abc")
+			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
 		// draw double paths
 		this.doublePath.enter().append("path")
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
-			.style("stroke-width", function(d) { return d.inf+'px'; });
+			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
 	}
 	
 	this.draw = function() {

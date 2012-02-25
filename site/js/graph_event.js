@@ -54,20 +54,35 @@ function GraphEvent(renderObject) {
 		}
 	
 		// ticking the single paths
-		renderObject.singlePath.attr("d", function(d) {
-			var dx = d.target.x - d.source.x,
-				dy = d.target.y - d.source.y,
-				dr = 0;
-			return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-		});
-		
+		renderObject.singlePath.attr("d", tickingPath);
 		// ticking the double paths
-		renderObject.doublePath.attr("d", function(d) {
-			var dx = d.target.x - d.source.x,
-				dy = d.target.y - d.source.y,
-				dr = 0;
-			return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-		});
+		renderObject.doublePath.attr("d", tickingPath);
+		// ticking all paths
+		function tickingPath(d) {
+			// common figures to adjust source [x,y] and target [x,y]
+			xsxt = Math.abs(d.target.x - d.source.x);
+			ysyt = Math.abs(d.target.y - d.source.y);
+			alpha = xsxt/ysyt;
+			// adjust [x,y] for path source
+			r = d.source.sum_degree*10;
+			dy = Math.sqrt(r*r/(alpha*alpha+1));
+			dx = Math.sqrt(r*r - dy*dy);
+			sDx = (d.source.x < d.target.x) ?1 :-1 ;
+			sDy = (d.source.y < d.target.y) ?1 :-1 ;
+			sx = d.source.x+sDx*dx;
+			sy = d.source.y+sDy*dy;
+			// adjust [x,y] for path target
+			r = d.target.sum_degree*10;
+			dy = Math.sqrt(r*r/(alpha*alpha+1));
+			dx = Math.sqrt(r*r - dy*dy);
+			tDx = (d.target.x < d.source.x) ?1 :-1 ;
+			tDy = (d.target.y < d.source.y) ?1 :-1 ;
+			tx = d.target.x+tDx*dx;
+			ty = d.target.y+tDy*dy;
+			// and draw
+			dr = 0;
+			return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
+		}
 		
 		// ticking the cirlces
 		renderObject.circle
