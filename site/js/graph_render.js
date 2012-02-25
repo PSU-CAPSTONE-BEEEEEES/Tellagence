@@ -9,26 +9,14 @@ function GraphRender(nodes, links) {
 	
 	// temp
 	this.ready = false;
-	
-	function redraw(a) {
-		d3.select("#inner").attr("transform",
-				 "translate(" + d3.event.translate + ")" +
-				 " scale(" + d3.event.scale + ")");
-        }
+        this.canTick = true;
 
-	// init svg area to draw
-	this.svg = d3.select("#d3")
-		.append("svg:svg")
-		.attr("width", this.w)
-		.attr("height", this.h)
-	        .append('g')
-				.call(d3.behavior.zoom().on("zoom", redraw))
-			.append('g')
-				.attr("id", "inner")
-				.attr("transform", "translate(0, 0) scale(1)");
+	// set the svg for resizing and use the inner for drawing
+	this.svg = d3.select("#d3").select("svg");
+        this.inner = d3.select("#inner");
 				
 	// Per-type markers, as they don't inherit styles.
-	this.svg.append("defs").selectAll("marker")
+	this.inner.append("defs").selectAll("marker")
 		.data(["suit", "licensing", "resolved"])
 		.enter().append("marker")
 		.attr("id", String)
@@ -40,32 +28,39 @@ function GraphRender(nodes, links) {
 		.attr("orient", "auto")
 		.append("path")
 		.attr("d", "M0,-5L10,0L0,5");
-
-	// rect to move graph
-	this.svg.append('rect')
-		.attr('width', this.w)
-		.attr('height', this.h)
-		.style("fill", "white");
 				
     this.drawCircles = function() {
 		// draw circles
 		var center = this.centerNode;
 		this.circle.enter().append("circle")
-			.attr("r", function(d) { return d.sum_degree/10+'px'; })
+			.attr("r", function(d) { return d.sum_degree*100/10+'px'; })
 			.attr("opacity", 0.5)
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
 			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
-			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
-			.append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
+			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;});
 	};
+	
+	this.writeName = function() {
+		// A copy of the text with a thick white stroke for legibility.
+		this.text.enter().append("text")
+			.attr("x", 8)
+			.attr("y", ".31em")
+			.attr("class", "shadow")
+			.text(function(d) { return d.name; });
+		
+		this.text.enter().append("text")
+			.attr("x", 8)
+			.attr("y", ".31em")
+			.text(function(d) { return d.name; });
+	}
 	
 	this.drawPaths = function() {
 		// as a result, only draw lines with sum inf > 0
 		this.path.enter().append("path")
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-end", function(d) { return "url(#licensing)"; })
-			.style("stroke-width", function(d) { return (d.inf/2)+'px'; });
+			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
 	}
 	
 	this.draw = function() {
@@ -79,30 +74,28 @@ function GraphRender(nodes, links) {
 			.size([this.w, this.h])
 			.start();
 			
-		// only render paths with inf>0
-		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf >0 to another array, so d3 can still this.links array with all of the links
-		for (i=0; i<this.links.length; i++){
-			if (this.links[i].inf_1to2 > 0){
+		// only render paths with sum influences > 0
+		var renderLinks = new Array();//to make sure, we copy only link whose sum_inf>0 to another array, so d3 can still this.links array with all of the links
+		for (i=0; i<this.links.length; i++)
+			if ((this.links[i].inf_1to2+this.links[i].inf_2to1) > 0) {
+				console.log(this.links[i].source.name+'->'+this.links[i].target.name+'='+(this.links[i].inf_1to2+this.links[i].inf_2to1));
 				var path = new Object();
 				path.source = this.links[i].source;
 				path.target = this.links[i].target;
-				path.inf = this.links[i].inf_1to2;
+				path.inf = this.links[i].inf_1to2 + this.links[i].inf_2to1;
 				renderLinks.push(path);
+				//console.log(renderLinks.length);
 			}
-			if (this.links[i].inf_2to1 > 0){
-				var path = new Object();
-				path.source = this.links[i].target;
-				path.target = this.links[i].source;
-				path.inf = this.links[i].inf_2to1;
-				renderLinks.push(path);
-			}
-		}
-		this.path = this.svg.selectAll("path")
+		this.path = this.inner.selectAll("path")
 			.data(renderLinks);
-			
+		//console.log(this.path);
 			
 		// init circles as nodes
-		this.circle = this.svg.selectAll("circle")
+		this.circle = this.inner.selectAll("circle")
+			.data(this.nodes);
+			
+		// init texts
+		this.text = this.inner.selectAll("text")
 			.data(this.nodes);
 			
 		// handle events for graph (only for graph)
@@ -136,9 +129,9 @@ function GraphRender(nodes, links) {
 			.nodes([])
 			.links([]);
 		// empty actual circles and links
-		this.circle = this.svg.selectAll("circle").data([]);
+		this.circle = this.inner.selectAll("circle").data([]);
 		this.circle.exit().remove();
-		this.path = this.svg.selectAll("path").data([]);
+		this.path = this.inner.selectAll("path").data([]);
 		this.path.exit().remove();
 	};
 }

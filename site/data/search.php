@@ -152,7 +152,7 @@ echo('{"links":[');
 //link the nodes
 
 $idx = 0;
-$prev == 0;
+$prev = 0;
 while ($idx < sizeof($nodes) && $prev == 0) {
     $prev = addLinks($nodes[$idx]);
     $idx += 1;
