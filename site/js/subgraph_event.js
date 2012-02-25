@@ -41,9 +41,9 @@ function SubgraphEvent(renderObject) {
 				// erase and empty current render
 				renderObject.empty();
 				// call to server to obtain the selected graph info
-				var ajaxUrl = 'data/search.php?subgraph='+d.subgraph_id+'&cutoff=2';
+				var ajaxUrl = 'data/search.php?subgraph='+d.subgraph_id;
 				if (d.subgraph_id==1)
-					ajaxUrl = 'data/search.php?user=vmworld&depth=500';
+					ajaxUrl = 'data/search.php?user=vmworld&depth=2600';
 				d3.json(ajaxUrl, function(data) {
 					// switch the spinning bar for the loading bar
 					switchBars();
