@@ -1,10 +1,28 @@
 function GuiEvent(renderObject) {
     // render object for this gui event
     this.renderObject = renderObject;
-	
-	$("#searchbar").autocomplete({
-		source: names,  // usernames in database, gotten in toolbar.js
-		minLength: 2,   //minimum number of characters before matching
+
+    var cache = {}, lastXhr;
+    $("#searchbar").autocomplete({
+		source: function(req, response){
+                var term = req.term;
+                if (term in cache) {
+                    response(cache[term]);
+                    return;
+                }
+                lastXhr = $.getJSON("data/userlist.php", req, function(json, status, xhr) {
+                    var names = new Array();
+                    $.each(json.users, function(i, entry) {
+                    // builds array from JSON
+                        names.push(entry.username);
+                    });
+                    cache[term] = names;
+                    if (xhr === lastXhr) {
+                        response(names);
+                    }
+                });
+                },
+        minLength: 2,   //minimum number of characters before matching
 		max: 5,         //maximum number of matched results
 		select: function(event, ui) {
 		// throw a new popup up
