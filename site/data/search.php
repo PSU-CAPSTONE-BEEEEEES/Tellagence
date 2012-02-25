@@ -91,7 +91,7 @@ $path = array();
 //the list of nodes we've connected with links
 $nodes = array();
 
-//get all the other nodes
+//get all the nodes
 if (isset($subgraph)) {
     $result = pg_Exec($dbconn, "SELECT user_ids FROM subgraphs WHERE subgraph_id = $subgraph;");
     $row = pg_fetch_array($result, 0);
@@ -106,6 +106,7 @@ if (isset($subgraph)) {
     addNode($user);
     findNodes($user);
 
+    //depth-first search from central node
     for ($i = 0; $i < $hopCount && count($toVisit) > 0; $i++) {
         foreach ($toVisit as $x => $next) {
             if(in_array($next, $visited)) {
@@ -128,6 +129,7 @@ if (isset($subgraph)) {
     addNode($user);
     findNodes($user);
 
+    //depth-first search from central node
     while (count($visited) < $total && count($toVisit) > 0) {
         //get the first node to visit
         $next = array_shift($toVisit);
