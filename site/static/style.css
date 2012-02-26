@@ -50,29 +50,16 @@ circle:hover{
 	fill:red;
 }
 
-path.link {
+path {
   fill: none;
   stroke: #666;
   stroke-width: 1.5px;
-}
-
-marker#licensing {
-  fill: green;
-}
-
-path.link.licensing {
-  stroke: green;
-}
-
-path.link.resolved {
-  stroke-dasharray: 0,2 1;
 }
 
 text {
   font: 10px sans-serif;
   pointer-events: none;
 }
-
 text.shadow {
   stroke: #fff;
   stroke-width: 3px;
@@ -163,6 +150,14 @@ svg {
    webkit styling applied here
 */
 
+#thumbcover {
+    width: 10px;
+    height: 30px;
+    background: white;
+    z-index: 0;
+    position: fixed;
+}
+
 input[type=range] {
     position: absolute;
     left: 25%;
@@ -205,4 +200,15 @@ input[type=range]::-webkit-slider-thumb {
 
 #searchbar {
     width: 200px;
+}
+
+/* link to redraw the subgraphs */
+
+#dots {
+    position: absolute;
+    left: 50%;
+    margin-left: -13px;
+    top: 50%;
+    margin-top: -12px;
+    cursor: pointer;
 }

@@ -22,7 +22,6 @@ function SubgraphRender(graphs) {
 			.attr("cy", function(d) { return d.y; })
 			.attr("r", function(d) { return 5*Math.log(d.num); }) //radius is scaled in logarithmic scale
 			.style("fill", function(d) {
-				if (d.subgraph_id==101) return "black";
 				q = d3.scale.log().range(["blue","red"]); //color is scaled from blue(cold) -> red(hot) by using logarithmic scale
 				return q(d.num);
 			})

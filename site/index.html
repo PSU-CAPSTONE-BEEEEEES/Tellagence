@@ -5,10 +5,6 @@
     <meta charset="utf-8">
     <title>Visualizing Twitter</title>
 
-    <!-- stylesheets -->
-    <link rel="stylesheet" href="static/style.css">
-    <link rel="stylesheet" href="static/auto.css"/>
-
     <!-- core libraries -->
     <script src="js/lib/jquery-1.7.1.js"></script>
     <script src="js/lib/html5slider.js"></script>
@@ -27,6 +23,10 @@
 
     <!-- local scripts -->
     <script src="js/toolbar.js"></script>
+    
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/auto.css"/>
   </head>
 
   <body>
@@ -36,6 +36,9 @@
         <div id="help_button">?</div>
 
         <input type="range" id="slider" min="0" max="100" value="50" step="5"/>
+
+        <img id="dots" src="static/images/dot.png" alt="redraw all the subgraphs"/>
+
         <div class="ui-widget" id="search">
           <div id="searchcell">
             <input id="searchbar">

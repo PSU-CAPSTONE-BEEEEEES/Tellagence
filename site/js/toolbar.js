@@ -1,12 +1,3 @@
-// grab all usernames in db for autocomplete
-var names = new Array();
-$.getJSON("data/userlist.php", function(json) {
-    $.each(json.users, function(i, entry) {
-        // builds array from JSON
-        names.push(entry.username);
-    });
-});
-
 // brings up the popup overlay on screen
 function loadPopup() {
     //loads popup only if it is disabled
@@ -30,6 +21,9 @@ function disablePopup() {
         $("#bgPopup").fadeOut("medium");
         $("#Popup").fadeOut("medium");
         $("#bgPopup").data("state",0);
+    }
+    if ($("#thumb").length > 0) {
+        $("<div id='thumbcover'></div>").insertBefore($("#thumb"));
     }
 }
 
@@ -134,4 +128,30 @@ $(document).ready(function() {
     $(window).resize(function() {
         centerPopup();
     });	
+
+    $("#dots").click(function() {
+        // reload the help overlay
+        resetPopup();
+
+        // get rid of the existing graph
+        window.gr.empty();
+
+        // reset a few graph variables
+        window.gr.canTick = true;
+        window.sgr.canTick = true;
+        window.gr.ready = false;
+        window.sgr.ready = false;
+
+        // hide search and subgraph buttons
+        $("#searchbar").hide();
+        $("#dots").hide();
+
+        d3.json("data/subgraph.php", function(data) {
+	    switchBars();
+	    // retrieve data for subgraph render
+	    window.sgr.data(data.graphs);
+	    // draw subgraph (w/ graph events ready)
+	    window.sgr.draw();
+        });
+    });
 });
