@@ -1,5 +1,5 @@
 /*
- * jQuery UI Autocomplete 1.8.18
+ * jQuery UI Autocomplete 1.8.10
  *
  * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -20,7 +20,6 @@ var requestIndex = 0;
 $.widget( "ui.autocomplete", {
 	options: {
 		appendTo: "body",
-		autoFocus: false,
 		delay: 300,
 		minLength: 1,
 		position: {
@@ -28,7 +27,9 @@ $.widget( "ui.autocomplete", {
 			at: "left bottom",
 			collision: "none"
 		},
-		source: null
+		source: null,
+        max: 0,
+        matchAnywhere: true
 	},
 
 	pending: 0,
@@ -48,7 +49,7 @@ $.widget( "ui.autocomplete", {
 				"aria-haspopup": "true"
 			})
 			.bind( "keydown.autocomplete", function( event ) {
-				if ( self.options.disabled || self.element.propAttr( "readOnly" ) ) {
+				if ( self.options.disabled || self.element.attr( "readonly" ) ) {
 					return;
 				}
 
@@ -215,13 +216,6 @@ $.widget( "ui.autocomplete", {
 		if ( $.fn.bgiframe ) {
 			 this.menu.element.bgiframe();
 		}
-		// turning off autocomplete prevents the browser from remembering the
-		// value when navigating through history, so we re-enable autocomplete
-		// if the page is unloaded before the widget is destroyed. #7790
-		self.beforeunloadHandler = function() {
-			self.element.removeAttr( "autocomplete" );
-		};
-		$( window ).bind( "beforeunload", self.beforeunloadHandler );
 	},
 
 	destroy: function() {
@@ -232,7 +226,6 @@ $.widget( "ui.autocomplete", {
 			.removeAttr( "aria-autocomplete" )
 			.removeAttr( "aria-haspopup" );
 		this.menu.element.remove();
-		$( window ).unbind( "beforeunload", this.beforeunloadHandler );
 		$.Widget.prototype.destroy.call( this );
 	},
 
@@ -256,7 +249,7 @@ $.widget( "ui.autocomplete", {
 		if ( $.isArray(this.options.source) ) {
 			array = this.options.source;
 			this.source = function( request, response ) {
-				response( $.ui.autocomplete.filter(array, request.term) );
+				response( $.ui.autocomplete.filter(array, request.term, self.options.matchAnywhere) );
 			};
 		} else if ( typeof this.options.source === "string" ) {
 			url = this.options.source;
@@ -268,9 +261,7 @@ $.widget( "ui.autocomplete", {
 					url: url,
 					data: request,
 					dataType: "json",
-					context: {
-						autocompleteRequest: ++requestIndex
-					},
+					autocompleteRequest: ++requestIndex,
 					success: function( data, status ) {
 						if ( this.autocompleteRequest === requestIndex ) {
 							response( data );
@@ -365,7 +356,7 @@ $.widget( "ui.autocomplete", {
 		var ul = this.menu.element
 			.empty()
 			.zIndex( this.element.zIndex() + 1 );
-		this._renderMenu( ul, items );
+		this._renderMenu( ul, items, this.options.max );
 		// TODO refresh should check if the active item is still in the dom, removing the need for a manual deactivate
 		this.menu.deactivate();
 		this.menu.refresh();
@@ -376,26 +367,22 @@ $.widget( "ui.autocomplete", {
 		ul.position( $.extend({
 			of: this.element
 		}, this.options.position ));
-
-		if ( this.options.autoFocus ) {
-			this.menu.next( new $.Event("mouseover") );
-		}
 	},
 
 	_resizeMenu: function() {
 		var ul = this.menu.element;
 		ul.outerWidth( Math.max(
-			// Firefox wraps long text (possibly a rounding bug)
-			// so we add 1px to avoid the wrapping (#7513)
-			ul.width( "" ).outerWidth() + 1,
+			ul.width( "" ).outerWidth(),
 			this.element.outerWidth()
 		) );
 	},
 
-	_renderMenu: function( ul, items ) {
+	_renderMenu: function( ul, items, max ) {
 		var self = this;
 		$.each( items, function( index, item ) {
-			self._renderItem( ul, item );
+            if ( max == 0 || index < max ) {
+			    self._renderItem( ul, item );
+            }
 		});
 	},
 
@@ -429,8 +416,13 @@ $.extend( $.ui.autocomplete, {
 	escapeRegex: function( value ) {
 		return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 	},
-	filter: function(array, term) {
-		var matcher = new RegExp( $.ui.autocomplete.escapeRegex(term), "i" );
+	filter: function(array, term, matchAnywhere) {
+        if (matchAnywhere) {
+		    var matcher = new RegExp( $.ui.autocomplete.escapeRegex(term), "i" );
+        }
+        else {
+		    var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex(term), "i" );
+        }
 		return $.grep( array, function(value) {
 			return matcher.test( value.label || value.value || value );
 		});
@@ -502,12 +494,12 @@ $.widget("ui.menu", {
 		this.deactivate();
 		if (this.hasScroll()) {
 			var offset = item.offset().top - this.element.offset().top,
-				scroll = this.element.scrollTop(),
+				scroll = this.element.attr("scrollTop"),
 				elementHeight = this.element.height();
 			if (offset < 0) {
-				this.element.scrollTop( scroll + offset);
+				this.element.attr("scrollTop", scroll + offset);
 			} else if (offset >= elementHeight) {
-				this.element.scrollTop( scroll + offset - elementHeight + item.height());
+				this.element.attr("scrollTop", scroll + offset - elementHeight + item.height());
 			}
 		}
 		this.active = item.eq(0)
@@ -613,7 +605,7 @@ $.widget("ui.menu", {
 	},
 
 	hasScroll: function() {
-		return this.element.height() < this.element[ $.fn.prop ? "prop" : "attr" ]("scrollHeight");
+		return this.element.height() < this.element.attr("scrollHeight");
 	},
 
 	select: function( event ) {
