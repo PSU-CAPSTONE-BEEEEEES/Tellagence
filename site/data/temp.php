@@ -1,6 +1,0 @@
-<?php
-
-$jsonStr = '{"links":[{"source":0,"target":1,"inf_1to2":0,"inf_2to1":0,"shortestpath":1},{"source":0,"target":2,"inf_1to2":1,"inf_2to1":0,"shortestpath":1},{"source":1,"target":2,"inf_1to2":0,"inf_2to1":0,"shortestpath":3},{"source":0,"target":3,"inf_1to2":1,"inf_2to1":0,"shortestpath":1},{"source":1,"target":3,"inf_1to2":1,"inf_2to1":0,"shortestpath":1},{"source":2,"target":3,"inf_1to2":0,"inf_2to1":0,"shortestpath":2},{"source":0,"target":4,"inf_1to2":1,"inf_2to1":2,"shortestpath":0.3},{"source":1,"target":4,"inf_1to2":1,"inf_2to1":3,"shortestpath":0.3},{"source":2,"target":4,"inf_1to2":0,"inf_2to1":0,"shortestpath":2},{"source":3,"target":4,"inf_1to2":0,"inf_2to1":0,"shortestpath":2}],"nodes":[{"name":"huaweisymantec","sum_degree":"3","id":"2519"},{"name":"vgstorage","sum_degree":"2","id":"2639"},{"name":"njwewing","sum_degree":"2","id":"5610"},{"name":"jbbaptista","sum_degree":"2","id":"5700"},{"name":"ackdata","sum_degree":"2","id":"5701"}]}';
-
-//print_r(json_decode($jsonStr)); die;
-echo $jsonStr;
