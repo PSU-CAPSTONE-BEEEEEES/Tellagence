@@ -147,9 +147,15 @@ if (isset($subgraph)) {
 
 pruneNodes();
 
-echo('{"links":[');
+//start JSON
+echo('{');
 
-//link the nodes
+echo('"nodes":' . json_encode($nodes) );
+
+//end "nodes", start "links"
+echo(',');
+
+echo('"links":[');
 
 $idx = 0;
 $prev = 0;
@@ -168,11 +174,38 @@ while ($idx < sizeof($nodes)) {
     }
     $idx += 1;
 }
+ob_end_flush();
 
 echo(']');
+//end "links"
 echo(',');
-echo('"nodes":' . json_encode($nodes) . "}");
+
+echo('"distances":[');
+
+$idx = 0;
+$prev = 0;
+while ($idx < sizeof($nodes) && $prev == 0) {
+    $prev = addLinks($nodes[$idx]);
+    $idx += 1;
+}
+
+ob_start();
+while ($idx < sizeof($nodes)) {
+    ob_flush();
+    echo(',');
+    $prev = addPaths($nodes[$idx]);
+    if ($prev == 0) {
+        ob_clean();
+    }
+    $idx += 1;
+}
 ob_end_flush();
+
+//end "disntances"
+echo("]");
+
+echo("}"); //end JSON
+
 
 //close the database connection
 pg_close($dbconn);
@@ -279,9 +312,6 @@ function addLinks($here) {
     global $dbconn, $toVisit, $visited, $path, $nodes;
     $numLinks = 0;
 
-    //get the shortest paths from the db
-    getPath($here['id']);
-
     //our index in the nodes array
     //here is the target, not the source
     //because we want the source to have a lower user_id
@@ -322,7 +352,6 @@ function addLinks($here) {
                 $link['target'] =  $target;
                 $link['inf_1to2'] = (int)$row[1];
                 $link['inf_2to1'] = (int)$row[2];
-                $link['shortestpath'] = (float)$path[$there['id'] - 1];
                 echo(json_encode($link));
 
                 //move on to the next node in the nodes array
@@ -338,7 +367,6 @@ function addLinks($here) {
                 $link['target'] =  $target;
                 $link['inf_1to2'] = (int)$row[1];
                 $link['inf_2to1'] = (int)$row[2];
-                $link['shortestpath'] = (float)$path[$there['id'] - 1];
                 echo(json_encode($link));
 
                 //move on to the next node in the nodes array
@@ -346,11 +374,44 @@ function addLinks($here) {
             }
         }
 
-        //i guess there's no direct link
+    }
+    return $numLinks;
+}
+
+function addPaths($here) {
+    global $dbconn, $toVisit, $visited, $path, $nodes;
+    $numLinks = 0;
+
+    //get the shortest paths from the db
+    getPath($here['id']);
+
+    //our index in the nodes array
+    //here is the target, not the source
+    //because we want the source to have a lower user_id
+    //but the higher user_id has the relavent shortestpath information
+    $target = array_search($here, $nodes);
+
+    $first = true;
+
+    //create links between us and all the other nodes
+    foreach ($nodes as $source => $there) {
+
+        //we only want to add the link once, lets use the node with more paths in the db
+        if ($here['id'] <= $there['id']) {
+            //move on to the next node in the nodes array
+            continue;
+        }
+
+        $numLinks += 1;
+
+        if ($first) {
+            $first = false;
+        } else {
+            echo(',');
+        }
+
         $link['source'] =  $source;
         $link['target'] =  $target;
-        $link['inf_1to2'] = 0;
-        $link['inf_2to1'] = 0;
         $link['shortestpath'] = (float)$path[$there['id'] - 1];
         echo(json_encode($link));
     }
