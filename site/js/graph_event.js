@@ -43,7 +43,7 @@ function GraphEvent(renderObject) {
 					// switch the spinning bar for the loading bar
 					switchBars();
 					// data for new graph
-					renderObject.data(data.nodes, data.links);
+					renderObject.data(data.nodes, data.distances, data.links);
 					renderObject.setCenterNode(d.id);
 					// redraw with new graph and new graph events
 					renderObject.draw();
