@@ -157,7 +157,6 @@ flock($file, LOCK_EX);
 
 //write the nodes to file
 fwrite($file, '{"nodes":' . json_encode($nodes) . '}');
-echo($buffer);
 
 //end "nodes" file, start "links"
 flock($file, LOCK_UN);
@@ -178,7 +177,6 @@ while ($idx < sizeof($nodes) && $prev == 0) {
 while ($idx < sizeof($nodes)) {
     //flush the buffer
     fwrite($file, $buffer);
-echo($buffer);
     $buffer = ",";
     $prev = addLinks($nodes[$idx]);
     if ($prev == 0) {
@@ -189,7 +187,6 @@ echo($buffer);
 }
 $buffer = $buffer . ']';
 fwrite($file, $buffer);
-echo($buffer);
 
 
 //end "links", start "distances"
@@ -210,7 +207,6 @@ while ($idx < sizeof($nodes) && $prev == 0) {
 while ($idx < sizeof($nodes)) {
     //flush the buffer
     fwrite($file, $buffer);
-echo($buffer);
     $buffer = ',';
     $prev = addPaths($nodes[$idx]);
     if ($prev == 0) {
@@ -221,7 +217,6 @@ echo($buffer);
 }
 $buffer = $buffer . ']';
 fwrite($file, $buffer);
-echo($buffer);
 
 //end "distances"
 flock($file, LOCK_UN);
