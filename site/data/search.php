@@ -343,8 +343,8 @@ function addLinks($here) {
             if ($row[0] == $there['id']) {
                 $link['source'] =  $source;
                 $link['target'] =  $target;
-                $link['inf_1to2'] = (int)$row[1];
-                $link['inf_2to1'] = (int)$row[2];
+                $link['i12'] = (int)$row[1];
+                $link['i21'] = (int)$row[2];
 
                 if ($first) {
                     $first = false;
@@ -367,8 +367,8 @@ function addLinks($here) {
             if ($row[0] == $there['id']) {
                 $link['source'] =  $source;
                 $link['target'] =  $target;
-                $link['inf_1to2'] = (int)$row[1];
-                $link['inf_2to1'] = (int)$row[2];
+                $link['i12'] = (int)$row[1];
+                $link['i21'] = (int)$row[2];
 
                 if ($first) {
                     $first = false;
@@ -423,7 +423,7 @@ function addPaths($here) {
 
         $link['source'] =  $source;
         $link['target'] =  $target;
-        $link['shortestpath'] = (float)$path[$there['id'] - 1];
+        $link['sp'] = (float)$path[$there['id'] - 1];
         echo(json_encode($link));
     }
     return $numLinks;
