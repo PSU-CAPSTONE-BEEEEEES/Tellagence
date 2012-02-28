@@ -17,17 +17,68 @@ function GraphRender(nodes, links) {
 	this.svg = d3.select("#d3").select("svg");
 	this.inner = d3.select("#d3").select("svg").select("#inner");
 	
-	this.drawCircles = function() {
-		// draw circles
-		var center = this.centerNode;
-		this.circle.enter().append("circle")
-			.attr("r", function(d) { return (d.sum_degree*0.1)+'px'; })
-			.attr("opacity", 0.5)
-			.attr("cx", function(d) {return d.x;})
-			.attr("cy", function(d) {return d.y;})
-			.attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name+'degree='+d.sum_degree;})
-			.attr("class", function(d) {return (d.id==center) ?'center' :'' ;});
-	};
+    // scale the nodes logarithmically based on half the shortest link
+    // to assure no overlapping nodes distance
+    this.drawCircles = function() {
+        var maxRadius = 0,
+            minLength = this.links[0].shortestpath * 100;
+
+        // check each link for overlapping nodes and update minLength, maxRadius
+        for (i = 0; i < this.links.length; i++) {
+            var len = this.links[i].shortestpath * 100;
+            if (len < minLength) {
+                minLength = len;
+            }
+
+            var source = null,
+                target = null;
+            // map the link ends to the right nodes
+            for (j = 0; j < this.nodes.length; j++) {
+                if (this.links[i].source.id == this.nodes[j].id) {
+                    source = this.nodes[j];
+                }
+                if (this.links[i].target.id == this.nodes[j].id) {
+                    target = this.nodes[j];
+                }
+            };
+
+            if (source && target) {
+                var sr    = source.sum_degree/10,
+                    tr    = target.sum_degree/10,
+                    radii = sr + tr;
+
+                // check for overlap and bigger than existing maxRadius
+                if (radii > len && radii > maxRadius) {
+                    maxRadius = Math.max(sr, tr);
+                }
+            }
+        };
+
+        // scale the nodes logarithmically, needing 1 as the base case to avoid
+        // pesky NaN due to log(), with rangeRound making integer output
+        var radScale = d3.scale.log()
+                .domain([1, maxRadius])
+                .rangeRound([1, minLength/2]);
+
+        // draw circles
+        var center = this.centerNode;
+        this.circle.enter().append("circle")
+            .attr("r", function(d) {
+                // only scale if there exists overlap in the graph
+                if (maxRadius > 0) {
+                    return radScale(d.sum_degree/10) +'px';
+                }
+                else {
+                    return d.sum_degree/10+'px';
+                }
+            })
+            .attr("opacity", 0.5)
+            .attr("cx", function(d) {return d.x;})
+            .attr("cy", function(d) {return d.y;})
+            .attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
+            .attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
+            .append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
+    };
 	
 	this.writeName = function() {
 		// A copy of the text with a thick white stroke for legibility.
