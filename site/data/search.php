@@ -185,7 +185,7 @@ echo('"distances":[');
 $idx = 0;
 $prev = 0;
 while ($idx < sizeof($nodes) && $prev == 0) {
-    $prev = addLinks($nodes[$idx]);
+    $prev = addPaths($nodes[$idx]);
     $idx += 1;
 }
 
@@ -253,6 +253,7 @@ function addNode($who) {
         $row = pg_fetch_array($result, $i);
         $node['name'] = $row[0];
         $node['sum_degree'] = $row[1];
+        $node['id'] = $who;
         //add this node to the json
         $nodes[] = $node;
     }
@@ -336,14 +337,6 @@ function addLinks($here) {
             continue;
         }
 
-        $numLinks += 1;
-
-        if ($first) {
-            $first = false;
-        } else {
-            echo(',');
-        }
-
         //first check if we are user_id1
         for ($i = 0; $i < $num1; $i++) {
             $row = pg_fetch_array($result1, $i);
@@ -352,7 +345,16 @@ function addLinks($here) {
                 $link['target'] =  $target;
                 $link['inf_1to2'] = (int)$row[1];
                 $link['inf_2to1'] = (int)$row[2];
+
+                if ($first) {
+                    $first = false;
+                } else {
+                    echo(',');
+                }
+
                 echo(json_encode($link));
+
+                $numLinks += 1;
 
                 //move on to the next node in the nodes array
                 continue 2;
@@ -367,7 +369,16 @@ function addLinks($here) {
                 $link['target'] =  $target;
                 $link['inf_1to2'] = (int)$row[1];
                 $link['inf_2to1'] = (int)$row[2];
+
+                if ($first) {
+                    $first = false;
+                } else {
+                    echo(',');
+                }
+
                 echo(json_encode($link));
+
+                $numLinks += 1;
 
                 //move on to the next node in the nodes array
                 continue 2;
