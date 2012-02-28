@@ -64,7 +64,7 @@ function GraphEvent(renderObject) {
 			ysyt = Math.abs(d.target.y - d.source.y);
 			alpha = xsxt/ysyt;
 			// adjust [x,y] for path source
-			r = d.source.sum_degree*10;
+			r = d.source.sum_degree*0.1;
 			dy = Math.sqrt(r*r/(alpha*alpha+1));
 			dx = Math.sqrt(r*r - dy*dy);
 			sDx = (d.source.x < d.target.x) ?1 :-1 ;
@@ -72,7 +72,7 @@ function GraphEvent(renderObject) {
 			sx = d.source.x+sDx*dx;
 			sy = d.source.y+sDy*dy;
 			// adjust [x,y] for path target
-			r = d.target.sum_degree*10;
+			r = d.target.sum_degree*0.1;
 			dy = Math.sqrt(r*r/(alpha*alpha+1));
 			dx = Math.sqrt(r*r - dy*dy);
 			tDx = (d.target.x < d.source.x) ?1 :-1 ;
