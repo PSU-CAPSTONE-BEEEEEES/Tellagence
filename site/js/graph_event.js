@@ -56,7 +56,7 @@ function GraphEvent(renderObject) {
 		// ticking the single paths
 		renderObject.singlePath.attr("d", tickingPath);
 		// ticking the double paths
-		renderObject.doublePath.attr("d", tickingPath);
+		//renderObject.doublePath.attr("d", tickingPath);
 		// ticking all paths
 		function tickingPath(d) {
 			// common figures to adjust source [x,y] and target [x,y]
@@ -64,7 +64,7 @@ function GraphEvent(renderObject) {
 			ysyt = Math.abs(d.target.y - d.source.y);
 			alpha = xsxt/ysyt;
 			// adjust [x,y] for path source
-			r = d.source.sum_degree*0.1;
+			r = (renderObject.existOverlap) ?renderObject.radScale(d.source.sum_degree) :d.source.sum_degree ;
 			dy = Math.sqrt(r*r/(alpha*alpha+1));
 			dx = Math.sqrt(r*r - dy*dy);
 			sDx = (d.source.x < d.target.x) ?1 :-1 ;
@@ -72,7 +72,7 @@ function GraphEvent(renderObject) {
 			sx = d.source.x+sDx*dx;
 			sy = d.source.y+sDy*dy;
 			// adjust [x,y] for path target
-			r = d.target.sum_degree*0.1;
+			r = (renderObject.existOverlap) ?renderObject.radScale(d.target.sum_degree) :d.target.sum_degree ;
 			dy = Math.sqrt(r*r/(alpha*alpha+1));
 			dx = Math.sqrt(r*r - dy*dy);
 			tDx = (d.target.x < d.source.x) ?1 :-1 ;

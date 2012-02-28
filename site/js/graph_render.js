@@ -1,7 +1,8 @@
-function GraphRender(nodes, links) {
+function GraphRender(nodes, distances, links) {
 	// nodes and links for this graph render
-	this.nodes = nodes;
-	this.links = links;
+	this.nodes 		= nodes;
+	this.distances 	= distances;
+	this.links 		= links;
 	this.singleLinks = [];
 	this.doubleLinks = [];
 	this.centerNode = 100;
@@ -11,7 +12,9 @@ function GraphRender(nodes, links) {
 	
 	// temp
 	this.ready = false;
-        this.canTick = true;
+	this.canTick = true;
+	this.radScale = false;
+	this.existOverlap = false;
 
 	// set the svg for resizing and use the inner for drawing
 	this.svg = d3.select("#d3").select("svg");
@@ -21,11 +24,11 @@ function GraphRender(nodes, links) {
     // to assure no overlapping nodes distance
     this.drawCircles = function() {
         var maxRadius = 0,
-            minLength = this.links[0].shortestpath * 100;
+            minLength = this.distances[0].sp * 100;
 
         // check each link for overlapping nodes and update minLength, maxRadius
-        for (i = 0; i < this.links.length; i++) {
-            var len = this.links[i].shortestpath * 100;
+        for (i = 0; i < this.distances.length; i++) {
+            var len = this.distances[i].sp * 100;
             if (len < minLength) {
                 minLength = len;
             }
@@ -34,10 +37,10 @@ function GraphRender(nodes, links) {
                 target = null;
             // map the link ends to the right nodes
             for (j = 0; j < this.nodes.length; j++) {
-                if (this.links[i].source.id == this.nodes[j].id) {
+                if (this.distances[i].source.id == this.nodes[j].id) {
                     source = this.nodes[j];
                 }
-                if (this.links[i].target.id == this.nodes[j].id) {
+                if (this.distances[i].target.id == this.nodes[j].id) {
                     target = this.nodes[j];
                 }
             };
@@ -59,6 +62,7 @@ function GraphRender(nodes, links) {
         var radScale = d3.scale.log()
                 .domain([1, maxRadius])
                 .rangeRound([1, minLength/2]);
+		this.radScale = radScale;
 
         // draw circles
         var center = this.centerNode;
@@ -66,10 +70,13 @@ function GraphRender(nodes, links) {
             .attr("r", function(d) {
                 // only scale if there exists overlap in the graph
                 if (maxRadius > 0) {
-                    return radScale(d.sum_degree/10) +'px';
+                    return radScale(d.sum_degree)+'px';
+					if (!this.existOverlap) {
+						this.existOverlap = true;
+					}
                 }
                 else {
-                    return d.sum_degree/10+'px';
+                    return d.sum_degree+'px';
                 }
             })
             .attr("opacity", 0.5)
@@ -151,8 +158,8 @@ function GraphRender(nodes, links) {
 		this.ready = false;
 		this.force = d3.layout.force()
 			.nodes(this.nodes)
-			.links(this.links)
-			.linkDistance(function(d) { return d.shortestpath * 500; })
+			.links(this.distances)
+			.linkDistance(function(d) { return d.sp*100; })
 			.charge(-100)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
@@ -161,24 +168,25 @@ function GraphRender(nodes, links) {
 		// to make sure, we copy only link whose sum_inf>0 to another array, so d3 can still this.links array with all of the links
 		var singles = new Array();	// 1-way relationships
 		var doubles = new Array();	// 2-way relationships
-		for (i=0; i<this.links.length; i++)
-			if ((this.links[i].inf_1to2+this.links[i].inf_2to1) > 0) {
-				// current influences
-				inf_1to2 = this.links[i].inf_1to2;
-				inf_2to1 = this.links[i].inf_2to1;
-				path = new Object();
-				path.inf = this.links[i].inf_1to2 + this.links[i].inf_2to1;
-				// if this is a single relationship
-				if ( Math.max(inf_1to2, inf_2to1)==(inf_1to2+inf_2to1) ) {
-					path.source = (inf_1to2!=0) ?this.links[i].source :this.links[i].target ;
-					path.target = (path.source.id==this.links[i].source.id) ?this.links[i].target :this.links[i].source ;
-					singles.push(path);
-				} else {
-					path.source = this.links[i].source;
-					path.target = this.links[i].target;
-					doubles.push(path);
-				}
+		for (i=0; i<this.links.length; i++) {
+			// current influences
+			inf_1to2 = this.links[i].i12;
+			inf_2to1 = this.links[i].i21;
+			source = this.links[i].source;
+			target = this.links[i].target;
+			path = new Object();
+			path.inf = inf_1to2 + inf_2to1;
+			// if this is a single relationship
+			if ( Math.max(inf_1to2, inf_2to1)==(inf_1to2+inf_2to1) ) {
+				path.source = (inf_1to2!=0) ?this.nodes[source] :this.nodes[target] ;
+				path.target = (path.source.id==this.nodes[source].id) ?this.nodes[target] :this.nodes[source] ;
+				singles.push(path);
+			} else {
+				path.source = this.nodes[source];
+				path.target = this.nodes[target];
+				doubles.push(path);
 			}
+		}
 		this.singleLinks = singles;
 		this.doubleLinks = doubles;
 		this.singlePath = this.inner.selectAll("path")
@@ -198,9 +206,10 @@ function GraphRender(nodes, links) {
 		return new GraphEvent(this);
 	};
 	
-	this.data = function(nodes, links) {
-		this.nodes = nodes;
-		this.links = links;
+	this.data = function(nodes, distances, links) {
+		this.nodes 		= nodes;
+		this.distances 	= distances;
+		this.links 		= links;
 	};
 	
 	this.setCenterNode = function(id) {

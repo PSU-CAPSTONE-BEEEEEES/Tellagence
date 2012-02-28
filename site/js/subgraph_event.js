@@ -48,7 +48,7 @@ function SubgraphEvent(renderObject) {
 					// switch the spinning bar for the loading bar
 					switchBars();
 					// data for new graph
-					window.gr.data(data.nodes, data.links);
+					window.gr.data(data.nodes, data.distances, data.links);
 					window.gr.setCenterNode(0);
 					// redraw selected graph with new graph events
 					window.gr.draw();
