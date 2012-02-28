@@ -220,7 +220,6 @@ function addNode($who) {
         $row = pg_fetch_array($result, $i);
         $node['name'] = $row[0];
         $node['sum_degree'] = $row[1];
-        $node['id'] = $who;
         //add this node to the json
         $nodes[] = $node;
     }
