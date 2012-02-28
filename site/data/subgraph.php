@@ -6,7 +6,8 @@ if (!$dbconn) {
     die("Error connecting to database.");
 }
 
-echo('{"graphs":[');
+//there is no subgraph_id 0
+echo('{"subgraphs":[0,');
 
 $result = pg_exec($dbconn, "SELECT COUNT(subgraph_id) FROM subgraphs;");
 $rows = pg_fetch_array($result, 0);
@@ -22,7 +23,7 @@ for ($i = 1; $i < $num; $i++) {
     if ($i > 1) {
 	echo(', ');
     }
-    echo('{"subgraph_id": ' . $i . ', "num": ' . $array[0] . '}');
+    echo($array[0]);
 }
 
 echo('] }');
