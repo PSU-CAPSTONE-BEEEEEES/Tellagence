@@ -21,7 +21,7 @@ function GraphRender(nodes, links) {
 		// draw circles
 		var center = this.centerNode;
 		this.circle.enter().append("circle")
-			.attr("r", function(d) { return (d.sum_degree*10)+'px'; })
+			.attr("r", function(d) { return (d.sum_degree*0.1)+'px'; })
 			.attr("opacity", 0.5)
 			.attr("cx", function(d) {return d.x;})
 			.attr("cy", function(d) {return d.y;})
