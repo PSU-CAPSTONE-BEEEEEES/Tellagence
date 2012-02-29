@@ -85,6 +85,8 @@ function GraphRender(nodes, distances, links) {
             .attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
             .attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
             .append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
+			
+		this.clearDataNodes();
     };
 	
 	this.writeName = function() {
@@ -151,6 +153,8 @@ function GraphRender(nodes, distances, links) {
 			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
 			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
+			
+		this.clearDataLinks();
 	}
 	
 	this.draw = function() {
@@ -244,4 +248,25 @@ function GraphRender(nodes, distances, links) {
 		// empty defs (arrows declaration)
 		var defs = this.inner.select("defs").remove();
 	};
+	
+	this.clearDataNodes = function() {
+		// empty nodes and links
+		this.nodes = [];
+		// empty the force graph
+		this.force = d3.layout.force().nodes([]);
+		// empty actual circles
+		this.circle = this.inner.selectAll("circle").data([]);
+		console.log('data nodes cleared.');
+	}
+	this.clearDataLinks = function() {
+		// empty nodes and links
+		this.links = [];
+		this.singleLinks = [];
+		this.doubleLinks = [];
+		// empty the force graph
+		this.force = d3.layout.force().links([]);
+		// empty actual circles and paths
+		this.path = this.inner.selectAll("path").data([]);
+		console.log('data links cleared.');
+	}
 }
