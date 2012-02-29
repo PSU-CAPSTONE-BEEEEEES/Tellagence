@@ -165,7 +165,7 @@ $file = fopen("links.json", 'w');
 flock($file, LOCK_EX); //I really want that lock
 
 //buffer the output
-$buffer = '"links":[';
+$buffer = '{"links":[';
 
 $idx = 0;
 $prev = 0;
@@ -185,7 +185,7 @@ while ($idx < sizeof($nodes)) {
     }
     $idx += 1;
 }
-$buffer = $buffer . ']';
+$buffer = $buffer . ']}';
 fwrite($file, $buffer);
 
 
@@ -195,7 +195,7 @@ fclose($file);
 $file = fopen("distances.json", 'w');
 flock($file, LOCK_EX); //I really want that lock
 
-$buffer = '"distances":[';
+$buffer = '{"distances":[';
 
 $idx = 0;
 $prev = 0;
@@ -215,7 +215,7 @@ while ($idx < sizeof($nodes)) {
     }
     $idx += 1;
 }
-$buffer = $buffer . ']';
+$buffer = $buffer . ']}';
 fwrite($file, $buffer);
 
 //end "distances"
