@@ -2,7 +2,7 @@ function GraphRender(nodes, distances, links) {
 	// nodes and links for this graph render
 	this.nodes 		= nodes;
 	this.distances 	= distances;
-	this.links 		= links;
+	this.links 		= [];
 	this.singleLinks = [];
 	this.doubleLinks = [];
 	this.centerNode = 100;
@@ -213,7 +213,7 @@ function GraphRender(nodes, distances, links) {
 	this.data = function(nodes, distances, links) {
 		this.nodes 		= nodes;
 		this.distances 	= distances;
-		this.links 		= links;
+		this.links 		= [];
 	};
 	
 	this.setCenterNode = function(id) {
