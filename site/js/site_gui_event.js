@@ -1,5 +1,8 @@
 function initZoom(render) {
+    // initialize the render to a decent zoom level
+
     function graphCheck(node, i, array) {
+        // find all the nodes and filter for the ones off screen
         var contains = node.subgraph_id !== undefined ?
                 "id="+node.subgraph_id+" num="+node.num :
                 'UserId='+node.id+'UserName='+node.name;
@@ -11,23 +14,24 @@ function initZoom(render) {
         return false;
     }
 
-    var offNodes = [];
-    if (render.graphs !== undefined) {
-        // in subgraph
-        offNodes = render.graphs.filter(graphCheck);
-        while (offNodes.length > 0) {
-	    new ChromeWheel(1, 1);
-            offNodes = offNodes.filter(graphCheck);
-        }
+    // subgraphs and graphs have different names for nodes
+    var offNodes = render.graphs !== undefined ?
+            render.graphs.filter(graphCheck) : render.nodes.filter(graphCheck);
+
+    // zoom in first if we can
+    while (offNodes.length == 0) {
+        new ChromeWheel(0, 1);
+        offNodes = render.graphs !== undefined ?
+            render.graphs.filter(graphCheck) : render.nodes.filter(graphCheck);
     }
-    else {
-        // in graph
-        offNodes = render.nodes.filter(graphCheck);
-        while (offNodes.length > 0) {
-	    new ChromeWheel(1, 1);
-            offNodes = offNodes.filter(graphCheck);
-        }
+
+    // zoom out until all nodes are on the screen
+    while (offNodes.length > 0) {
+	new ChromeWheel(1, 1);
+        offNodes = offNodes.filter(graphCheck);
     }
+
+    // reset the zoom slider to halfway to match the initial zoom level
     $("#slider").attr("value", 50);
 }
 
