@@ -61,19 +61,10 @@ function SubgraphEvent(renderObject) {
 				// erase and empty current render
 				renderObject.empty();
 				// call to server to obtain the selected graph info
-				var ajaxUrl = 'data/generate.php?subgraph='+d.subgraph_id;
+				var ajaxUrl = 'data/search.php?subgraph='+d.subgraph_id;
 				if (d.subgraph_id==1)
-					ajaxUrl = 'data/generate.php?user=vmworld&depth=100';
-				d3.json(ajaxUrl, function() {
-					$.get('data/nodes.json', function(data) {
-					  setCookie('nodes', data.nodes, 1);
-					  $.get('data/links.json', function(data) {
-					    console.log(data);
-					    setCookie('links', data, 1);
-					  });
-					});
-					
-					
+					ajaxUrl = 'data/search.php?user=vmworld&depth=100';
+				d3.json(ajaxUrl, function(data) {
 					// switch the spinning bar for the loading bar
 					switchBars();
 					// data for new graph

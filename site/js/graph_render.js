@@ -2,7 +2,7 @@ function GraphRender(nodes, distances, links) {
 	// nodes and links for this graph render
 	this.nodes 		= nodes;
 	this.distances 	= distances;
-	this.links 		= [];
+	this.links 		= links;
 	this.singleLinks = [];
 	this.doubleLinks = [];
 	this.centerNode = 100;
@@ -86,7 +86,7 @@ function GraphRender(nodes, distances, links) {
             .attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
             .append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
 			
-		this.clearDataNodes();
+		//this.clearDataNodes();
     };
 	
 	this.writeName = function() {
@@ -158,6 +158,20 @@ function GraphRender(nodes, distances, links) {
 	}
 	
 	this.draw = function() {
+		var arrNodes = [];
+		for (i=0; i<this.nodes.length; i++)
+			arrNodes[i] = this.nodes[i].sum_degree;
+		for (i=0; i<arrNodes.length-1; i++)
+			for (j=i+1; j<arrNodes.length; j++)
+				if ( arrNodes[j] > arrNodes[i] ) {
+					temp = arrNodes[i];
+					arrNodes[i] = arrNodes[j];
+					arrNodes[j] = temp;
+				}
+		for (i=0; i<arrNodes.length; i++) {
+			console.log(i + ': ' + arrNodes[i]);
+		}
+		
 		// init force graph
 		this.ready = false;
 		this.force = d3.layout.force()
@@ -213,7 +227,7 @@ function GraphRender(nodes, distances, links) {
 	this.data = function(nodes, distances, links) {
 		this.nodes 		= nodes;
 		this.distances 	= distances;
-		this.links 		= [];
+		this.links 		= links;
 	};
 	
 	this.setCenterNode = function(id) {
