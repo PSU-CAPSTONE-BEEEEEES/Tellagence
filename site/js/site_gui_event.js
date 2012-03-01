@@ -1,6 +1,9 @@
 function initZoom(render) {
-    function subgraphCheck(node, i, array) {
-        var circle = $("title:contains('id="+node.subgraph_id+" num="+node.num+"')").parent();
+    function graphCheck(node, i, array) {
+        var contains = node.subgraph_id !== undefined ?
+                "id="+node.subgraph_id+" num="+node.num :
+                'UserId='+node.id+'UserName='+node.name;
+        var circle = $("title:contains("+contains+")").parent();
         var cx = circle.position().left;
         var cy = circle.position().top;
         if ((cx < 0) || (cx > render.w)) { return true; }    // check x
@@ -11,14 +14,19 @@ function initZoom(render) {
     var offNodes = [];
     if (render.graphs !== undefined) {
         // in subgraph
-        offNodes = render.graphs.filter(subgraphCheck);
+        offNodes = render.graphs.filter(graphCheck);
         while (offNodes.length > 0) {
 	    new ChromeWheel(1, 1);
-            offNodes = offNodes.filter(subgraphCheck);
+            offNodes = offNodes.filter(graphCheck);
         }
     }
     else {
         // in graph
+        offNodes = render.nodes.filter(graphCheck);
+        while (offNodes.length > 0) {
+	    new ChromeWheel(1, 1);
+            offNodes = offNodes.filter(graphCheck);
+        }
     }
     $("#slider").attr("value", 50);
 }
