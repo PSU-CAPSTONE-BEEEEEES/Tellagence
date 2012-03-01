@@ -50,11 +50,4 @@ function GuiEvent(renderObject) {
 		}
 		diff = 0;
 	});
-
-	function ChromeWheel ( shift_key , clicks) {
-		var evt = document.createEvent("MouseEvents");
-		evt.initMouseEvent('dblclick', true, true, window, clicks, 10, 10,
-		$(window).width() / 2, $(window).height() / 2, 0, 0, shift_key, 0, 1, null);
-		document.getElementById('inner').dispatchEvent(evt);
-	}
 }

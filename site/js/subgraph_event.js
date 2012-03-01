@@ -25,7 +25,8 @@ function SubgraphEvent(renderObject) {
 			renderObject.drawCircles();
 			// stop ticking immeidately as the complete graph was drawn
 			renderObject.force.stop();
-			
+
+		        initZoom(renderObject);			
 			// on click render the selected subgraph
 			renderObject.circle.on('click', function(d, i) {
 				// throw a new popup up
