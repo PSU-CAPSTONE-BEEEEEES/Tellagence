@@ -29,7 +29,7 @@ function SubgraphRender(graphs) {
 			
 		// subgraphs names
 		this.circle.append("title")
-			.text(function(d) { return d.num; });
+			.text(function(d) { return "id="+d.subgraph_id+" num="+d.num; });
 	};
 		
 	this.draw = function() {
