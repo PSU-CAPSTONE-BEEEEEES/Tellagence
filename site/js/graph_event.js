@@ -24,7 +24,7 @@ function GraphEvent(renderObject) {
 	
 			// draw paths, nodes, and name for each node
 			renderObject.drawCircles();
-			renderObject.drawPaths();
+			//renderObject.drawPaths();
 			//renderObject.writeName();
 			// stop ticking immediately as the complete graph was drawn
 			renderObject.force.stop();
@@ -68,7 +68,7 @@ function GraphEvent(renderObject) {
 			ysyt = Math.abs(d.target.y - d.source.y);
 			alpha = xsxt/ysyt;
 			// adjust [x,y] for path source
-			r = (renderObject.existOverlap) ?renderObject.radScale(d.source.sum_degree*10) :d.source.sum_degree*10 ;
+			r = (renderObject.existOverlap) ?renderObject.radScale(parseInt(d.source.sum_degree)) :parseInt(d.source.sum_degree) ;
 			dy = Math.sqrt(r*r/(alpha*alpha+1));
 			dx = Math.sqrt(r*r - dy*dy);
 			sDx = (d.source.x < d.target.x) ?1 :-1 ;
@@ -76,7 +76,7 @@ function GraphEvent(renderObject) {
 			sx = d.source.x+sDx*dx;
 			sy = d.source.y+sDy*dy;
 			// adjust [x,y] for path target
-			r = (renderObject.existOverlap) ?renderObject.radScale(d.target.sum_degree*10) :d.target.sum_degree*10 ;
+			r = (renderObject.existOverlap) ?renderObject.radScale(parseInt(d.target.sum_degree)) :parseInt(d.target.sum_degree) ;
 			dy = Math.sqrt(r*r/(alpha*alpha+1));
 			dx = Math.sqrt(r*r - dy*dy);
 			tDx = (d.target.x < d.source.x) ?1 :-1 ;

@@ -5,7 +5,7 @@ function GraphRender(nodes, distances, links) {
 	this.links 		= links;
 	this.singleLinks = [];
 	this.doubleLinks = [];
-	this.centerNode = 100;
+	this.centerNode = null;
 	// defined width & height of svg
 	this.w = $(window).width();
 	this.h = $(window).height();
@@ -16,8 +16,9 @@ function GraphRender(nodes, distances, links) {
 	this.radScale = false;
 	this.existOverlap = false;
 	
-	// coefficient multiplier for link length
-	this.linkLenCoef = 1;
+	// coefficient multiplier node radius and distance
+	this.nodeRadiusCoef = 1;
+	this.distanceCoef 	= 1;
 
 	// set the svg for resizing and use the inner for drawing
 	this.svg = d3.select("#d3").select("svg");
@@ -27,13 +28,13 @@ function GraphRender(nodes, distances, links) {
     // to assure no overlapping nodes distance
     this.drawCircles = function() {
         var maxRadius = 0,
-            minLength = this.distances[0].sp * this.linkLenCoef;
+            minLength = this.distances[0].sp;
 
 		// by default there is no overlap
 		this.existOverlap = false;
         // check each link for overlapping nodes and update minLength, maxRadius
         for (i = 0; i < this.distances.length; i++) {
-            var len = this.distances[i].sp * this.linkLenCoef;
+            var len = this.distances[i].sp;
             if (len < minLength) {
                 minLength = len;
             }
@@ -51,8 +52,8 @@ function GraphRender(nodes, distances, links) {
             }
 
             if (source && target) {
-                var sr    = source.sum_degree*10,
-                    tr    = target.sum_degree*10,
+                var sr    = parseInt(source.sum_degree),
+                    tr    = parseInt(target.sum_degree),
                     radii = sr + tr;
 
                 // check for overlap and bigger than existing maxRadius
@@ -76,10 +77,10 @@ function GraphRender(nodes, distances, links) {
             .attr("r", function(d) {
                 // only scale if there exists overlap in the graph
                 if (maxRadius > 0) {
-                    return radScale(d.sum_degree*10)+'px';
+                    return radScale(parseInt(d.sum_degree));
                 }
                 else {
-                    return d.sum_degree*10+'px';
+                    return parseInt(d.sum_degree);
                 }
             })
             .attr("opacity", 0.5)
@@ -163,6 +164,25 @@ function GraphRender(nodes, distances, links) {
 		//this.clearDataLinks();
 	};
 	
+	this.normalize = function() {
+		var minDegree = parseInt(this.nodes[0].sum_degree);
+		var maxDegree = parseInt(this.nodes[0].sum_degree);
+		
+		for (i=1; i<this.nodes.length; i++) {
+			degree = parseInt(this.nodes[i].sum_degree);
+			minDegree = (degree < minDegree) ?degree :minDegree ;
+			maxDegree = (degree > maxDegree) ?degree :maxDegree ;
+		}
+		
+		// configure coefficients
+		this.distanceCoef = this.nodes.length/2;
+		for (i=0; i<this.distances.length; i++) {
+			this.distances[i].sp = this.distances[i].sp * this.distanceCoef;
+		}
+		// for node radii
+		this.nodeRadiusCoef = 1;
+	}
+	
 	this.draw = function() {
 		/*
 		var arrNodes = [];
@@ -179,16 +199,14 @@ function GraphRender(nodes, distances, links) {
 			console.log(i + ': ' + arrNodes[i]);
 		}
 		*/
-		
-		this.linkLenCoef = this.calLinkLenCoef();
-		console.log(this.linkLenCoef);
+		this.normalize();
 		
 		// init force graph
 		this.ready = false;
 		this.force = d3.layout.force()
 			.nodes(this.nodes)
 			.links(this.distances)
-			.linkDistance(function(d) { return d.sp*200; })
+			.linkDistance(function(d) { return d.sp; })
 			.charge(-100)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
@@ -234,10 +252,6 @@ function GraphRender(nodes, distances, links) {
 		// handle events for graph (only for graph)
 		return new GraphEvent(this);
 	};
-	
-	this.calLinkLenCoef = function() {
-		return this.nodes.length * 5;
-	}
 	
 	this.data = function(nodes, distances, links) {
 		this.nodes 		= nodes;
