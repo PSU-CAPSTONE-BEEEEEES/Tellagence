@@ -57,7 +57,7 @@ function GraphEvent(renderObject) {
 			// ticking the single paths
 			renderObject.singlePath.attr("d", tickingPath);
 			// ticking the double paths
-			//renderObject.doublePath.attr("d", tickingPath);
+			renderObject.doublePath.attr("d", tickingPath);
 			// ticking all paths
 			console.log(renderObject.existOverlap);
 		}
