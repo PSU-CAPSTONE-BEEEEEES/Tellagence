@@ -207,6 +207,13 @@ function GraphRender(nodes, distances, links) {
 		}
 		*/
 		this.normalize();
+
+            // initialize the count in the toolbar
+            var that = this;
+            $.getJSON("data/subgraph.php", function(data) {
+                var count = data.graphs[parseInt(that.nodes[0].subgraph) - 1];
+                $("#count").html(count.num);
+            });
 		
 		// init force graph
 		this.ready = false;
