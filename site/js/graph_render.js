@@ -45,7 +45,7 @@ function GraphRender(nodes, distances, links) {
                 if (this.distances[i].target.id == this.nodes[j].id) {
                     target = this.nodes[j];
                 }
-            };
+            }
 
             if (source && target) {
                 var sr    = source.sum_degree/10,
@@ -58,7 +58,7 @@ function GraphRender(nodes, distances, links) {
 					this.existOverlap = true;
                 }
             }
-        };
+        }
 
         // scale the nodes logarithmically, needing 1 as the base case to avoid
         // pesky NaN due to log(), with rangeRound making integer output
@@ -101,7 +101,7 @@ function GraphRender(nodes, distances, links) {
 			.attr("x", 8)
 			.attr("y", ".31em")
 			.text(function(d) { return d.name; });
-	}
+	};
 	
 	this.drawPaths = function() {
 		// define defs area to initialize all arrows
@@ -155,7 +155,7 @@ function GraphRender(nodes, distances, links) {
 			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
 			
 		//this.clearDataLinks();
-	}
+	};
 	
 	this.draw = function() {
 		/*
@@ -186,19 +186,19 @@ function GraphRender(nodes, distances, links) {
 			
 		// only render paths with sum influences > 0
 		// to make sure, we copy only link whose sum_inf>0 to another array, so d3 can still this.links array with all of the links
-		var singles = new Array();	// 1-way relationships
-		var doubles = new Array();	// 2-way relationships
+		var singles = [];	// 1-way relationships
+		var doubles = [];	// 2-way relationships
 		for (i=0; i<this.links.length; i++) {
 			// current influences
 			inf_1to2 = this.links[i].i12;
 			inf_2to1 = this.links[i].i21;
 			source = this.links[i].source;
 			target = this.links[i].target;
-			path = new Object();
+			path = {};
 			path.inf = inf_1to2 + inf_2to1;
 			// if this is a single relationship
 			if ( Math.max(inf_1to2, inf_2to1)==(inf_1to2+inf_2to1) ) {
-				path.source = (inf_1to2!=0) ?this.nodes[source] :this.nodes[target] ;
+				path.source = (inf_1to2!==0) ?this.nodes[source] :this.nodes[target] ;
 				path.target = (path.source.id==this.nodes[source].id) ?this.nodes[target] :this.nodes[source] ;
 				singles.push(path);
 			} else {
@@ -273,7 +273,7 @@ function GraphRender(nodes, distances, links) {
 		// empty actual circles
 		this.circle = this.inner.selectAll("circle").data([]);
 		console.log('data nodes cleared.');
-	}
+	};
 	this.clearDataLinks = function() {
 		// empty nodes and links
 		this.links = [];
@@ -284,5 +284,5 @@ function GraphRender(nodes, distances, links) {
 		// empty actual circles and paths
 		this.path = this.inner.selectAll("path").data([]);
 		console.log('data links cleared.');
-	}
+	};
 }

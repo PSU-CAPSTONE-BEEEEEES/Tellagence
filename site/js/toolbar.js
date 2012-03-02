@@ -1,3 +1,18 @@
+// centers the popup window based on the window width/height
+function centerPopup() {
+    var winw = $(window).width();
+    var winh = $(window).height();
+    var popw = $('#Popup').width();
+    var poph = $('#Popup').height();
+
+    // set positional css
+    $("#Popup").css({
+        "position" : "absolute",
+        "top" : winh/2 - poph/2,
+        "left" : winw/2 - popw/2
+    });
+}
+
 // brings up the popup overlay on screen
 function loadPopup() {
     //loads popup only if it is disabled
@@ -28,21 +43,6 @@ function disablePopup() {
     }
 }
 
-// centers the popup window based on the window width/height
-function centerPopup() {
-    var winw = $(window).width();
-    var winh = $(window).height();
-    var popw = $('#Popup').width();
-    var poph = $('#Popup').height();
-
-    // set positional css
-    $("#Popup").css({
-        "position" : "absolute",
-        "top" : winh/2 - poph/2,
-        "left" : winw/2 - popw/2
-    });
-}
-
 // utility function to change the spinning bar to the loading bar
 function switchBars() {
     $("#step1").hide();
@@ -65,6 +65,8 @@ function resetPopup() {
     // soon as the update happens
     $("#progress").replaceWith('<div id="progress"></div>');
     $("#bar").show();
+
+    $("#toolbar").hide();
 
     // simulate the animated spinning of the progress bar while the JSON is
     // being fetched from the database
@@ -153,8 +155,7 @@ $(document).ready(function() {
         window.gr.ready = false;
         window.sgr.ready = false;
 
-        // hide search and subgraph buttons
-        $("#searchbar").hide();
+        // hide subgraph button
         $("#dots").hide();
 
         d3.json("data/subgraph.php", function(data) {

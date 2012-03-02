@@ -147,6 +147,11 @@ svg {
     line-height: 20px;
 }
 
+.swap {
+    font-size: 75%;
+    cursor: pointer;
+}
+
 /* zoom slider
 
    note that input[type=range] breaks on firefox, so html5slider.js is used to

@@ -21,15 +21,15 @@ function initZoom(render) {
             render.graphs.filter(graphCheck) : render.nodes.filter(graphCheck);
 
     // zoom in first if we can
-    while (offNodes.length == 0) {
-        new ChromeWheel(0, 1);
+    while (offNodes.length === 0) {
+        var click = new ChromeWheel(0, 1);
         offNodes = render.graphs !== undefined ?
             render.graphs.filter(graphCheck) : render.nodes.filter(graphCheck);
     }
 
     // zoom out until all nodes are on the screen
     while (offNodes.length > 0) {
-	new ChromeWheel(1, 1);
+	var shiftClick = new ChromeWheel(1, 1);
         offNodes = offNodes.filter(graphCheck);
     }
 
