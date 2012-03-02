@@ -1,5 +1,7 @@
 function initZoom(render) {
     // initialize the render to a decent zoom level
+    var w = $(window).width(),
+        h = $(window).height();
 
     function graphCheck(node, i, array) {
         // find all the nodes and filter for the ones off screen
@@ -9,8 +11,8 @@ function initZoom(render) {
         var circle = $("title:contains("+contains+")").parent();
         var cx = circle.position().left;
         var cy = circle.position().top;
-        if ((cx < 0) || (cx > render.w)) { return true; }    // check x
-        if ((cy < 0) || (cy > render.h)) { return true; }    // check y
+        if ((cx < 0) || (cx > w)) { return true; }    // check x
+        if ((cy < 0) || (cy > h)) { return true; }    // check y
         return false;
     }
 
