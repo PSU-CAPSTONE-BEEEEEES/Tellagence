@@ -22,7 +22,7 @@ d3.json("data/subgraph.php", function(data) {
 
 // temp
 /*
-d3.json("data/search.php?user=vmworld&depth=10", function(data) {
+d3.json("data/search.php?subgraph=270", function(data) {
 	// switch the spinning bar for the loading bar
 	switchBars();
 	// retrieve data for subgraph render

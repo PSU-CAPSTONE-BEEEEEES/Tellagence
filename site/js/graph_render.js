@@ -143,12 +143,14 @@ function GraphRender(nodes, distances, links) {
 		
 		// draw single paths
 		this.singlePath.enter().append("path")
+			//.attr("opacity", 0.1)
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
 			.attr("title", "xyz - abc")
 			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
 		// draw double paths
 		this.doublePath.enter().append("path")
+			//.attr("opacity", 0.2)
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
