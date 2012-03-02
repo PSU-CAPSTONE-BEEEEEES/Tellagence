@@ -213,11 +213,22 @@ input[type=range]::-webkit-slider-thumb {
 
 /* link to redraw the subgraphs */
 
-#dots {
+#middle {
     position: absolute;
     left: 50%;
     margin-left: -13px;
     top: 50%;
     margin-top: -12px;
+    width: 80px;
+}
+
+#dots {
     cursor: pointer;
+    float: left;
+    margin-right: 10px;
+}
+
+/* count of total nodes in the subgraph being viewed */
+#count {
+    line-height: 24px;
 }

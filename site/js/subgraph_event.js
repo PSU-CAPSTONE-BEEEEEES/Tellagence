@@ -55,8 +55,9 @@ function SubgraphEvent(renderObject) {
                                 // make only the graph tick
                                 renderObject.canTick = false;
 
-                                // reenable the subgraph button
+                                // reenable the subgraph button and node count
                                 $("#dots").show();
+                                $("#count").show();
 
 				// erase and empty current render
 				renderObject.empty();
