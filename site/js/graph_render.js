@@ -53,6 +53,7 @@ function GraphRender(nodes, distances, links) {
                 // check for overlap and bigger than existing maxRadius
                 if (radii > len && radii > maxRadius) {
                     maxRadius = Math.max(sr, tr);
+					this.existOverlap = true;
                 }
             }
         };
@@ -71,9 +72,6 @@ function GraphRender(nodes, distances, links) {
                 // only scale if there exists overlap in the graph
                 if (maxRadius > 0) {
                     return radScale(d.sum_degree)+'px';
-					if (!this.existOverlap) {
-						this.existOverlap = true;
-					}
                 }
                 else {
                     return d.sum_degree+'px';
@@ -154,7 +152,7 @@ function GraphRender(nodes, distances, links) {
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
 			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
 			
-		this.clearDataLinks();
+		//this.clearDataLinks();
 	}
 	
 	this.draw = function() {

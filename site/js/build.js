@@ -22,11 +22,11 @@ d3.json("data/subgraph.php", function(data) {
 
 // temp
 /*
-d3.json("data/temp.php", function(data) {
+d3.json("data/search.php?user=vmworld&depth=10", function(data) {
 	// switch the spinning bar for the loading bar
 	switchBars();
 	// retrieve data for subgraph render
-	window.gr.data(data.nodes, data.links);
+	window.gr.data(data.nodes, data.distances, data.links);
 	// draw subgraph (w/ graph events ready)
 	window.gr.draw();
 });

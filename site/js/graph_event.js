@@ -23,8 +23,8 @@ function GraphEvent(renderObject) {
 			$("#step2").hide();
 	
 			// draw paths, nodes, and name for each node
-			renderObject.drawPaths();
 			renderObject.drawCircles();
+			renderObject.drawPaths();
 			//renderObject.writeName();
 			// stop ticking immediately as the complete graph was drawn
 			renderObject.force.stop();
@@ -52,13 +52,16 @@ function GraphEvent(renderObject) {
 			});
 			// mark render object as completely ready
 			renderObject.ready = true;
+			
+			
+			// ticking the single paths
+			renderObject.singlePath.attr("d", tickingPath);
+			// ticking the double paths
+			//renderObject.doublePath.attr("d", tickingPath);
+			// ticking all paths
+			console.log(renderObject.existOverlap);
 		}
-	
-		// ticking the single paths
-		renderObject.singlePath.attr("d", tickingPath);
-		// ticking the double paths
-		//renderObject.doublePath.attr("d", tickingPath);
-		// ticking all paths
+		
 		function tickingPath(d) {
 			// common figures to adjust source [x,y] and target [x,y]
 			xsxt = Math.abs(d.target.x - d.source.x);
@@ -84,7 +87,7 @@ function GraphEvent(renderObject) {
 			dr = 0;
 			return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
 		}
-		
+	
 		// ticking the cirlces
 		renderObject.circle
 			.attr("cx", function(d) { return d.x; })
