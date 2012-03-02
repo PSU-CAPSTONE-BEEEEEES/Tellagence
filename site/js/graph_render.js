@@ -112,8 +112,8 @@ function GraphRender(nodes, distances, links) {
 			.attr("viewBox", "0 0 15 15")
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
-			.attr("markerWidth", 15)
-			.attr("markerHeight", 10)
+			.attr("markerWidth", function(d) {return (3-d.inf/2.0); })
+			.attr("markerHeight", function(d) {return (3-d.inf/2.0); })
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
 			//.attr("d", "M 0 0 L 100 100 M 0 100 L 100 0");
@@ -124,8 +124,8 @@ function GraphRender(nodes, distances, links) {
 			.attr("viewBox", "0 0 15 15")
 			.attr("refX", function(d) { return 0; })
 			.attr("refY", 5)
-			.attr("markerWidth", 15)
-			.attr("markerHeight", 10)
+			.attr("markerWidth", function(d) {return (3-d.inf/2.0); })
+			.attr("markerHeight",function(d) {return (3-d.inf/2.0); })
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 15 0 L 0 5 L 15 10 z");
 		// arrows for source->target in double links
@@ -135,8 +135,8 @@ function GraphRender(nodes, distances, links) {
 			.attr("viewBox", "0 0 15 15")
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
-			.attr("markerWidth", 15)
-			.attr("markerHeight", 10)
+			.attr("markerWidth", function(d) {return (3-d.inf/2.0); })
+			.attr("markerHeight", function(d) {return (3-d.inf/2.0); })
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
 			//.append("path").attr("d", "M0,-5L10,0L0,5");
