@@ -9,6 +9,26 @@ function SubgraphEvent(renderObject) {
 	    return Math.floor(percent);
 	};
 	
+	var setCookie = function(c_name, value, exdays) {
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	};
+	var getCookie = function(c_name) {
+		var i,x,y,ARRcookies=document.cookie.split(";");
+		for (i=0;i<ARRcookies.length;i++)
+		{
+		  x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		  y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		  x=x.replace(/^\s+|\s+$/g,"");
+		  if (x==c_name)
+			{
+			return unescape(y);
+			}
+		  }
+	};
+	
         // circles stay stacked unless they change every tick
         this.renderObject.force.on("tick", function() {
                 var alpha = renderObject.force.alpha();
@@ -35,16 +55,17 @@ function SubgraphEvent(renderObject) {
                                 // make only the graph tick
                                 renderObject.canTick = false;
 
-                                // reenable the search and subgraph button
-	                        $("#searchbar").show();
+                                // reenable the subgraph button and node count
                                 $("#dots").show();
+                                $("#count").show();
 
 				// erase and empty current render
 				renderObject.empty();
 				// call to server to obtain the selected graph info
 				var ajaxUrl = 'data/search.php?subgraph='+d.subgraph_id;
-				if (d.subgraph_id==1)
+				if (d.subgraph_id==1) {
 					ajaxUrl = 'data/search.php?user=vmworld&depth=100';
+                                }
 				d3.json(ajaxUrl, function(data) {
 					// switch the spinning bar for the loading bar
 					switchBars();

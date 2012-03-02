@@ -3,7 +3,7 @@ function GuiEvent(renderObject) {
     this.renderObject = renderObject;
 
     $.getJSON("data/userlist.php", function(json) {
-        var names = new Array();
+        var names = [];
         $.each(json.users, function(i, entry) {
             // builds array from JSON
             names.push(entry.username);
@@ -24,6 +24,10 @@ function GuiEvent(renderObject) {
                 d3.json('data/search.php?user='+ui.item.value+'&depth='+depth, function(data) {
                     // switch the spinning bar for the loading bar
                     switchBars();
+
+                    // reenable the subgraph button
+                    $("#dots").show();
+
                     // data for new graph
                     renderObject.data(data.nodes, data.distances, data.links);
                     renderObject.setCenterNode(data.nodes[0].id);

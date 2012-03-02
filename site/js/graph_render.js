@@ -5,7 +5,7 @@ function GraphRender(nodes, distances, links) {
 	this.links 		= links;
 	this.singleLinks = [];
 	this.doubleLinks = [];
-	this.centerNode = 100;
+	this.centerNode = null;
 	// defined width & height of svg
 	this.w = $(window).width();
 	this.h = $(window).height();
@@ -15,6 +15,10 @@ function GraphRender(nodes, distances, links) {
 	this.canTick = true;
 	this.radScale = false;
 	this.existOverlap = false;
+	
+	// coefficient multiplier node radius and distance
+	this.nodeRadiusCoef = 1;
+	this.distanceCoef 	= 1;
 
 	// set the svg for resizing and use the inner for drawing
 	this.svg = d3.select("#d3").select("svg");
@@ -24,11 +28,13 @@ function GraphRender(nodes, distances, links) {
     // to assure no overlapping nodes distance
     this.drawCircles = function() {
         var maxRadius = 0,
-            minLength = this.distances[0].sp * 100;
+            minLength = this.distances[0].sp;
 
+		// by default there is no overlap
+		this.existOverlap = false;
         // check each link for overlapping nodes and update minLength, maxRadius
         for (i = 0; i < this.distances.length; i++) {
-            var len = this.distances[i].sp * 100;
+            var len = this.distances[i].sp;
             if (len < minLength) {
                 minLength = len;
             }
@@ -43,19 +49,20 @@ function GraphRender(nodes, distances, links) {
                 if (this.distances[i].target.id == this.nodes[j].id) {
                     target = this.nodes[j];
                 }
-            };
+            }
 
             if (source && target) {
-                var sr    = source.sum_degree/10,
-                    tr    = target.sum_degree/10,
+                var sr    = parseInt(source.sum_degree),
+                    tr    = parseInt(target.sum_degree),
                     radii = sr + tr;
 
                 // check for overlap and bigger than existing maxRadius
                 if (radii > len && radii > maxRadius) {
                     maxRadius = Math.max(sr, tr);
+					this.existOverlap = true;
                 }
             }
-        };
+        }
 
         // scale the nodes logarithmically, needing 1 as the base case to avoid
         // pesky NaN due to log(), with rangeRound making integer output
@@ -70,13 +77,10 @@ function GraphRender(nodes, distances, links) {
             .attr("r", function(d) {
                 // only scale if there exists overlap in the graph
                 if (maxRadius > 0) {
-                    return radScale(d.sum_degree)+'px';
-					if (!this.existOverlap) {
-						this.existOverlap = true;
-					}
+                    return radScale(parseInt(d.sum_degree));
                 }
                 else {
-                    return d.sum_degree+'px';
+                    return parseInt(d.sum_degree);
                 }
             })
             .attr("opacity", 0.5)
@@ -85,6 +89,8 @@ function GraphRender(nodes, distances, links) {
             .attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
             .attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
             .append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
+			
+		//this.clearDataNodes();
     };
 	
 	this.writeName = function() {
@@ -99,7 +105,7 @@ function GraphRender(nodes, distances, links) {
 			.attr("x", 8)
 			.attr("y", ".31em")
 			.text(function(d) { return d.name; });
-	}
+	};
 	
 	this.drawPaths = function() {
 		// define defs area to initialize all arrows
@@ -110,8 +116,9 @@ function GraphRender(nodes, distances, links) {
 			.attr("viewBox", "0 0 15 15")
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
-			.attr("markerWidth", 15)
-			.attr("markerHeight", 10)
+			.style("fill", "red")
+			.attr("markerWidth", function(d) {return (3-d.inf/2.0); })
+			.attr("markerHeight", function(d) {return (3-d.inf/2.0); })
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
 			//.attr("d", "M 0 0 L 100 100 M 0 100 L 100 0");
@@ -122,8 +129,8 @@ function GraphRender(nodes, distances, links) {
 			.attr("viewBox", "0 0 15 15")
 			.attr("refX", function(d) { return 0; })
 			.attr("refY", 5)
-			.attr("markerWidth", 15)
-			.attr("markerHeight", 10)
+			.attr("markerWidth", function(d) {return (3-d.inf/2.0); })
+			.attr("markerHeight",function(d) {return (3-d.inf/2.0); })
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 15 0 L 0 5 L 15 10 z");
 		// arrows for source->target in double links
@@ -133,20 +140,22 @@ function GraphRender(nodes, distances, links) {
 			.attr("viewBox", "0 0 15 15")
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
-			.attr("markerWidth", 15)
-			.attr("markerHeight", 10)
+			.attr("markerWidth", function(d) {return (3-d.inf/2.0); })
+			.attr("markerHeight", function(d) {return (3-d.inf/2.0); })
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
 			//.append("path").attr("d", "M0,-5L10,0L0,5");
 		
 		// draw single paths
 		this.singlePath.enter().append("path")
+			.attr("opacity", 0.2)
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
 			.attr("title", "xyz - abc")
 			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
 		// draw double paths
 		this.doublePath.enter().append("path")
+			.attr("opacity", 0.4)
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
@@ -158,34 +167,72 @@ function GraphRender(nodes, distances, links) {
                 title: function() { return $(this).attr("marker-end")}
             })
         });
+			
+		//this.clearDataLinks();
+	};
+	
+	this.normalize = function() {
+		var minDegree = parseInt(this.nodes[0].sum_degree);
+		var maxDegree = parseInt(this.nodes[0].sum_degree);
+		
+		for (i=1; i<this.nodes.length; i++) {
+			degree = parseInt(this.nodes[i].sum_degree);
+			minDegree = (degree < minDegree) ?degree :minDegree ;
+			maxDegree = (degree > maxDegree) ?degree :maxDegree ;
+		}
+		
+		// configure coefficients
+		this.distanceCoef = this.nodes.length/2;
+		for (i=0; i<this.distances.length; i++) {
+			this.distances[i].sp = this.distances[i].sp * this.distanceCoef;
+		}
+		// for node radii
+		this.nodeRadiusCoef = 1;
 	}
 	
 	this.draw = function() {
+		/*
+		var arrNodes = [];
+		for (i=0; i<this.nodes.length; i++)
+			arrNodes[i] = this.nodes[i].sum_degree;
+		for (i=0; i<arrNodes.length-1; i++)
+			for (j=i+1; j<arrNodes.length; j++)
+				if ( arrNodes[j] > arrNodes[i] ) {
+					temp = arrNodes[i];
+					arrNodes[i] = arrNodes[j];
+					arrNodes[j] = temp;
+				}
+		for (i=0; i<arrNodes.length; i++) {
+			console.log(i + ': ' + arrNodes[i]);
+		}
+		*/
+		this.normalize();
+		
 		// init force graph
 		this.ready = false;
 		this.force = d3.layout.force()
 			.nodes(this.nodes)
 			.links(this.distances)
-			.linkDistance(function(d) { return d.sp*100; })
+			.linkDistance(function(d) { return d.sp; })
 			.charge(-100)          // pos for node attraction, neg for repulsion
 			.size([this.w, this.h])
 			.start();
 			
 		// only render paths with sum influences > 0
 		// to make sure, we copy only link whose sum_inf>0 to another array, so d3 can still this.links array with all of the links
-		var singles = new Array();	// 1-way relationships
-		var doubles = new Array();	// 2-way relationships
+		var singles = [];	// 1-way relationships
+		var doubles = [];	// 2-way relationships
 		for (i=0; i<this.links.length; i++) {
 			// current influences
 			inf_1to2 = this.links[i].i12;
 			inf_2to1 = this.links[i].i21;
 			source = this.links[i].source;
 			target = this.links[i].target;
-			path = new Object();
+			path = {};
 			path.inf = inf_1to2 + inf_2to1;
 			// if this is a single relationship
 			if ( Math.max(inf_1to2, inf_2to1)==(inf_1to2+inf_2to1) ) {
-				path.source = (inf_1to2!=0) ?this.nodes[source] :this.nodes[target] ;
+				path.source = (inf_1to2!==0) ?this.nodes[source] :this.nodes[target] ;
 				path.target = (path.source.id==this.nodes[source].id) ?this.nodes[target] :this.nodes[source] ;
 				singles.push(path);
 			} else {
@@ -250,5 +297,26 @@ function GraphRender(nodes, distances, links) {
 		this.path.exit().remove();
 		// empty defs (arrows declaration)
 		var defs = this.inner.select("defs").remove();
+	};
+	
+	this.clearDataNodes = function() {
+		// empty nodes and links
+		this.nodes = [];
+		// empty the force graph
+		this.force = d3.layout.force().nodes([]);
+		// empty actual circles
+		this.circle = this.inner.selectAll("circle").data([]);
+		console.log('data nodes cleared.');
+	};
+	this.clearDataLinks = function() {
+		// empty nodes and links
+		this.links = [];
+		this.singleLinks = [];
+		this.doubleLinks = [];
+		// empty the force graph
+		this.force = d3.layout.force().links([]);
+		// empty actual circles and paths
+		this.path = this.inner.selectAll("path").data([]);
+		console.log('data links cleared.');
 	};
 }

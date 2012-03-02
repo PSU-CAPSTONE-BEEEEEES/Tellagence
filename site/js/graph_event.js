@@ -23,8 +23,8 @@ function GraphEvent(renderObject) {
 			$("#step2").hide();
 	
 			// draw paths, nodes, and name for each node
-			renderObject.drawPaths();
 			renderObject.drawCircles();
+			//renderObject.drawPaths();
 			//renderObject.writeName();
 			// stop ticking immediately as the complete graph was drawn
 			renderObject.force.stop();
@@ -53,20 +53,23 @@ function GraphEvent(renderObject) {
 			});
 			// mark render object as completely ready
 			renderObject.ready = true;
+			
+			
+			// ticking the single paths
+			renderObject.singlePath.attr("d", tickingPath);
+			// ticking the double paths
+			renderObject.doublePath.attr("d", tickingPath);
+			// ticking all paths
+			console.log(renderObject.existOverlap);
 		}
-	
-		// ticking the single paths
-		renderObject.singlePath.attr("d", tickingPath);
-		// ticking the double paths
-		//renderObject.doublePath.attr("d", tickingPath);
-		// ticking all paths
+		
 		function tickingPath(d) {
 			// common figures to adjust source [x,y] and target [x,y]
 			xsxt = Math.abs(d.target.x - d.source.x);
 			ysyt = Math.abs(d.target.y - d.source.y);
 			alpha = xsxt/ysyt;
 			// adjust [x,y] for path source
-			r = (renderObject.existOverlap) ?renderObject.radScale(d.source.sum_degree) :d.source.sum_degree ;
+			r = (renderObject.existOverlap) ?renderObject.radScale(parseInt(d.source.sum_degree)) :parseInt(d.source.sum_degree) ;
 			dy = Math.sqrt(r*r/(alpha*alpha+1));
 			dx = Math.sqrt(r*r - dy*dy);
 			sDx = (d.source.x < d.target.x) ?1 :-1 ;
@@ -74,7 +77,7 @@ function GraphEvent(renderObject) {
 			sx = d.source.x+sDx*dx;
 			sy = d.source.y+sDy*dy;
 			// adjust [x,y] for path target
-			r = (renderObject.existOverlap) ?renderObject.radScale(d.target.sum_degree) :d.target.sum_degree ;
+			r = (renderObject.existOverlap) ?renderObject.radScale(parseInt(d.target.sum_degree)) :parseInt(d.target.sum_degree) ;
 			dy = Math.sqrt(r*r/(alpha*alpha+1));
 			dx = Math.sqrt(r*r - dy*dy);
 			tDx = (d.target.x < d.source.x) ?1 :-1 ;
@@ -85,7 +88,7 @@ function GraphEvent(renderObject) {
 			dr = 0;
 			return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
 		}
-		
+	
 		// ticking the cirlces
 		renderObject.circle
 			.attr("cx", function(d) { return d.x; })
