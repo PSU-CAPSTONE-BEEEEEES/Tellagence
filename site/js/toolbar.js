@@ -105,6 +105,7 @@ function progressCallback(data) {
 $(document).ready(function() {
     // setup the menu tab action
     $("#toolbar").hide();
+    $("#count").hide();
     $("#tab").click(function(){$("#toolbar").slideToggle("fast");});
     
     // selectors on the help button to trigger the functions
@@ -157,6 +158,7 @@ $(document).ready(function() {
 
         // hide subgraph button
         $("#dots").hide();
+        $("#count").hide();
 
         d3.json("data/subgraph.php", function(data) {
 	    switchBars();

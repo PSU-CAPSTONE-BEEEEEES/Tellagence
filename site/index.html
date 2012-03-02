@@ -37,7 +37,10 @@
 
         <input type="range" id="slider" min="0" max="100" value="50" step="5"/>
 
-        <img id="dots" src="static/images/dot.png" alt="redraw all the subgraphs"/>
+        <div id="middle">
+          <img id="dots" src="static/images/dot.png" alt="redraw all the subgraphs"/>
+          <div id="count">1337</div>
+        </div>
 
         <div class="ui-widget" id="search">
           <div id="searchcell">
@@ -94,6 +97,7 @@
           <li>Arrows denote the direction of the relationship</li>
           <li>The larger the node, the more connected the user</li>
           <li>The short the link is, the stronger the relationship</li>
+          <li>The number near the dots shows the total nodes in the subgraph</li>
           <li>Click the dots above the Menu tab to return to the subgraphs screen</li>
         </ul>
         
