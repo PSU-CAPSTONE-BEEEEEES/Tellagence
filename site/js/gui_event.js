@@ -46,6 +46,10 @@ function GuiEvent(renderObject) {
 	$("#slider").mouseup(function () {
 		//alert(this.value - initial);
 		var diff = this.value - initial;
+        //if diff is 0 do nothing
+        if (diff == 0) {
+            return;
+        }
 		if (diff < 0) {
 			return new ChromeWheel( 1 , (Math.abs(diff) / 5));
 		}
