@@ -10,6 +10,7 @@ function loadPopup() {
 
     // only load the progress bar if the steps are visible
     if ($("#bar").is(":visible")) {
+        centerPopup();
         $("#spingress").progressBar(0, {showText:false,
                                         barImage: {0:'static/images/bar_spin.gif'}});
     }
@@ -22,7 +23,7 @@ function disablePopup() {
         $("#Popup").fadeOut("medium");
         $("#bgPopup").data("state",0);
     }
-    if ($("#thumb").length > 0) {
+    if ($("#thumb").length > 0 && $("#thumbcover").length < 1) {
         $("<div id='thumbcover'></div>").insertBefore($("#thumb"));
     }
 }
@@ -48,6 +49,7 @@ function switchBars() {
     $("#step2").show();
     $("#spingress").hide();
     $("#progress").show();
+    centerPopup();
 }
 
 // this function initializes all the pieces of the popup and loads it on screen,
@@ -81,6 +83,7 @@ function resetPopup() {
             clearInterval(spinInterval);
             return;
         }
+        centerPopup();
     }, 100);
 
     centerPopup();
@@ -122,7 +125,15 @@ $(document).ready(function() {
         }
     });
 
+    $("#g_help").hide();
+
+    $(".swap").click(function() {
+        $(".swap").parent().toggle();
+        centerPopup();
+    });
+
     // actually setup the popup
+    centerPopup();
     resetPopup();
 
     $(window).resize(function() {
