@@ -98,7 +98,7 @@ if (isset($subgraph)) {
     $toVisit = explode(":",$row[0]);
 
     foreach($toVisit as $node) {
-        addnode($node);
+        addNode($node);
     }
 } else if (isset($hopCount) ) {
     //add the central node
@@ -246,7 +246,7 @@ function addNode($who) {
     global $dbconn, $nodes;
 
     //find this nodes name
-    $result = pg_Exec($dbconn, "SELECT username, sum_degree FROM users WHERE user_id = $who;");
+    $result = pg_Exec($dbconn, "SELECT username, sum_degree, subgraph FROM users WHERE user_id = $who;");
     $num = pg_numrows($result);
 
     for ($i = 0; $i < $num; $i++) {
@@ -254,6 +254,7 @@ function addNode($who) {
         $node['name'] = $row[0];
         $node['sum_degree'] = $row[1];
         $node['id'] = $who;
+        $node['subgraph'] = $row[2];
         //add this node to the json
         $nodes[] = $node;
     }
