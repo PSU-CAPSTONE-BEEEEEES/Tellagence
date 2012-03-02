@@ -16,14 +16,14 @@ d3.json("data/subgraph.php", function(data) {
 	// switch the spinning bar for the loading bar
 	switchBars();
 	// retrieve data for subgraph render
-	window.sgr.data(data.graphs);
+	window.sgr.data(data.subgraphs);
 	// draw subgraph (w/ graph events ready)
 	window.sgr.draw();
 });
 */
 
 // temp
-d3.json("data/search.php?user=vmworld&depth=100", function(data) {
+d3.json("data/search.php?user=vmworld&depth=2000", function(data) {
 	// switch the spinning bar for the loading bar
 	switchBars();
 	// retrieve data for subgraph render
