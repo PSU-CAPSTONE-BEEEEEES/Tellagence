@@ -64,7 +64,7 @@ function SubgraphEvent(renderObject) {
 				// call to server to obtain the selected graph info
 				var ajaxUrl = 'data/search.php?subgraph='+d.subgraph_id;
 				if (d.subgraph_id==1)
-					ajaxUrl = 'data/search.php?user=vmworld&depth=20';
+					ajaxUrl = 'data/search.php?user=vmworld&depth=100';
 				d3.json(ajaxUrl, function(data) {
 					// switch the spinning bar for the loading bar
 					switchBars();
