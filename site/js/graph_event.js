@@ -29,8 +29,9 @@ function GraphEvent(renderObject) {
 			// stop ticking immediately as the complete graph was drawn
 			renderObject.force.stop();
 
-		        initZoom(renderObject);
-			// on click redraw the graph with the selected node being the center node of the new graph
+            initZoom(renderObject);
+
+            // on click redraw the graph with the selected node being the center node of the new graph
 			renderObject.circle.on('click', function(d, i) {
 				// throw a new popup up
 				resetPopup();

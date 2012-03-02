@@ -151,6 +151,13 @@ function GraphRender(nodes, distances, links) {
 			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
 			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
+        
+        $('path.link').each(function(i) {
+            $(this).tipsy({
+                gravity: 'n',
+                title: function() { return $(this).attr("marker-end")}
+            })
+        });
 	}
 	
 	this.draw = function() {
@@ -224,7 +231,7 @@ function GraphRender(nodes, distances, links) {
 		this.drawCircles();
 		this.drawLines();
 	};
-	
+
 	this.empty = function() {
 		// empty nodes and links
 		this.nodes = [];
