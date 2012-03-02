@@ -26,6 +26,8 @@ function GraphRender(nodes, distances, links) {
         var maxRadius = 0,
             minLength = this.distances[0].sp * 100;
 
+		// by default there is no overlap
+		this.existOverlap = false;
         // check each link for overlapping nodes and update minLength, maxRadius
         for (i = 0; i < this.distances.length; i++) {
             var len = this.distances[i].sp * 100;
@@ -156,6 +158,7 @@ function GraphRender(nodes, distances, links) {
 	}
 	
 	this.draw = function() {
+		/*
 		var arrNodes = [];
 		for (i=0; i<this.nodes.length; i++)
 			arrNodes[i] = this.nodes[i].sum_degree;
@@ -169,6 +172,7 @@ function GraphRender(nodes, distances, links) {
 		for (i=0; i<arrNodes.length; i++) {
 			console.log(i + ': ' + arrNodes[i]);
 		}
+		*/
 		
 		// init force graph
 		this.ready = false;
