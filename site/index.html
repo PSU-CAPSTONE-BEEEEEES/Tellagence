@@ -73,12 +73,36 @@
       <h1>Visualizing Twitter</h1>
       <div id="help">
         <!-- help instructions -->
-        <ul>
-          <li>Click and Drag to Pan Around the Visual</li>
-          <li>Scroll or Use the Slider in the Menu to Zoom In and Out</li>
-          <li>Search for Specific Usernames to Center the Graph Around Them</li>
-          <li>Bring Up This Dialog Again By Clicking The '?' in the Menu</li>
-          <li>Click the Menu Tab to Get Started</li>
+        <ul id="sg_help">
+          <li class="swap">
+            (Click for Graph Help)
+          </li>
+          <li>
+            <img id="subpic" src="static/images/subgraphs.jpg" alt="sample subgraph"/>
+          </li>
+          <li>More nodes in a subgraph means a larger radius</li>
+          <li>No user from any one subgraph is connected to a different subgraph</li>
+          <li>Small subgraphs are cold while large subgraphs are hot</li>
+        </ul>
+        <ul id="g_help">
+          <li class="swap">
+            (Click for Subgraph Help)
+          </li>
+          <li>
+            <img id="graphpic" src="static/images/graph.jpg" alt="sample graph"/>
+          </li>
+          <li>Arrows denote the direction of the relationship</li>
+          <li>The larger the node, the more connected the user</li>
+          <li>The short the link is, the stronger the relationship</li>
+          <li>Click the dots above the Menu tab to return to the subgraphs screen</li>
+        </ul>
+        
+        <ul id="h_help">
+          <li>Click and drag to pan around</li>
+          <li>Zoom in/out with the mouse wheel or the slider in the menu</li>
+          <li>Search for specific usernames to center the graph around them</li>
+          <li>Bring up this dialog again by clicking the '?' in the menu</li>
+          <li>Click the menu tab to get started</li>
         </ul>
       </div>
       <div id="bar">

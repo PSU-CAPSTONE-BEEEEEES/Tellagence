@@ -8,6 +8,10 @@ body {
     font-weight: 500;
 }
 
+h1 {
+    text-align: center;
+}
+
 a {
     color: white;
     text-decoration: none;
@@ -140,7 +144,12 @@ svg {
 
 #help li {
     list-style: none;
-    line-height: 30px;
+    line-height: 20px;
+}
+
+.swap {
+    font-size: 75%;
+    cursor: pointer;
 }
 
 /* zoom slider
