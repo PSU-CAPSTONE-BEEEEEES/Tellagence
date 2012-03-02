@@ -6,26 +6,18 @@ if (!$dbconn) {
     die("Error connecting to database.");
 }
 
-//there is no subgraph_id 0
-echo('{"subgraphs":[0,');
 
 $result = pg_exec($dbconn, "SELECT COUNT(subgraph_id) FROM subgraphs;");
 $rows = pg_fetch_array($result, 0);
 $num = $rows[0];
 
 for ($i = 1; $i < $num; $i++) {
-    $result = pg_exec($dbconn, "SELECT num FROM subgraphs WHERE subgraph_id = $i;");
-    $count = pg_numrows($result);
-    if ($count <= 0) {
-	die("Bad query at $i");
-    }
+    $result = pg_exec($dbconn, "SELECT user_ids FROM subgraphs WHERE subgraph_id = $i;");
     $array = pg_fetch_array($result, 0);
-    if ($i > 1) {
-	echo(', ');
-    }
-    echo($array[0]);
-}
+    $users = explode(":",$array[0]);
 
-echo('] }');
+    $tmp = implode(",", $users);
+    pg_exec($dbconn, "UPDATE users SET subgraph='$i' WHERE user_id IN (" . $tmp . ");");
+}
 
 pg_close($dbconn);

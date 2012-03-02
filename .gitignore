@@ -3,3 +3,4 @@
 *.toc
 *.pdf
 *.swp
+site/data/*json
