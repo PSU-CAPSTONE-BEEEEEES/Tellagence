@@ -98,7 +98,7 @@ if (isset($subgraph)) {
     $toVisit = explode(":",$row[0]);
 
     foreach($toVisit as $node) {
-        addnode($node);
+        addNode($node);
     }
 } else if (isset($hopCount) ) {
     //add the central node
