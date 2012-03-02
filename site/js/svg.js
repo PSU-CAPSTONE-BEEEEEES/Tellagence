@@ -33,10 +33,10 @@ function SVG() {
 		.attr("width", this.w)
 		.attr("height", this.h)
                 .append('g')
-	            .call(d3.behavior.zoom().on("zoom", redraw))
-                .append('g')
-                    .attr("id", "inner")
-                    .attr("transform", "translate(0, 0) scale(1)");
+					.call(d3.behavior.zoom().on("zoom", redraw))
+					.append('g')
+						.attr("id", "inner")
+						.attr("transform", "translate(0, 0) scale(1)");
 
         // set rect to the screen size initially
         this.svg.append('rect')

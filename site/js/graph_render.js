@@ -83,12 +83,12 @@ function GraphRender(nodes, distances, links) {
                     return parseInt(d.sum_degree);
                 }
             })
-            .attr("opacity", 0.5)
+            //.attr("opacity", 0.5)
             .attr("cx", function(d) {return d.x;})
             .attr("cy", function(d) {return d.y;})
             .attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
             .attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
-            .append("svg:title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
+            .append("title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
 			
 		//this.clearDataNodes();
     };
@@ -110,6 +110,7 @@ function GraphRender(nodes, distances, links) {
 	this.drawPaths = function() {
 		// define defs area to initialize all arrows
 		var defs = this.inner.append("defs").selectAll("marker");
+		
 		// arrows for single links
 		defs.data(this.singleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
@@ -148,18 +149,16 @@ function GraphRender(nodes, distances, links) {
 		
 		// draw single paths
 		this.singlePath.enter().append("path")
-			.attr("opacity", 0.2)
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
 			.attr("title", "xyz - abc")
-			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
+			.style("stroke-width", function(d) { return '.3'; });
 		// draw double paths
 		this.doublePath.enter().append("path")
-			.attr("opacity", 0.4)
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
-			.style("stroke-width", function(d) { return (d.inf/2.0)+'px'; });
+			.style("stroke-width", function(d) { return '.3'; });
 			
 		//this.clearDataLinks();
 	};
@@ -236,6 +235,8 @@ function GraphRender(nodes, distances, links) {
 		}
 		this.singleLinks = singles;
 		this.doubleLinks = doubles;
+		
+		// define paths area to draw all paths
 		this.singlePath = this.inner.selectAll("path")
 			.data(this.singleLinks);
 		this.doublePath = this.inner.selectAll("path")
@@ -246,8 +247,10 @@ function GraphRender(nodes, distances, links) {
 			.data(this.nodes);
 			
 		// init texts
+		/*
 		this.text = this.inner.selectAll("text")
 			.data(this.nodes);
+		*/
 			
 		// handle events for graph (only for graph)
 		return new GraphEvent(this);
