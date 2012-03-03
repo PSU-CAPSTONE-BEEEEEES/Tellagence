@@ -302,15 +302,21 @@ function GraphRender(nodes, distances, links) {
 		this.singleLinks = singles;
 		this.doubleLinks = doubles;
 		
+		// define area to draw all paths
+		var pathsArea = this.inner.append('g').attr("id", "paths");
+		pathsArea.attr("opacity", .5);
 		// define paths area to draw all paths
-		this.singlePath = this.inner.selectAll("path")
-			.data(this.singleLinks);
-		this.doublePath = this.inner.selectAll("path")
-			.data(this.doubleLinks);
+		this.singlePath = pathsArea.selectAll("path")
+							.data(this.singleLinks);
+		this.doublePath = pathsArea.selectAll("path")
+							.data(this.doubleLinks);
 			
+		// define area to draw all circles
+		var circlesArea = this.inner.append('g').attr("id", "circles");
+		circlesArea.attr("opacity", .8);
 		// init circles as nodes
-		this.circle = this.inner.selectAll("circle")
-			.data(this.nodes);
+		this.circle = circlesArea.selectAll("circle")
+						.data(this.nodes);
 			
 		// init texts
 		/*
@@ -359,6 +365,8 @@ function GraphRender(nodes, distances, links) {
 		this.path.exit().remove();
 		// empty defs (arrows declaration)
 		var defs = this.inner.select("defs").remove();
+		var circles = this.inner.select("#circles").remove();
+		var paths = this.inner.select("#paths").remove();
 	};
 	
 	this.clearDataNodes = function() {
