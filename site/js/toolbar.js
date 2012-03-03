@@ -1,29 +1,3 @@
-// brings up the popup overlay on screen
-function loadPopup() {
-    //loads popup only if it is disabled
-    if($("#bgPopup").data("state") === 0){
-        $("#bgPopup").css({"opacity": "0.7"});
-        $("#bgPopup").fadeIn("medium");
-        $("#Popup").fadeIn("medium");
-        $("#bgPopup").data("state",1);
-    }
-
-    // only load the progress bar if the steps are visible
-    if ($("#bar").is(":visible")) {
-        $("#spingress").progressBar(0, {showText:false,
-                                        barImage: {0:'static/images/bar_spin.gif'}});
-    }
-}
-
-// hides the popup off screen
-function disablePopup() {
-    if ($("#bgPopup").data("state")==1){
-        $("#bgPopup").fadeOut("medium");
-        $("#Popup").fadeOut("medium");
-        $("#bgPopup").data("state",0);
-    }
-}
-
 // centers the popup window based on the window width/height
 function centerPopup() {
     var winw = $(window).width();
@@ -39,12 +13,43 @@ function centerPopup() {
     });
 }
 
+// brings up the popup overlay on screen
+function loadPopup() {
+    //loads popup only if it is disabled
+    if($("#bgPopup").data("state") === 0){
+        $("#bgPopup").css({"opacity": "0.7"});
+        $("#bgPopup").fadeIn("medium");
+        $("#Popup").fadeIn("medium");
+        $("#bgPopup").data("state",1);
+    }
+
+    // only load the progress bar if the steps are visible
+    if ($("#bar").is(":visible")) {
+        centerPopup();
+        $("#spingress").progressBar(0, {showText:false,
+                                        barImage: {0:'static/images/bar_spin.gif'}});
+    }
+}
+
+// hides the popup off screen
+function disablePopup() {
+    if ($("#bgPopup").data("state")==1){
+        $("#bgPopup").fadeOut("medium");
+        $("#Popup").fadeOut("medium");
+        $("#bgPopup").data("state",0);
+    }
+    if ($("#thumb").length > 0 && $("#thumbcover").length < 1) {
+        $("<div id='thumbcover'></div>").insertBefore($("#thumb"));
+    }
+}
+
 // utility function to change the spinning bar to the loading bar
 function switchBars() {
     $("#step1").hide();
     $("#step2").show();
     $("#spingress").hide();
     $("#progress").show();
+    centerPopup();
 }
 
 // this function initializes all the pieces of the popup and loads it on screen,
@@ -60,6 +65,8 @@ function resetPopup() {
     // soon as the update happens
     $("#progress").replaceWith('<div id="progress"></div>');
     $("#bar").show();
+
+    $("#toolbar").hide();
 
     // simulate the animated spinning of the progress bar while the JSON is
     // being fetched from the database
@@ -78,6 +85,7 @@ function resetPopup() {
             clearInterval(spinInterval);
             return;
         }
+        centerPopup();
     }, 100);
 
     centerPopup();
@@ -97,6 +105,7 @@ function progressCallback(data) {
 $(document).ready(function() {
     // setup the menu tab action
     $("#toolbar").hide();
+    $("#count").hide();
     $("#tab").click(function(){$("#toolbar").slideToggle("fast");});
     
     // selectors on the help button to trigger the functions
@@ -119,10 +128,44 @@ $(document).ready(function() {
         }
     });
 
+    $("#g_help").hide();
+
+    $(".swap").click(function() {
+        $(".swap").parent().toggle();
+        centerPopup();
+    });
+
     // actually setup the popup
+    centerPopup();
     resetPopup();
 
     $(window).resize(function() {
         centerPopup();
     });	
+
+    $("#dots").click(function() {
+        // reload the help overlay
+        resetPopup();
+
+        // get rid of the existing graph
+        window.gr.empty();
+
+        // reset a few graph variables
+        window.gr.canTick = true;
+        window.sgr.canTick = true;
+        window.gr.ready = false;
+        window.sgr.ready = false;
+
+        // hide subgraph button
+        $("#dots").hide();
+        $("#count").hide();
+
+        d3.json("data/subgraph.php", function(data) {
+	    switchBars();
+	    // retrieve data for subgraph render
+	    window.sgr.data(data.graphs);
+	    // draw subgraph (w/ graph events ready)
+	    window.sgr.draw();
+        });
+    });
 });
