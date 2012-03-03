@@ -195,6 +195,13 @@ function GraphRender(nodes, distances, links) {
 			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
 			.style("stroke-width", function(d) { return d.w; });
+        
+        $('path.link').each(function(i) {
+            $(this).tipsy({
+                gravity: 'n',
+                title: function() { return $(this).attr("marker-end")}
+            })
+        });
 			
 		//this.clearDataLinks();
 	};
@@ -249,6 +256,13 @@ function GraphRender(nodes, distances, links) {
 		}
 		*/
 		this.normalize();
+
+            // initialize the count in the toolbar
+            var that = this;
+            $.getJSON("data/subgraph.php", function(data) {
+                var count = data.graphs[parseInt(that.nodes[0].subgraph) - 1];
+                $("#count").html(count.num);
+            });
 		
 		// init force graph
 		this.ready = false;
@@ -326,7 +340,7 @@ function GraphRender(nodes, distances, links) {
 		this.drawCircles();
 		this.drawLines();
 	};
-	
+
 	this.empty = function() {
 		// empty nodes and links
 		this.nodes = [];
