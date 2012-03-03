@@ -170,7 +170,7 @@ function GraphRender(nodes, distances, links) {
             $('path.link').each(function(i) {
                 $(this).tipsy({
                     html: true,
-                    gravity: 'n',
+                    gravity: 'c',
                     title: function() {
                         var isplits = $(this).attr("original-title").split(" ");
                         var i12 = isplits[0],
