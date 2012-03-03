@@ -21,7 +21,7 @@ function GuiEvent(renderObject) {
                 // erase and empty current render
                 renderObject.empty();
                 // call to server to obtain new graph info
-                d3.json('data/search.php?user='+ui.item.value+'&hop=1', function(data) {
+                d3.json('data/search.php?user='+ui.item.value+'&hops=1', function(data) {
                     // switch the spinning bar for the loading bar
                     switchBars();
 
