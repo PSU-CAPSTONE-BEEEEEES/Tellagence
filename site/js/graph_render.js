@@ -187,21 +187,50 @@ function GraphRender(nodes, distances, links) {
 		this.singlePath.enter().append("path")
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
-			.attr("title", "xyz - abc")
+			.attr("title", function(d) {
+                            return d.i12 + " " + d.i21;
+                        })
 			.style("stroke-width", function(d) { return d.w; });
 		// draw double paths
 		this.doublePath.enter().append("path")
 			.attr("class", function(d) { return "link"; })
 			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
 			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
+			.attr("title", function(d) {
+                            return d.i12 + " " + d.i21;
+                        })
 			.style("stroke-width", function(d) { return d.w; });
-        
-        $('path.link').each(function(i) {
-            $(this).tipsy({
-                gravity: 'n',
-                title: function() { return $(this).attr("marker-end")}
-            })
-        });
+
+            var that = this;
+            $('path.link').each(function(i) {
+                $(this).tipsy({
+                    html: true,
+                    gravity: 'n',
+                    title: function() {
+                        var isplits = $(this).attr("original-title").split(" ");
+                        var i12 = isplits[0],
+                            i21 = isplits[1];
+                        var splits = $(this).attr("marker-end").split("-");
+                        var sid = parseInt(splits[1]);
+                        var tid = parseInt(splits[2].split(")")[0]);
+
+                        var source = null,
+                            target = null;
+                        // map the link ends to the right nodes
+                        for (var i = 0; i < that.nodes.length; i++) {
+                            if (sid == that.nodes[i].id) {
+                                source = that.nodes[i];
+                            }
+                            if (tid == that.nodes[i].id) {
+                                target = that.nodes[i];
+                            }
+                        }
+                        var to2 = source.name + " -> " + target.name + " = " + i12;
+                        var to1 = target.name + " -> " + source.name + " = " + i21;
+                        return to2 + "</br>" + to1;
+                    }
+                });
+            });
 			
 		//this.clearDataLinks();
 	};
@@ -292,10 +321,14 @@ function GraphRender(nodes, distances, links) {
 			if ( Math.max(inf_1to2, inf_2to1)==(inf_1to2+inf_2to1) ) {
 				path.source = (inf_1to2!==0) ?this.nodes[source] :this.nodes[target] ;
 				path.target = (path.source.id==this.nodes[source].id) ?this.nodes[target] :this.nodes[source] ;
+                                path.i12 = inf_1to2;
+                                path.i21 = inf_2to1;
 				singles.push(path);
 			} else {
 				path.source = this.nodes[source];
 				path.target = this.nodes[target];
+                                path.i12 = inf_1to2;
+                                path.i21 = inf_2to1;
 				doubles.push(path);
 			}
 		}
