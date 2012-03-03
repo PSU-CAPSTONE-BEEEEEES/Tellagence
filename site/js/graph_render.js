@@ -118,8 +118,20 @@ function GraphRender(nodes, distances, links) {
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
 			.style("fill", "red")
-			.attr("markerWidth", function(d) {return 10; })
-			.attr("markerHeight", function(d) {return 10; })
+			.attr("markerWidth", function(d) {
+				var dx = d.target.x - d.source.x;
+				var dy = d.target.y - d.source.y;
+				s = Math.sqrt(dx*dx + dy*dy);
+				console.log(s + ' vs ' + d.w*100);
+				return Math.min(d.w*300, s/2);
+			})
+			.attr("markerHeight", function(d) {
+				var dx = d.target.x - d.source.x;
+				var dy = d.target.y - d.source.y;
+				s = Math.sqrt(dx*dx + dy*dy);
+				console.log(s + ' vs ' + d.w*100);
+				return Math.min(d.w*300, s/2);
+			})
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
 			//.attr("d", "M 0 0 L 100 100 M 0 100 L 100 0");
@@ -130,8 +142,20 @@ function GraphRender(nodes, distances, links) {
 			.attr("viewBox", "0 0 15 15")
 			.attr("refX", function(d) { return 0; })
 			.attr("refY", 5)
-			.attr("markerWidth", function(d) {return 10; })
-			.attr("markerHeight",function(d) {return 10; })
+			.attr("markerWidth", function(d) {
+				var dx = d.target.x - d.source.x;
+				var dy = d.target.y - d.source.y;
+				s = Math.sqrt(dx*dx + dy*dy);
+				console.log(s + ' vs ' + d.w*100);
+				return Math.min(d.w*300, s/2);
+			})
+			.attr("markerHeight",function(d) {
+				var dx = d.target.x - d.source.x;
+				var dy = d.target.y - d.source.y;
+				s = Math.sqrt(dx*dx + dy*dy);
+				console.log(s + ' vs ' + d.w*100);
+				return Math.min(d.w*300, s/2);
+			})
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 15 0 L 0 5 L 15 10 z");
 		// arrows for source->target in double links
@@ -141,8 +165,20 @@ function GraphRender(nodes, distances, links) {
 			.attr("viewBox", "0 0 15 15")
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
-			.attr("markerWidth", function(d) {return 10; })
-			.attr("markerHeight", function(d) {return 10; })
+			.attr("markerWidth", function(d) {
+				var dx = d.target.x - d.source.x;
+				var dy = d.target.y - d.source.y;
+				s = Math.sqrt(dx*dx + dy*dy);
+				console.log(s + ' vs ' + d.w*100);
+				return Math.min(d.w*300, s/2);
+			})
+			.attr("markerHeight", function(d) {
+				var dx = d.target.x - d.source.x;
+				var dy = d.target.y - d.source.y;
+				s = Math.sqrt(dx*dx + dy*dy);
+				console.log(s + ' vs ' + d.w*100);
+				return Math.min(d.w*300, s/2);
+			})
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
 			//.append("path").attr("d", "M0,-5L10,0L0,5");
@@ -150,15 +186,15 @@ function GraphRender(nodes, distances, links) {
 		// draw single paths
 		this.singlePath.enter().append("path")
 			.attr("class", function(d) { return "link"; })
-			//.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
+			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
 			.attr("title", "xyz - abc")
-			.style("stroke-width", function(d) { console.log(d.w); return d.w; });
+			.style("stroke-width", function(d) { return d.w; });
 		// draw double paths
 		this.doublePath.enter().append("path")
 			.attr("class", function(d) { return "link"; })
-			//.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
-			//.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
-			.style("stroke-width", function(d) { console.log(d.w); return d.w; });
+			.attr("marker-start", function(d) { return "url(#marker-"+d.target.id+"-"+d.source.id+")"; })
+			.attr("marker-end", function(d) { return "url(#marker-"+d.source.id+"-"+d.target.id+")"; })
+			.style("stroke-width", function(d) { return d.w; });
 			
 		//this.clearDataLinks();
 	};
