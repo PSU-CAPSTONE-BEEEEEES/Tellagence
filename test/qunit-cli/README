@@ -1,0 +1,18 @@
+QUnit-CLI
+
+Example extensions for running QUnit tests from the command line
+
+Examples and extensions assume use of a standalone JavaScript interpeter such as Mozilla Rhino.  QUnit.js is now downloaded as a submodule (tracking my fork).
+
+To download and run the sample test suite using Mozilla Rhino ...
+
+1) git clone git://github.com/benjaminplee/QUnit-CLI.git qunit-cli --recursive
+2) setup rhino as described here: http://twoguysarguing.wordpress.com/2010/11/02/make-javascript-tests-part-of-your-build-qunit-rhino/
+3) run "js rhino/suite.js"
+4) Profit!
+
+An example of running QUnit using the Java 6 embedded JavaScript engine can be seen in rhino/Java6RhinoRunner.java (more info at: http://twoguysarguing.wordpress.com/2010/11/28/java-6-scripting-is-no-js-jar/)
+
+An example of running QUnit from a browser can be seen by opening up web/index.html in your favorite web browser.
+
+For more information check out my posts tagged with qunit-cli: http://en.wordpress.com/tag/qunit-cli/

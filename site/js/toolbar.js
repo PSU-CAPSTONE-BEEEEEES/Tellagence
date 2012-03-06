@@ -102,7 +102,7 @@ function progressCallback(data) {
     }
 }
 
-$(document).ready(function() {
+function init() {
     // setup the menu tab action
     $("#toolbar").hide();
     $("#count").hide();
@@ -168,4 +168,6 @@ $(document).ready(function() {
 	    window.sgr.draw();
         });
     });
-});
+}
+
+$(document).ready(init);
