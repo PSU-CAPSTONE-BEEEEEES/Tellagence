@@ -1,4 +1,4 @@
-load("../qunit-cli/qunit/qunit/qunit.js");
+load("../qunit/qunit/qunit/qunit.js");
 
 load("../jshamcrest/src/jshamcrest.js");
 load("../jshamcrest/src/core.js");
