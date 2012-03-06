@@ -1,0 +1,12 @@
+# Vim swap file
+**.swp
+
+# Python bytecode
+**.pyc
+
+# Build/dist directory
+build/**
+dist/**
+
+# Documentation build directory
+doc/_build/**

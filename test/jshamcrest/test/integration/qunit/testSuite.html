@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <script type="text/javascript" src="assets/jquery.js"></script>
+  <link rel="stylesheet" href="assets/testsuite.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="../../../build/jshamcrest-min.js"></script>
+
+  <title>JsHamcrest - QUnit Integration Test</title>
+
+  <script type="text/javascript">
+    JsHamcrest.Integration.QUnit();
+
+    $(document).ready(function(){
+      test("Successful assertion", function() {
+        assertThat(5, between(0).and(10), "This assertion must succeed");
+      });
+
+      test("Failed assertion", function() {
+        assertThat([], not(empty()), "This assertion must fail");
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>JsHamcrest - QUnit Integration Test</h1>
+  <h2 id="banner"></h2>
+  <h2 id="userAgent"></h2>
+  <ol id="tests"></ol>
+  <div id="main"></div>
+  <script type="text/javascript" src="assets/testrunner.js"></script>
+</body>
+</html>

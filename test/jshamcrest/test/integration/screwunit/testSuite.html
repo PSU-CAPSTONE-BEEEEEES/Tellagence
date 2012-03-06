@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>JsHamcrest - Screw.Unit Integration Test</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/screw.css" />
+    <script type="text/javascript" src="assets/jquery-1.2.6.js"></script>
+    <script type="text/javascript" src="assets/jquery.fn.js"></script>
+    <script type="text/javascript" src="assets/jquery.print.js"></script>
+    <script type="text/javascript" src="assets/screw.builder.js"></script>
+    <script type="text/javascript" src="assets/screw.matchers.js"></script>
+    <script type="text/javascript" src="assets/screw.events.js"></script>
+    <script type="text/javascript" src="assets/screw.behaviors.js"></script>
+
+    <script type="text/javascript" src="../../../build/jshamcrest-min.js"></script>
+
+    <script type="text/javascript">
+      JsHamcrest.Integration.screwunit();
+
+      Screw.Unit(function() {
+        describe('Using JsHamcrest assertions in Screw.Unit', function() {
+          it('should succeed', function() {
+          	assertThat(5, between(0).and(10), 'This assertion must succeed');
+          });
+
+          it('should fail', function() {
+          	assertThat([], not(empty()), 'This assertion must fail');
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

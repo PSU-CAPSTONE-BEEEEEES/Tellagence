@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>JsHamcrest - YUITest Integration Test</title>
+
+  <style type="text/css">
+    body {
+    	margin:0;
+    	padding:0;
+    }
+  </style>
+
+  <link rel="stylesheet" type="text/css" href="assets/logger/assets/skins/sam/logger.css" />
+  <link rel="stylesheet" type="text/css" href="assets/yuitest/assets/skins/sam/yuitest.css" />
+  <script type="text/javascript" src="assets/yahoo-dom-event.js"></script>
+  <script type="text/javascript" src="assets/logger/logger-min.js"></script>
+  <script type="text/javascript" src="assets/yuitest/yuitest-min.js"></script>
+
+  <script type="text/javascript" src="../../../build/jshamcrest-min.js"></script>
+</head>
+
+<body class=" yui-skin-sam">
+
+  <h1>JsHamcrest - YUITest Integration Test</h1>
+
+  <div id="testLogger"></div>
+  
+  <script type="text/javascript">
+    JsHamcrest.Integration.YUITest();
+
+    YAHOO.namespace("integration");
+
+    YAHOO.integration.TestCase = new YAHOO.tool.TestCase({
+      name : "Integration Tests",
+
+      testAssertion : function () {
+        Assert.that(5, between(0).and(10), "This assertion must succeed");
+      },
+
+      testFailedAssertion : function () {
+        Assert.that([], not(empty()), "This assertion must fail");
+      }
+    });    
+
+    YAHOO.integration.TestSuite = new YAHOO.tool.TestSuite("Test suite");
+    YAHOO.integration.TestSuite.add(YAHOO.integration.TestCase);
+
+    YAHOO.util.Event.onDOMReady(function (){
+      var logger = new YAHOO.tool.TestLogger("testLogger");
+      YAHOO.tool.TestRunner.add(YAHOO.integration.TestSuite);
+      YAHOO.tool.TestRunner.run();
+    });
+  </script>
+</body>
+</html>

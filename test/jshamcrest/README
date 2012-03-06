@@ -1,0 +1,27 @@
+JsHamcrest
+----------
+
+JsHamcrest is a JavaScript library heavily inspired by Hamcrest. It provides
+a large library of matcher objects (also known as constraints or predicates)
+allowing “match” rules to be defined declaratively. Typical scenarios include
+testing frameworks, mocking libraries, UI validation rules and object querying.
+
+This is an open source project licenced under the terms of the BSD License
+and sponsored by Destaquenet Technology Solutions, a brazilian software
+development and consultancy startup.
+
+
+Documentation
+-------------
+
+To learn everything about JsHamcrest, take a look at the the complete
+documentation at:
+
+    http://jshamcrest.destaquenet.com/
+
+
+Credits
+-------
+
+    Author:  Daniel Fernandes Martins <daniel@destaquenet.com>
+    Company: Destaquenet Technology Solutions <http://www.destaquenet.com/>
