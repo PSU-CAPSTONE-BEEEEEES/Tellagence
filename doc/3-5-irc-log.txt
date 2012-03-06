@@ -1,0 +1,276 @@
+17:54:34         aren | here
+17:55:32     blackcat | her
+18:00:12       @d-_-b | here
+18:00:42         aren | here
+18:00:44            * | bouncing_dragon here
+18:00:56       @d-_-b | bouncing_dragon, why the nick change?
+18:01:36 bouncing_dra+| I just made it voodoo yesterday
+18:01:41           -- | bouncing_dragon is now known as longuyen
+18:01:46     longuyen | :)
+18:01:50       @d-_-b | heh
+18:02:00   jesusaurus | here
+18:02:15       @d-_-b | hptran, ?
+18:02:28     blackcat | longuyen: your account is not working?
+18:03:13       @d-_-b | longuyen, is hptran around the lab?
+18:03:14     longuyen | blackcat: the admin one, no it doesn't
+18:03:25     longuyen | I don't see him around
+18:03:32       @d-_-b | hrm, we'll start then
+18:03:45       @d-_-b | how was everyone's weekend? stress free i hope
+18:03:53            * | aren haskell
+18:04:04       @d-_-b | aren, yeah, i should've too
+18:04:14            * | blackcat is looking for a job :(
+18:04:27         aren | AI in haskell == FailFest
+18:04:33   jesusaurus | ha
+18:04:34            * | longuyen is strongly admired by machine learning
+18:04:50       @d-_-b | longuyen, it likes you?
+18:05:04     longuyen | yeah I think it found me
+18:05:09       @d-_-b | heh
+18:05:33     blackcat | longuyen: I can login to a CECS windows box using longuyea account
+18:05:40       @d-_-b | so if you've seen the agenda, we've got a few topics to get through. hopefully we can plow through them.
+18:05:44     blackcat | with the passwd I gave you
+18:06:13     longuyen | blackcat: how about administrative tasks?
+18:06:28       @d-_-b | we've got the leftover stuff from friday. first things first though, can everyone close their tickets? all of ours should have been done by friday
+18:06:35     blackcat | it got admin right on capstone10 and capstone05
+18:06:42       @d-_-b | aside from the normalization ones longuyen did
+18:07:42            * | hptran here
+18:07:46     blackcat | I'm nearly complete the UML map for the DB
+18:07:47       @d-_-b | aren, can you mark #1027 at 100%?
+18:07:51       @d-_-b | blackcat, sweet
+18:07:53       @d-_-b | hptran, hi
+18:07:55         aren | yeah
+18:08:01     blackcat | I need to talk with hptran in order to finish it
+18:08:28       @d-_-b | blackcat, for sure, we'll get tickets in for that stuff during the meeting
+18:08:32     blackcat | hptran: how about tmr at 1:45PM
+18:08:44     blackcat | ?
+18:08:52       hptran | blackcat: okay, but what is it?
+18:09:16       @d-_-b | aren, was the hover info position fixed? i was thinking if it was too much of a hassle, maybe have a dedicated corner of the screen for it.
+18:09:27       @d-_-b | one that is unaffected by zoom
+18:09:49     blackcat | hptran: I don't know where group_id in groups table links to
+18:10:29       hptran | blackcat: it does not link to anywhere
+18:10:31         aren | d-_-b: I can do the corner thing. I'm not sure we ever took a look at the center gravity accross platforms
+18:10:58       @d-_-b | blackcat, can you update #1124 for time. aren, the same for #1231
+18:11:13       @d-_-b | aren, i saw something in git log about the direction, oh well
+18:11:32         aren | about gravit?
+18:11:35         aren | gravity
+18:11:38       @d-_-b | ah, that's the one
+18:11:46     longuyen | d-_-b: I added 2 new tasks. Should I reflect that to the project plan for now?
+18:11:49       @d-_-b | that's more about the pointer tip though, right?
+18:12:05         aren | yeah, the pt sould be right in the center of the object now
+18:12:23         aren | but when things get layered like on the big map the tip jumps around a lot
+18:12:41       @d-_-b | longuyen, this is where i'd like a consensus on what tasks to include in the project plan. we'll get to that later in the meeting though.
+18:12:50   jesusaurus | blackcat: groups is an empty table
+18:12:53     longuyen | d-_-b: ok
+18:13:26     longuyen | aren: d3 paths allow to write info right in the middle of the path. I think it might have something to aid your hover task
+18:13:26       @d-_-b | aren, i think it's due to the lines forming a diagonal of a box, and the tipsy attaches to the corner of that box. seem right?
+18:13:30     blackcat | jesusaurus: so we don't need groups table anymore huh?
+18:13:42       @d-_-b | longuyen, that might get too messy though
+18:13:43   jesusaurus | i dont think we ever used it
+18:13:58     longuyen | d-_-b: no, I only view the info on mouse hover
+18:14:07         aren | d-_-b: maybe. The behavior of the tooltip seems weird to me
+18:14:07     longuyen | d-_-b: on mouseout, I remove the actual text element from the page
+18:14:18     longuyen | d-_-b: could be a solution though
+18:14:22         aren | I'm looking now to see if I can put tipsy in one corner always
+18:14:46       @d-_-b | longuyen, we already have tipsy in though. if we tweak the position of the tipsy tip like aren is trying, that should solve it.
+18:15:29     longuyen | d-_-b: yeah, that should be juts in case you really get stuck with typsy
+18:15:35       @d-_-b | aren, can you get a task for that position stuff in as a ticket due friday? sound reasonable?
+18:15:38       @d-_-b | longuyen, for sure.
+18:15:53       @d-_-b | i think the position stuff for tipsy is just css
+18:16:17         aren | might be. but I'm thinking about yet another gravity in the js file
+18:16:24         aren | using window.height perhaps?
+18:16:55       @d-_-b | aren, i saw offset as more of what we wanted than gravity, but maybe i read it wrong
+18:17:27         aren | the gravity reps the position of the tooltip around the object
+18:17:43         aren | but if I just ignore the object and put the tooltip in the corner of the window that might work
+18:17:54         aren | and I can do that by defining a new gravity , I think
+18:18:07       @d-_-b | aren, whatever works i suppose
+18:18:29       @d-_-b | the other lingering tasks from friday seem like quick cosmetic stuff for our presentation
+18:18:41       @d-_-b | it's nice to know we don't have any new features
+18:19:34       @d-_-b | darkening the lines, making the arrows a different color, and that may be it
+18:19:47     blackcat | hptran: I commit the pic of DB schema to master
+18:19:51       @d-_-b | anything i'm forgetting about that?
+18:20:13     blackcat | hptran: cann you review it for me?
+18:20:37     blackcat | guys ^
+18:20:40     longuyen | blackcat: linear scale for normalization?
+18:21:03     blackcat | longuyen: what?
+18:21:05       @d-_-b | jesusaurus, the schema look good? seems right.
+18:21:15     longuyen | d-_-b: linear scale for normalization?
+18:21:34     longuyen | blackcat: I don't know why I mistake you with d-_-b quite often today
+18:22:01       @d-_-b | longuyen, i was thinking about stuff not in tickets, i know you've got those two in
+18:22:10       @d-_-b | should we talk about tests?
+18:22:19            * | jesusaurus pulls
+18:22:46       @d-_-b | it turns out js is real fun to get running without a browser
+18:22:50       hptran | blackcat: okay
+18:22:55            * | blackcat --> go to WC for 2 mins
+18:22:58     longuyen | d-_-b: how?
+18:23:16       @d-_-b | that was sarcasm, i'm having namespace issues right now
+18:24:40       @d-_-b | longuyen, http://twoguysarguing.wordpress.com/2010/11/02/make-javascript-tests-part-of-your-build-qunit-rhino/
+18:24:49       @d-_-b | that's the page i'm working off of
+18:25:15   jesusaurus | looks good, but we might want to add the arrow from users:user_id -> relationship:user_id2
+18:25:20       @d-_-b | i've got a basic test running pure js, but i'm trying to use jsmockito and it isn't initializing correctly
+18:25:26   jesusaurus | blackcat: ^^
+18:25:53       @d-_-b | i also found this: https://github.com/appendto/jquery-mockjax
+18:26:11       @d-_-b | which should be nice for autocomplete testing
+18:26:32       @d-_-b | jesusaurus, have we gotten kwalify into buildbot?
+18:27:21   jesusaurus | d-_-b: not yet
+18:27:27            * | aren working on it
+18:28:11   jesusaurus | after changing the json format, ive been trying to get the meta json (that describes the json format) to be right
+18:28:13       @d-_-b | aren, blackcat, did jslint get figured out?
+18:28:25         aren | blackcat is working on it
+18:28:57            * | d-_-b can help with buildsteps if needed
+18:29:58         aren | I think blackcat was saying rhino is installed now. Not sure though
+18:30:09       @d-_-b | jesusaurus, have you talked with blackcat on phpunit for search.php, or has it just been json?
+18:30:39   jesusaurus | so far just json
+18:30:53       @d-_-b | blackcat, just ssh'ed to capstone02 and rhino isn't found
+18:31:14       @d-_-b | jesusaurus, we've got time, no worries
+18:31:14         aren | d-_-b: is jslint running then?
+18:31:39       @d-_-b | aren, i think the script i wrote is stale and it expects spidermonkey
+18:32:10         aren | well crap
+18:32:50       @d-_-b | i can check things out tomorrow sometime if blackcat is around
+18:34:02     blackcat | jesusaurus: I re-commit the new pic of DB_schema
+18:34:17       @d-_-b | blackcat, phpunit runs on the commandline, right?
+18:34:35   jesusaurus | blackcat: great
+18:34:42     blackcat | d-_-b: I ran it on my browser
+18:34:54     blackcat | but I believe we can test it in cmd
+18:35:18     blackcat | aren: I install javac on capstone02
+18:35:32       @d-_-b | blackcat, buildbot runs shell commands, so text output we can parse is needed
+18:35:56     blackcat | but I can't find the docs that you used to run it
+18:36:13     blackcat | aren: can you send me that docs so I can run it again
+18:36:15       @d-_-b | blackcat, rhino is just a .jar, but i don't know where it is
+18:36:28       @d-_-b | blackcat, http://www.mozilla.org/rhino/
+18:36:59       @d-_-b | hptran, how does committing the matlab look? commented enough?
+18:37:20     blackcat | we have a folder named rhino inside root, is it correct? d-_-b
+18:38:21       hptran | d-_-b: I spent time for my exam today, so I have not done with commenting yet, will do it tonight.
+18:38:53       @d-_-b | hptran, just curious
+18:39:24       hptran | d-_-b: besides, comment and push matlab code, write shortest path section, what else do I need to do in this week?
+18:39:49       @d-_-b | blackcat, lookin
+18:39:59         aren | yes, everything about rhino is in the rhino dir
+18:40:14         aren | if you follow mozilla docs to install then you will get the same error I did
+18:40:32         aren | it appears the toolchain is broken or something like that. It says it is missing javac
+18:40:37         aren | from the jre path
+18:40:43         aren | which I don't understand.
+18:40:50     blackcat | aren: I installed javac on capstone02 last Sat
+18:41:01     blackcat | hope it could work
+18:41:02         aren | did you follow the docs from the mozilla site?
+18:41:14         aren | for installing rhino?
+18:41:15     blackcat | not yet, I just install javac
+18:41:27         aren | I thought javac was on the machine already
+18:41:30         aren | just not in the right path
+18:41:37     blackcat | aren: no, only java
+18:41:56     blackcat | javac requires some more diff packages
+18:42:19         aren | I would try building rhino at this poitn to see what you need
+18:42:23         aren | * point
+18:42:31     blackcat | on last Friday, I get javac: command not found
+18:42:41         aren | when you tried to build rhino?
+18:42:43     blackcat | now javac is available to use
+18:42:53     blackcat | tonight
+18:43:00     blackcat | after this kmeeting
+18:43:14       @d-_-b | aren, blackcat, i'm going off of step 4 here: http://twoguysarguing.wordpress.com/2010/11/02/make-javascript-tests-part-of-your-build-qunit-rhino/ for running rhino
+18:43:40       @d-_-b | let's table that for now to knock off a few other items
+18:44:01       @d-_-b | i'd like to say a bit on refactoring
+18:44:16       @d-_-b | we've effectively made stuff work (reasonably)
+18:45:15   jesusaurus | yup
+18:45:20     blackcat | d-_-b: you can run it at step 4 huh?
+18:45:25     blackcat | *can't
+18:45:25       hptran | blackcat: 've look at your schema, it's correct, it would be good if you add some cardination for the relationships between tables, some notes for below the schema.
+18:46:02       @d-_-b | now we need to make sure the maintainers of our code can read and understand our logic once it's passed off
+18:46:18       @d-_-b | blackcat, after finding the js.jar, yes
+18:46:56     blackcat | hptran: d-_-b Should that part be in the slide or in the Db schema?
+18:47:24       @d-_-b | blackcat, on the schema image would work
+18:48:11       @d-_-b | this is when we need to go back through the code we've written and make sure the names are consistent, the style is the same, and maybe clean up some of the logic.
+18:48:29   jesusaurus | okay
+18:48:34       @d-_-b | we agreed on 4 spaces for indents, right? let's make that a standard
+18:48:59       @d-_-b | the more uniform our deliverable is, the easier it is to maintain
+18:49:41       @d-_-b | it might be good, at least in the js bits, to pull functions into files that group them sensibly
+18:50:08       @d-_-b | that's all i'll say on that for now, just remember it in the next few weeks of work
+18:50:40       @d-_-b | everyone cool with that and ready for presentation stuff?
+18:51:07   jesusaurus | yeah
+18:51:09     longuyen | yep0
+18:51:10         aren | yup
+18:51:23       @d-_-b | it's like king of the hill in here, awesome
+18:51:37       @d-_-b | so do we want it like last time, in a shared google doc?
+18:51:46       @d-_-b | that seemed to work well
+18:51:50       hptran | blackcat: for the arrows in the schema, i think the arrow from subgraph table to user table needed to be reverse?
+18:52:16       @d-_-b | how much time is safe to assume for the demo?
+18:52:43       @d-_-b | 3-4 minutes?
+18:52:54       @d-_-b | i think 10 minutes of talk is a good target
+18:53:24   jesusaurus | sounds good
+18:53:37       @d-_-b | hptran, was it you that did the google doc setup last time? can you do it again if so?
+18:54:11       hptran | yes
+18:54:21       @d-_-b | and we had a discussion a few weeks ago about the content being higher level, right?
+18:55:01       hptran | not sure about it
+18:55:02       @d-_-b | friday, as a group, i want us to put together the slides during the meeting
+18:55:23     blackcat | hptran: ok, I fixed that arrow.
+18:55:44       hptran | blackcat: make sure you add the cardination in the arrows
+18:55:57       @d-_-b | then maybe at the end of friday's meeting, we can run through it once, roughly.
+18:55:59     blackcat | hptran: like 1..n
+18:56:03     blackcat | or n..n huh?
+18:56:21       hptran | like 1..infinity,...
+18:56:44     blackcat | done, anything else?
+18:56:48   jesusaurus | yeah, 1..1 or 1..n
+18:57:04       hptran | d-_-b longuyen : will it be good if we have some chart for showing the whole architecture
+18:57:26       @d-_-b | hptran, in the first few slides, for sure
+18:57:37       @d-_-b | no whiteboard this time :)
+18:57:41       hptran | okay, so who will do this?
+18:58:02       @d-_-b | we'll do it as a group friday, we're just setting the tone now
+18:58:11       hptran | okay
+18:58:13     blackcat | hptran:  you meant render 2k nodes
+18:58:24     blackcat | and hit Printscreen huh?
+18:58:33       @d-_-b | if we can sprint on the presentation friday, to a finished state, then we have more time for tweaks and practicing
+18:59:07       @d-_-b | blackcat, architecture as in excel -> d3
+18:59:21       @d-_-b | and everything in the middle (db, json, etc)
+18:59:24       hptran | blackcat: I just mention architecture :)
+18:59:33       @d-_-b | maybe some stats page with tech used
+19:00:38       @d-_-b | a lot of the presentation will be a summarized project plan
+19:01:04     blackcat | hptran:  d-_-b does it like a flowchart ?
+19:01:08       @d-_-b | i'll assign a task tonight to everyone that by friday, the project plan should be in a pretty finished state.
+19:01:11       @d-_-b | blackcat, yeah
+19:01:18     blackcat | I can do that
+19:01:33       @d-_-b | blackcat, work with longuyen if you are
+19:01:53       @d-_-b | i guess we can talk about the project plan now then
+19:02:06     blackcat | ok, we will get this flowchart done before Friday for team review
+19:02:24       @d-_-b | we basically have two areas to edit: text sections and task tables.
+19:02:35       @d-_-b | the tables are pretty much done, just a few tweaks
+19:03:00       @d-_-b | the sections (requiremnts, shortest path, revised testing, delivery) need a bit more work
+19:03:26       @d-_-b | and sections i'm missing? maybe a revised risk management as well now that we know what happened?
+19:03:48       hptran | :)
+19:03:55       @d-_-b | i can include details on the sections in individualized tickets, based on your team roles
+19:04:06       @d-_-b | like i'm requirements, since i'm sponsor contact
+19:05:05       @d-_-b | aren, did you update #1231?
+19:05:24         aren | with what? shits still broke
+19:05:40       @d-_-b | aren, verily, but i'm looking at dates
+19:05:57         aren | oh, right
+19:06:39       @d-_-b | make sure, now that tickets are completed, that the milestones/tasks in the tables reflect accurate dates
+19:06:50         aren | done
+19:06:54       @d-_-b | aren, sweet
+19:07:24       @d-_-b | two weeks from today and we're done folks. done for good.
+19:08:19       @d-_-b | is there any section or other thing i'm missing on the plan?
+19:08:45       hptran | d-_-b: how about nomalizing the node's radius? will you take that?
+19:08:50       @d-_-b | bart mentioned us having to put something up on a cs wiki, but we can do that next week
+19:09:30       @d-_-b | hptran, for sure, that can be a section with shortest path on the design/challenges stuff
+19:10:21       hptran | okay
+19:10:32       @d-_-b | it seems like those two make sense together
+19:10:40       @d-_-b | at least next to each other
+19:11:06   jesusaurus | d-_-b: what wiki?
+19:11:14       @d-_-b | remember for the presentation that more pictures is better
+19:11:29       @d-_-b | jesusaurus, finding the link
+19:11:56       @d-_-b | http://wiki.cs.pdx.edu/capstone-fall2011/
+19:12:33   jesusaurus | huh, okay
+19:12:50       @d-_-b | he sent this to the leads: http://pastie.org/3530810
+19:13:03       @d-_-b | typical bart
+19:14:25   jesusaurus | classic bart
+19:14:46   jesusaurus | anything else on the agenda?
+19:15:01       @d-_-b | not really, typing out a closing statement
+19:16:23       @d-_-b | so from now until friday's meeting: work on the lingering tasks from friday if you have them. get to testing when you have time (ask for help if needed). edit the project plan according to tickets i'll create tonight. start cleaning up your code a bit.
+19:16:56       @d-_-b | during the meeting we'll sprint on the google doc and probably practice a bit, plus other things
+19:17:14       @d-_-b | if that's it, and no questions, i'm out to the leads meeting
+19:17:54       @d-_-b | everyone have something to do?
+19:18:07       hptran | yes
+19:18:09     longuyen |  d-_-b haven't known such page existed
+19:18:22       @d-_-b | longuyen, yeah, that's bart for you
+19:19:01   jesusaurus | longuyen: im sure he meant to mention it a few times
+19:19:09       @d-_-b | *meant*
+19:19:17       @d-_-b | *shrug*
+19:19:28   jesusaurus | mkay
+19:19:30     longuyen | yeah..
+19:19:39            * | jesusaurus -> home & dinner
+19:19:49            * | d-_-b -> meeting
+19:20:05       hptran | -> ...
