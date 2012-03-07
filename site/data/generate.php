@@ -17,7 +17,10 @@ die;
 //connect to the database
 $dbconn = pg_Connect("host=capstone06.cs.pdx.edu dbname=real user=postgres password=bees");
 if (!$dbconn) {
-    die("{}");
+    file_put_contents("names.json","{}", LOCK_EX);
+    file_put_contents("links.json","{}", LOCK_EX);
+    file_put_contents("distances.json","{}", LOCK_EX);
+    die;
 }
 
 //
@@ -145,17 +148,24 @@ if (isset($subgraph)) {
     }
 }
 
+//remove nodes below the cutoff
 pruneNodes();
 
-//start JSON
-echo('{');
+//start writing "nodes"
+$file = fopen("nodes.json", 'w');
+flock($file, LOCK_EX); 
 
-echo('"nodes":' . json_encode($nodes) );
+//write the nodes to file
+fwrite($file, '{"nodes":' . json_encode($nodes) . '}');
 
-//end "nodes", start "links"
-echo(',');
+//end "nodes" file, start "links"
+flock($file, LOCK_UN);
+fclose($file);
+$file = fopen("links.json", 'w');
+flock($file, LOCK_EX); //I really want that lock
 
-echo('"links":[');
+//buffer the output
+$buffer = '{"links":[';
 
 $idx = 0;
 $prev = 0;
@@ -164,23 +174,28 @@ while ($idx < sizeof($nodes) && $prev == 0) {
     $idx += 1;
 }
 
-ob_start();
 while ($idx < sizeof($nodes)) {
-    ob_flush();
-    echo(',');
+    //flush the buffer
+    fwrite($file, $buffer);
+    $buffer = ",";
     $prev = addLinks($nodes[$idx]);
     if ($prev == 0) {
-        ob_clean();
+        //no links were written to the buffer, erase the ,
+        $buffer = "";
     }
     $idx += 1;
 }
-ob_end_flush();
+$buffer = $buffer . ']}';
+fwrite($file, $buffer);
 
-echo(']');
-//end "links"
-echo(',');
 
-echo('"distances":[');
+//end "links", start "distances"
+flock($file, LOCK_UN);
+fclose($file);
+$file = fopen("distances.json", 'w');
+flock($file, LOCK_EX); //I really want that lock
+
+$buffer = '{"distances":[';
 
 $idx = 0;
 $prev = 0;
@@ -189,23 +204,23 @@ while ($idx < sizeof($nodes) && $prev == 0) {
     $idx += 1;
 }
 
-ob_start();
 while ($idx < sizeof($nodes)) {
-    ob_flush();
-    echo(',');
+    //flush the buffer
+    fwrite($file, $buffer);
+    $buffer = ',';
     $prev = addPaths($nodes[$idx]);
     if ($prev == 0) {
-        ob_clean();
+        //no links were written to the buffer, erase the ,
+        $buffer = "";
     }
     $idx += 1;
 }
-ob_end_flush();
+$buffer = $buffer . ']}';
+fwrite($file, $buffer);
 
-//end "disntances"
-echo("]");
-
-echo("}"); //end JSON
-
+//end "distances"
+flock($file, LOCK_UN);
+fclose($file);
 
 //close the database connection
 pg_close($dbconn);
@@ -311,7 +326,7 @@ function pruneNodes() {
 }
 
 function addLinks($here) {
-    global $dbconn, $toVisit, $visited, $path, $nodes;
+    global $dbconn, $toVisit, $visited, $path, $nodes, $buffer;
     $numLinks = 0;
 
     //our index in the nodes array
@@ -350,10 +365,10 @@ function addLinks($here) {
                 if ($first) {
                     $first = false;
                 } else {
-                    echo(',');
+                    $buffer = $buffer . ',';
                 }
 
-                echo(json_encode($link));
+                $buffer = $buffer . json_encode($link);
 
                 $numLinks += 1;
 
@@ -374,10 +389,10 @@ function addLinks($here) {
                 if ($first) {
                     $first = false;
                 } else {
-                    echo(',');
+                    $buffer = $buffer . ',';
                 }
 
-                echo(json_encode($link));
+                $buffer = $buffer . json_encode($link);
 
                 $numLinks += 1;
 
@@ -391,7 +406,7 @@ function addLinks($here) {
 }
 
 function addPaths($here) {
-    global $dbconn, $toVisit, $visited, $path, $nodes;
+    global $dbconn, $toVisit, $visited, $path, $nodes, $buffer;
     $numLinks = 0;
 
     //get the shortest paths from the db
@@ -419,14 +434,14 @@ function addPaths($here) {
         if ($first) {
             $first = false;
         } else {
-            echo(',');
+            $buffer = $buffer . ',';
         }
 
         $link['source'] =  $source;
         $link['target'] =  $target;
         $link['sp'] = (float)$path[$there['id'] - 1];
-        echo(json_encode($link));
-    }
+        $buffer = $buffer . json_encode($link);
+}
     return $numLinks;
 }
 

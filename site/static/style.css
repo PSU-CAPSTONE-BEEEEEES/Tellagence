@@ -8,6 +8,10 @@ body {
     font-weight: 500;
 }
 
+h1 {
+    text-align: center;
+}
+
 a {
     color: white;
     text-decoration: none;
@@ -50,29 +54,16 @@ circle:hover{
 	fill:red;
 }
 
-path.link {
+path {
   fill: none;
   stroke: #666;
   stroke-width: 1.5px;
-}
-
-marker#licensing {
-  fill: green;
-}
-
-path.link.licensing {
-  stroke: green;
-}
-
-path.link.resolved {
-  stroke-dasharray: 0,2 1;
 }
 
 text {
   font: 10px sans-serif;
   pointer-events: none;
 }
-
 text.shadow {
   stroke: #fff;
   stroke-width: 3px;
@@ -153,7 +144,12 @@ svg {
 
 #help li {
     list-style: none;
-    line-height: 30px;
+    line-height: 20px;
+}
+
+.swap {
+    font-size: 75%;
+    cursor: pointer;
 }
 
 /* zoom slider
@@ -162,6 +158,14 @@ svg {
    patch it, and the local copy of html5slider.js was modified to match the
    webkit styling applied here
 */
+
+#thumbcover {
+    width: 10px;
+    height: 30px;
+    background: white;
+    z-index: 0;
+    position: fixed;
+}
 
 input[type=range] {
     position: absolute;
@@ -205,4 +209,26 @@ input[type=range]::-webkit-slider-thumb {
 
 #searchbar {
     width: 200px;
+}
+
+/* link to redraw the subgraphs */
+
+#middle {
+    position: absolute;
+    left: 50%;
+    margin-left: -13px;
+    top: 50%;
+    margin-top: -12px;
+    width: 80px;
+}
+
+#dots {
+    cursor: pointer;
+    float: left;
+    margin-right: 10px;
+}
+
+/* count of total nodes in the subgraph being viewed */
+#count {
+    line-height: 24px;
 }

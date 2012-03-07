@@ -275,7 +275,7 @@ $.widget( "ui.autocomplete", {
 				});
 			};
 		} else {
-			ehis.source = this.options.source;
+			this.source = this.options.source;
 		}
 	},
 

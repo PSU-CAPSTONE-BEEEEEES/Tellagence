@@ -5,10 +5,6 @@
     <meta charset="utf-8">
     <title>Visualizing Twitter</title>
 
-    <!-- stylesheets -->
-    <link rel="stylesheet" href="static/style.css">
-    <link rel="stylesheet" href="static/auto.css"/>
-
     <!-- core libraries -->
     <script src="js/lib/jquery-1.7.1.js"></script>
     <script src="js/lib/html5slider.js"></script>
@@ -27,6 +23,12 @@
 
     <!-- local scripts -->
     <script src="js/toolbar.js"></script>
+    <script src="js/lib/jquery.tipsy.js"></script>
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/auto.css"/>
+    <link rel="stylesheet" href="static/tipsy.css">
   </head>
 
   <body>
@@ -36,6 +38,12 @@
         <div id="help_button">?</div>
 
         <input type="range" id="slider" min="0" max="100" value="50" step="5"/>
+
+        <div id="middle">
+          <img id="dots" src="static/images/dot.png" alt="redraw all the subgraphs"/>
+          <div id="count">1337</div>
+        </div>
+
         <div class="ui-widget" id="search">
           <div id="searchcell">
             <input id="searchbar">
@@ -54,15 +62,15 @@
       Note that this calls an example script that draws the svg within the d3
       section and redraws it properly on resize
       -->
-	  	<script type="text/javascript" src="js/svg.js" ></script>
-	  	<script type="text/javascript" src="js/subgraph_render.js" ></script>
-    	<script type="text/javascript" src="js/graph_render.js" ></script>
-		<script type="text/javascript" src="js/subgraph_event.js" ></script>
-    	<script type="text/javascript" src="js/graph_event.js" ></script>
-		<script type="text/javascript" src="js/subgraph_gui_event.js" ></script>
-        <script type="text/javascript" src="js/gui_event.js" ></script>
-		<script type="text/javascript" src="js/site_gui_event.js" ></script>
-    	<script type="text/javascript" src="js/build.js" ></script>
+      <script type="text/javascript" src="js/svg.js" ></script>
+      <script type="text/javascript" src="js/subgraph_render.js" ></script>
+      <script type="text/javascript" src="js/graph_render.js" ></script>
+      <script type="text/javascript" src="js/subgraph_event.js" ></script>
+      <script type="text/javascript" src="js/graph_event.js" ></script>
+      <script type="text/javascript" src="js/subgraph_gui_event.js" ></script>
+      <script type="text/javascript" src="js/gui_event.js" ></script>
+      <script type="text/javascript" src="js/site_gui_event.js" ></script>
+      <script type="text/javascript" src="js/build.js" ></script>
     </div>
 
     <!-- help overlay, with the entered text formatted into the popup -->
@@ -70,12 +78,37 @@
       <h1>Visualizing Twitter</h1>
       <div id="help">
         <!-- help instructions -->
-        <ul>
-          <li>Click and Drag to Pan Around the Visual</li>
-          <li>Scroll or Use the Slider in the Menu to Zoom In and Out</li>
-          <li>Search for Specific Usernames to Center the Graph Around Them</li>
-          <li>Bring Up This Dialog Again By Clicking The '?' in the Menu</li>
-          <li>Click the Menu Tab to Get Started</li>
+        <ul id="sg_help">
+          <li class="swap">
+            (Click for Graph Help)
+          </li>
+          <li>
+            <img id="subpic" src="static/images/subgraphs.jpg" alt="sample subgraph"/>
+          </li>
+          <li>More nodes in a subgraph means a larger radius</li>
+          <li>No user from any one subgraph is connected to a different subgraph</li>
+          <li>Small subgraphs are cold while large subgraphs are hot</li>
+        </ul>
+        <ul id="g_help">
+          <li class="swap">
+            (Click for Subgraph Help)
+          </li>
+          <li>
+            <img id="graphpic" src="static/images/graph.jpg" alt="sample graph"/>
+          </li>
+          <li>Arrows denote the direction of the relationship</li>
+          <li>The larger the node, the more connected the user</li>
+          <li>The short the link is, the stronger the relationship</li>
+          <li>The number near the dots shows the total nodes in the subgraph</li>
+          <li>Click the dots above the Menu tab to return to the subgraphs screen</li>
+        </ul>
+        
+        <ul id="h_help">
+          <li>Click and drag to pan around</li>
+          <li>Zoom in/out with the mouse wheel or the slider in the menu</li>
+          <li>Search for specific usernames to center the graph around them</li>
+          <li>Bring up this dialog again by clicking the '?' in the menu</li>
+          <li>Click the menu tab to get started</li>
         </ul>
       </div>
       <div id="bar">
