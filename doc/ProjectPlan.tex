@@ -28,14 +28,20 @@
   \subsection{Requirements}
 	In talks with Matt and Nitin from Tellagence, we gathered and understood the following requirements:
 	\begin{itemize}
-		\item The relationships themselves are defined by interactions between users via '@' mentions and retweets.
+		\item The relationships themselves are defined by interactions between users via `@' mentions and retweets.
 		\item The mention and retweet values will be parsed from Twitter data into a database in a format for the rendering.
 		\item The rendering needs to be usable and coherent, not just a tangled mess of nodes and connections.
-		\item Directions of the relationships in the Twitter data don't matter, just the connections.
+		\item Directions of the relationships matters, meaning mentioning someone is one direction while retweeting them is the other.
+        \item Directionality on the graph renderings will be shown by arrows as the links between users.
 		\item Strengths of the relationships are determined by frequency of mentions/retweets between users over 7 days.
-		\item We need to be able to parse multiple '@' mentions out of a single tweet, and distinguish between '@' and 'RT @' .
+        \item Increased node degree (connectedness) will be shown by increased node size.
+        \item The stronger the relationship between two users, the thicker and short their link.
+		\item We need to be able to parse multiple `@' mentions out of a single tweet, and distinguish between `@' and `RT @'.
 		\item The purpose of the visual is about predicting behavior and showing which users are the most influential, meaning the most meaningful connections.
-		\item The core requirements of modeling relationships and strengths while maintaining coherency are the most important. Features such as searching are second priority.
+        \item Users will have the ability to search by Twitter username to center the graph around the searched user.
+        \item To model disjoint subgraphs, a separate visual showing all the subgraphs in a coherent form is needed with navigation between the two visuals.
+        \item While rendering the visual, the user should have a progress bar let them know the status of the rendering.
+        \item Making the visuals interactive is important, so zooming and panning across the graph is required.
 	\end{itemize}
 
   \subsection{Approach}
@@ -115,10 +121,10 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Hook up Renderer to Interface to Pass Visual & Derek & 2012-1-22 & 2012-1-28 \\
  	    Sidebar Controls Trigger Events & Aren & 2012-1-22 & 2012-1-28 \\
 	    Click/Drag Input Events on Test Shape & Aren & 2012-1-28 & 2012-2-4 \\
 	    Input Bounds and Areas on Test Shape & Derek & 2012-1-28 & 2012-2-4 \\
+        Help Overlay Up and Script Connected & Derek & 2012-2-1 & 2012-2-3 \\
       \hline
     \end{tabular}
   \end{center}
@@ -143,11 +149,11 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Hover/Scroll Input Events on Rendering & Aren & 2012-2-19 & 2012-2-25 \\
         Integrate Autocomplete with Users & Derek & 2012-2-17 & 2012-2-19 \\
-	    Fix Node Overlap & Derek & 2012-2-19 & 2012-2-27 \\
+	    Hover/Scroll Input Events on Rendering & Aren & 2012-2-19 & 2012-2-25 \\
+	    Fix Node Overlap & Derek & 2012-2-19 & 2012-2-24 \\
 	    Hook up Search to Data backend & Aren & 2012-2-25 & 2012-3-3 \\
-	    Write Comprehensive Help Dialog & Derek & 2012-3-1 & 2012-3-2 \\
+        Set Reasonable Initial Zoom Level & Derek & 2012-2-28 & 2012-3-1 \\
       \hline
     \end{tabular}
   \end{center}
