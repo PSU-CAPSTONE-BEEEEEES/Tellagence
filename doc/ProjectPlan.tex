@@ -74,11 +74,64 @@
   consistent everytime. Second, by tranforming the relationship between
   users into the Euclidean distances, the relationships between nodes
   can be recognized by observing the relative distance between them. 
- 
-\subsection{Approach}
-
+ \subsection{Approach}
+ The main idea of this approach is mapping the strength of
+ relationship between nodes into Euclidean distance and displaying the
+ Euclidean distances in two dimensional space. 
+  \subsubsection{Mapping the strength of relationship into Euclidean distance}
+First of all, we define the distance between two nodes as the inverse of
+the strength of relationship which are the number of times which these
+two nodes(users) talk together. It is reasonable because the stronger
+the relationship of two nodes is, the smaller the distance between
+them.
+\\Second, based on these distances, we generate the Euclidean distances
+between every nodes by following the properties of Euclidean
+spaces. Euclidean (metric) space are introduced by Maurice Fréchet\footnote{Maurice Fréchet introduced metric spaces in his work Sur quelques points du calcul fonctionnel, Rendic. Circ. Mat. Palermo 22 (1906) 1–74.}. Let
+a metric space be an ordered pair (M,d) where M is a set and d is
+metric on M,i.e., a function d: M x M $\rightarrow$ R such that for any x,y,z 
+$\in$ M, the following holds: 
+ \begin{itemize}
+    \item d(x,y) $\geq$ 0 
+    \item d(x,y) = 0 iff x = y
+    \item d(x,y) = d(y,x)
+    \item d(x,z) $\leq$ d(x,y) + d(y,z)
+  \end{itemize}
+The mapping is defined as the distance between any two nodes is the
+shortest distance between them. By the definition of this
+mapping, it is clear to see that the distances between any two nodes
+satisfy the first three properties of Euclidean space. There is a
+proof for it also follows the last properties.
+  \begin{itemize}
+    \item For any nodes x, y, and z, we need to prove d(x,y)  $\leq$
+      d(x,z) + d(z,y) with d(x,y), d(x,z), and d(z,y) are the shortest
+      distance between these pair of nodes.
+    \item Assume that d(x,y) $\geq$ d(x,z) + d(z,y) then it is clear
+      that d(x,y) is no the shortest distance from x to
+      y. (Contrapositive proof)
+  \end{itemize}
+  \subsubsection{Displaying Euclidean distance in two dimensional space}
+   After mapping the strength of relationship into Euclidean distance,
+   it part show how we display Euclidean distance in two dimensional
+   space. Since it is impossible to display all of Euclidean distance
+   in two dimensional space, there are two ways for dealing with this
+   problem.
+     \begin{itemize}
+       \item Euclidean distances are approximated in two dimensional
+         space. 
+       \item The relationship is also indicated by other signal like
+         the width of links between two nodes.
+     \end{itemize}
 
  \subsection{Conclusion}
+   \begin{itemize}
+       \item Applying this approach in d3's force framework allows
+         rendering thousands of nodes. 
+       \item For most of the links, we can still see relation between the width of the link
+         and the distance between two nodes in the graph consisting
+         of thousands of nodes. Also, due to the requirements and the
+         scope of this project, we have not calculate the percentage
+         of correctness of this approach.
+     \end{itemize}
 
 \section{Task Schedule}
 
