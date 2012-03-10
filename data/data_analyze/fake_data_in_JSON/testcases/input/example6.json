@@ -1,0 +1,1 @@
+{"nodes":[{"name":1,"influence":[]},{"name":2,"influence":[{"1":2}]},{"name":3,"influence":[{"2":2}]},{"name":4,"influence":[{"3":1},{"2":0}]},{"name":5,"influence":[{"2":6}]},{"name":6,"influence":[{"5":3},{"4":0},{"1":1}]}]}
