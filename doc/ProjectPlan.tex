@@ -287,30 +287,96 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
   \end{center}
 
 \section{Risk Management}
-There are four main issues in risk management which we classified. 
+There are five main issues in risk management which we classified. 
 \begin{itemize}
-     \item First, sponsor issues include several problems. For communicating, we can make phone calls, or talk to course instructor. Besides, if the data or requirements provided by the sponsor are ill defined, we can use fake numbers for processed data. In the worst case, if the sponsors disappears, then we would go to their office and talk to the course instructor.
-    \item Second, back ups for our Redmine repo can be handled by setting up Github which clones every changes in Redmine, also by using local copies. If our local copies get corrupted, the Redmine and Github repos should be intact.
-    \item Third, there are a few main problems in team member issues. If a team member does not communicate or be present, then you would talk with other team members. Also, if a team member could not complete a task, we can break it up among other members. With the team members that keep tabs on other portions of the project, the risk of getting out of sync milestones arises, which is mainly solved through putting more people on the tasks to get the respective portion back up to speed.
-	\item Finally, development issues include lack of experience of team members in designing and coding. It can be handled by doing the easier tasks first, which are 2D rendering, zoomed in features, then move to harder stuff later (3D rendering, zoomed out feature). Also,we need to make sure architecture will be nailed down.
+     \item First, sponsor issues include several problems. For communicating, we
+     can make phone calls, or talk to course instructor. Besides, if the data or
+     requirements provided by the sponsor are ill defined, we can use fake
+     numbers for processed data. In the worst case, if the sponsors disappears,
+     then we would go to their office and talk to the course instructor. We will
+     also have cell phone numbers and email addresses where we can reach the
+     sponsor.
+    \item Second, back ups for our Redmine repo can be handled by setting up
+    Github which clones every changes in Redmine, also by using local copies. If
+    our local copies get corrupted, the Redmine and Github repos should be
+    intact. We will also have several local copies of the repo not only on our
+    personal computers but also on the buildbot host machine. Buildbot will be
+    running tests every night which means that every night buildbot will have to
+    pull and update its local copies of the repository.
+    \item Third, there are a few main problems in team member issues. If a team
+    member does not communicate or be present, then you would talk with other
+    team members. Also, if a team member could not complete a task, we can break
+    it up among other members. With the team members that keep tabs on other
+    portions of the project, the risk of getting out of sync milestones arises,
+    which is mainly solved through putting more people on the tasks to get the
+    respective portion back up to speed. We can also make sure to clearly
+    communicate if a certain aspect of the specifications is too dificult or
+    impossible to accomplish. Given that information the sponsor can make a
+    change to the specifications or we can choose to simplify our implementation
+    to allow for a quicker completion of a task.
+	\item Fourth, development issues include lack of experience of team members
+    in designing and coding. It can be handled by doing the easier tasks first,
+    which are 2D rendering, zoomed in features, then move to harder stuff later
+    (3D rendering, zoomed out feature). Also,we need to make sure architecture
+    will be nailed down in order to clearify between necessary base tasks versus
+    unnecessary features.
+    \item Finally, specifications from the sponsor may change. If the
+    specifications change then our pre-determined testing framework will no
+    longer be valid. In order to counter this we will save our testing framework
+    until the end of the development cycle. Our tests will then be valid because
+    they will be testing the final product that meets sponsors final approval.
 \end{itemize}
 
 \section{Quality Assurance}
-    Testing and quality assurance is a process that cannot be planned completely on the front end. The testing for this project will be planned and executed throughout the process. Test driven development is encouraged and the mocking framework planned will help to implement those unit tests.
+    Testing and quality assurance is a process that cannot be planned completely
+    on the front end. The testing for this project will be planned and executed
+    throughout the process. It would be nice to use test driven development,
+    however it seems more practical for the team to write tests after the coding
+    framework has been set. If tests were written before the code is produced
+    the team could run into a problem with changing behavior. This may happen
+    because program specifications sometimes change. The unit testing tools
+    listed below will be used.
 	\\\\
-	Buildbot, a continuous integration system, will be used to ensure tests are run after each commit and status of those tests are communicated to the appropriate developers. Below is a listing of testing utilities and approaches that will be used in this project's development.
+	Buildbot, a continuous integration system, will be used to ensure tests are
+    run after each commit and status of those tests are communicated to the
+    appropriate developers. Git hub will be used in tandem with buildbot. The
+    git structure dictates a branch for every sub-team within the larger team.
+    These teams will have a builder within buildbot to run testing frameworks
+    everytime they push new code. However, not every branch will be tested for
+    every commit. The stable branch, the developing branch, will be built every
+    night in order to ensure that the code being merged to that branch works in
+    tandem. Below is a listing of testing utilities and approaches that will be
+    used to help test during the project's development.
 \begin{itemize}
     \item {\bf JSMockito}: This tool is a stand-alone javascript mocking
-    environment. 
-    \item {\bf JSUnit}: This tool is designed to help create unit tests for
-    javascript. This package has some built in mocking tools but they are not
-    very reliable.
-    \item {\bf HTML5}: Test using different browsers? Have to do more research
-    in effective HTML5 testing frameworks.
+    environment. It can mock JQuery and system calls so that every piece of the
+    program can be tested individually.
+    \item {\bf QUnit}: This tool is for writing unit tests for JQuery. Using
+    JSMockito and Qunit together we will be able to mock out everything we need
+    in order to test every part of the project individually.
+    \item {\bf JSHamcrest}: This set of JavaScript scripts is necessary to run
+    QUnit and JSMockito together. It will help us to write a complete and well
+    documented set of unit tests on every individual part of the project.
+    \item {\bf HTML5}: Testing HTML5 with a validation script run by buildbot.
+    The script will validate that the html page is written correctly with valid
+    tags. 
 \end{itemize}
-	For validation, at every milestone we will talk with the sponsor to make sure we're on track and they like it. The key is making sure it meets specifications and requirements set forth by the sponsors. After initial acceptance by the team and passing unit tests, we would then go to the sponsor for approval. This would happen each iteration of the milestones and product.
+	For validation, at every milestone we will talk with the sponsor to make
+    sure we're on track and they like it. The key is making sure it meets
+    specifications and requirements set forth by the sponsors. After initial
+    acceptance by the team and passing unit tests, we would then go to the
+    sponsor for approval. This would happen each iteration of the milestones and
+    product. Every sprint will be ended with a meeting to wrap-up any loose ends
+    and to discuss what needs to be accomplished in the next sprint.
 	\\\\
-	To help assure the integration of the three components, each of the two team members on a specific component would keep tabs on a different component to make sure development was happening in a way to ensure proper interaction. For instance, Aren would watch the Data work and Derek would watch the Rendering work. That way, once the development calls for information to be passed between the components, the architecture would have taken that into account. Here is a diagram to illustrate this convention:\\\\
+	To help assure the integration of the three components, each of the two team
+    members on a specific component would keep tabs on a different component to
+    make sure development was happening in a way to ensure proper interaction.
+    For instance, Aren would watch the Data work and Derek would watch the
+    Rendering work. That way, once the development calls for information to be
+    passed between the components, the architecture would have taken that into
+    account. Each smaller team is thusly responsible for more than just their
+    part of the project. Here is a diagram to illustrate this convention:\\\\
 
 \begin{center}
 	\includegraphics[width=1\textwidth]{./whiteboards/portion-checks}
