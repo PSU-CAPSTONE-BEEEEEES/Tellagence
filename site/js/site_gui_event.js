@@ -27,7 +27,7 @@ function centerGraph(nodes, w, h) {
         }
     }
 
-    // within 5 pixels seems reasonable
+    // within 20 pixels seems reasonable
     function hCentered() {
         return Math.abs(tNode.position().top - (h - bNode.position().top)) < 20;
     };
@@ -37,39 +37,35 @@ function centerGraph(nodes, w, h) {
 
     // translate the graph until centered
     while ((hCentered() && wCentered()) !== true) {
-        // translate(0, 0) scale(1)
+        var tOff = tNode.position().top;
+        var bOff = h - bNode.position().top;
+        var lOff = lNode.position().left;
+        var rOff = w - rNode.position().left;
+
+        // split "translate(0, 0) scale(1)" to get the translate x and y
         var splits = $("#inner").attr("transform").split("(");
         var transSplit = splits[1].split(")")[0].split(",");
         var scaleSplit = parseInt(splits[2].split(")")[0]);
 
+        // on initialization, translate(0) is in the element
         if (transSplit.length == 1) { break; }
 
         var trans1 = parseInt(transSplit[0]);
         var trans2 = parseInt(transSplit[1]);
 
-        var newTrans1, newTrans2;
-        if (tNode.position().top < (h - bNode.position().top)) {
-            newTrans1 = trans1 - 20;
-        }
-        else if (tNode.position().top > (h - bNode.position().top)) {
-            newTrans1 = trans1 + 20;
-        }
-        else {
-            newTrans1 = trans1;
+        if (!wCentered()) {
+            if (lOff > rOff) { trans1 -= 10; }      // go left
+            else if (lOff < rOff){ trans1 += 10; }  // go right
         }
 
-        if (lNode.position().left > (w - rNode.position().left)) {
-            newTrans2 = trans2 - 20;
-        }
-        else if (lNode.position().left < (w - rNode.position().left)){
-            newTrans2 = trans2 + 20;
-        }
-        else {
-            newTrans2 = trans2;
+        if (!hCentered()) {
+            if (tOff > bOff) { trans2 -= 10; }      // go up
+            else { trans2 += 10; }                  // go down
         }
 
+        // set new translate attribute on inner
         d3.select("#inner").attr("transform",
-                                 "translate(" + newTrans1 + ", " + newTrans2 + ")"
+                                 "translate(" + trans1 + ", " + trans2 + ")"
                                  + " scale(" + scaleSplit + ")");
     }
 }
@@ -100,6 +96,7 @@ function initZoom(render) {
     // zoom in first if we can
     while (offNodes.length === 0) {
         var click = new ChromeWheel(0, 1);
+        centerGraph(nodes, w, h);
         offNodes = render.graphs !== undefined ?
             render.graphs.filter(graphCheck) : render.nodes.filter(graphCheck);
     }
@@ -107,6 +104,7 @@ function initZoom(render) {
     // zoom out until all nodes are on the screen
     while (offNodes.length > 0) {
 	var shiftClick = new ChromeWheel(1, 1);
+        centerGraph(nodes, w, h);
         offNodes = offNodes.filter(graphCheck);
     }
 
