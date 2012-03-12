@@ -45,13 +45,13 @@ function centerGraph(nodes, w, h) {
         // split "translate(0, 0) scale(1)" to get the translate x and y
         var splits = $("#inner").attr("transform").split("(");
         var transSplit = splits[1].split(")")[0].split(",");
-        var scaleSplit = parseInt(splits[2].split(")")[0]);
+        var scaleSplit = parseFloat(splits[2].split(")")[0]);
 
         // on initialization, translate(0) is in the element
         if (transSplit.length == 1) { break; }
 
-        var trans1 = parseInt(transSplit[0]);
-        var trans2 = parseInt(transSplit[1]);
+        var trans1 = parseFloat(transSplit[0]);
+        var trans2 = parseFloat(transSplit[1]);
 
         if (!wCentered()) {
             if (lOff > rOff) { trans1 -= 10; }      // go left
