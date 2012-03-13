@@ -82,7 +82,7 @@
 First of all, we define the distance between two nodes as the inverse of
 the strength of relationship which are the number of times which these
 two nodes(users) talk together. It is reasonable because the stronger
-the relationship between two nodes is, the smaller the distance between
+the relationship of two nodes is, the smaller the distance between
 them.
 \\Second, based on these distances, we generate the Euclidean distances
 between every nodes by following the properties of Euclidean
@@ -105,20 +105,20 @@ proof for it also follows the last properties.
     \item For any nodes x, y, and z, we need to prove d(x,y)  $\leq$
       d(x,z) + d(z,y) with d(x,y), d(x,z), and d(z,y) are the shortest
       distance between these pair of nodes.
-    \item Assume that d(x,y) $>$ d(x,z) + d(z,y) then it is clear
+    \item Assume that d(x,y) $\geq$ d(x,z) + d(z,y) then it is clear
       that d(x,y) is not the shortest distance from x to
       y. (Contrapositive proof)
   \end{itemize}
   \subsubsection{Displaying Euclidean distance in two dimensional space}
    After mapping the strength of relationship into Euclidean distance,
-   this part shows how we display Euclidean distance in two dimensional
-   space. Since it is impossible to display all of Euclidean distances
-   in two dimensional space, the way for dealing with this
-   problem is.
+   it part show how we display Euclidean distance in two dimensional
+   space. Since it is impossible to display all of Euclidean distance
+   in two dimensional space, there are two ways for dealing with this
+   problem.
      \begin{itemize}
-       \item First, Euclidean distances are approximated in two dimensional
+       \item Euclidean distances are approximated in two dimensional
          space.  Approximation is provided by d3 framework by allowing
-         simple constraints\footnote{Tim Dwyer. Scalable, versatile and simple constrained graph layout. In Proc. Eurographics/IEEE-VGTC Symp. on Visualization (Eurovis 2009). (to appear) IEEE, 2009.}.
+         simple contrainsts\footnote{Tim Dwyer. Scalable, versatile and simple constrained graph layout. In Proc. Eurographics/IEEE-VGTC Symp. on Visualization (Eurovis 2009). (to appear) IEEE, 2009.}.
        \item The relationship is also indicated by other signal like
          the width of links between two nodes.
      \end{itemize}
@@ -127,7 +127,7 @@ proof for it also follows the last properties.
    \begin{itemize}
        \item Applying this approach in d3's force framework allows
          rendering thousands of nodes. 
-       \item For most of the links, we can still see the relation between the width of the link
+       \item For most of the links, we can still see relation between the width of the link
          and the distance between two nodes in the graph consisting
          of thousands of nodes. Also, due to the requirements and the
          scope of this project, we have not calculate the percentage
@@ -251,7 +251,6 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
 	    Query Database for Data & Jon & 2012-2-20 & 2012-2-24 \\
 	    Generate JSON from Query Results & Jon & 2012-2-20 & 2012-2-24 \\
-	    Optimize JSON & Jon & 2012-2-27 & 2012-3-2 \\
 	    Send JSON to Renderer & Jon & 2012-2-27 & 2012-3-2 \\
       \hline
     \end{tabular}
@@ -263,8 +262,8 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Accept Filter from Interface & Jon & 2012-2-13 & 2012-2-20 \\
-	    Build SQL Query from Filter & Jon & 2012-2-20 & 2012-2-27 \\
+	    Accept Filter from Interface & Jon & & \\
+	    Build SQL Query from Filter & Jon & & \\
       \hline
     \end{tabular}
   \end{center}
