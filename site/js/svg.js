@@ -6,18 +6,62 @@ function ChromeWheel ( shift_key , clicks) {
 }
 
 var rectSet = false;
-function redraw(a) {
+var lastX = null;
+var lastY = null;
+var lastS = null;
+function redraw() {
+    // split "translate(0, 0) scale(1)" to get the translate and scale floats
+    var splits = $("#inner").attr("transform").split("(");
+    var transSplit = splits[1].split(")")[0].split(",");
+    var scale = parseFloat(splits[2].split(")")[0]);
+    var transX = parseFloat(transSplit[0]);
+    var transY = parseFloat(transSplit[1]);
+
+    if (lastX == null) {
+        lastX = d3.event.translate[0];
+        lastY = d3.event.translate[1];
+        lastS = d3.event.scale;
+    }
+    else {
+        if (d3.event.translate[0] < lastX) {
+            transX -= Math.abs(d3.event.translate[0] - lastX);
+            lastX = d3.event.translate[0];
+        }
+        else if (d3.event.translate[0] > lastX) {
+            transX += Math.abs(d3.event.translate[0] - lastX);
+            lastX = d3.event.translate[0];
+        }
+
+        if (d3.event.translate[1] < lastY) {
+            transY -= Math.abs(d3.event.translate[1] - lastY);
+            lastY = d3.event.translate[1];
+        }
+        else if (d3.event.translate[1] > lastY) {
+            transY += Math.abs(d3.event.translate[1] - lastY);
+            lastY = d3.event.translate[1];
+        }
+
+        if (d3.event.scale < lastS) {
+            scale -= Math.abs(d3.event.scale - lastS);
+            lastS = d3.event.scale;
+        }
+        else if (d3.event.scale > lastS) {
+            scale += Math.abs(d3.event.scale - lastS);
+            lastS = d3.event.scale;
+        }
+    }
+
     d3.select("#inner").attr("transform",
-                             "translate(" + d3.event.translate + ")" +
-                             " scale(" + d3.event.scale + ")");
+                             "translate(" + transX + "," + transY + ")" +
+                             " scale(" + scale + ")");
 
     // resize rect to fit snug in inner
     var bbox = $("#inner")[0].getBBox();
     if (!rectSet) {
         $("rect").attr("x", bbox.x)
-                 .attr("y", bbox.y)
-                 .attr("width", bbox.width)
-                 .attr("height", bbox.height);
+            .attr("y", bbox.y)
+            .attr("width", bbox.width)
+            .attr("height", bbox.height);
         rectSet = true;
     }
 }
