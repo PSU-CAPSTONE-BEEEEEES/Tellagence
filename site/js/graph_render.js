@@ -17,80 +17,23 @@ function GraphRender(nodes, distances, links) {
 	this.existOverlap = false;
 	
 	// coefficient multiplier node radius and distance
-	this.nodeRadiusCoef = 1;
 	this.distanceCoef 	= 1;
 
 	// set the svg for resizing and use the inner for drawing
 	this.svg = d3.select("#d3").select("svg");
 	this.inner = d3.select("#d3").select("svg").select("#inner");
 	
-    // scale the nodes logarithmically based on half the shortest link
-    // to assure no overlapping nodes distance
+    // scale the nodes linearly: draw them as their property "r" was ready for rendering
     this.drawCircles = function() {
-        var maxRadius = 0,
-            minLength = this.distances[0].sp;
-
-		// by default there is no overlap
-		this.existOverlap = false;
-        // check each link for overlapping nodes and update minLength, maxRadius
-        for (i = 0; i < this.distances.length; i++) {
-            var len = this.distances[i].sp;
-            if (len < minLength) {
-                minLength = len;
-            }
-
-            var source = null,
-                target = null;
-            // map the link ends to the right nodes
-            for (j = 0; j < this.nodes.length; j++) {
-                if (this.distances[i].source.id == this.nodes[j].id) {
-                    source = this.nodes[j];
-                }
-                if (this.distances[i].target.id == this.nodes[j].id) {
-                    target = this.nodes[j];
-                }
-            }
-
-            if (source && target) {
-                var sr    = parseInt(source.sum_degree),
-                    tr    = parseInt(target.sum_degree),
-                    radii = sr + tr;
-
-                // check for overlap and bigger than existing maxRadius
-                if (radii > len && radii > maxRadius) {
-                    maxRadius = Math.max(sr, tr);
-					this.existOverlap = true;
-                }
-            }
-        }
-
-        // scale the nodes logarithmically, needing 1 as the base case to avoid
-        // pesky NaN due to log(), with rangeRound making integer output
-        var radScale = d3.scale.log()
-                .domain([1, maxRadius])
-                .rangeRound([1, minLength/2]);
-		this.radScale = radScale;
-
         // draw circles
         var center = this.centerNode;
         this.circle.enter().append("circle")
-            .attr("r", function(d) {
-                // only scale if there exists overlap in the graph
-                if (maxRadius > 0) {
-                    return radScale(parseInt(d.sum_degree));
-                }
-                else {
-                    return parseInt(d.sum_degree);
-                }
-            })
-            //.attr("opacity", 0.5)
+            .attr("r", function(d) {return d.r;})
             .attr("cx", function(d) {return d.x;})
             .attr("cy", function(d) {return d.y;})
             .attr("title", function(d) {return 'UserId='+d.id+'UserName='+d.name;})
             .attr("class", function(d) {return (d.id==center) ?'center' :'' ;})
             .append("title").text(function(d) { return 'UserId='+d.id+'UserName='+d.name; });
-			
-		//this.clearDataNodes();
     };
 	
 	this.writeName = function() {
@@ -122,14 +65,14 @@ function GraphRender(nodes, distances, links) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
 				s = Math.sqrt(dx*dx + dy*dy);
-				console.log(s + ' vs ' + d.w*100);
+				//console.log(s + ' vs ' + d.w*100);
 				return Math.min(d.w*300, s/2);
 			})
 			.attr("markerHeight", function(d) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
 				s = Math.sqrt(dx*dx + dy*dy);
-				console.log(s + ' vs ' + d.w*100);
+				//console.log(s + ' vs ' + d.w*100);
 				return Math.min(d.w*300, s/2);
 			})
 			.attr("orient", "auto")
@@ -146,14 +89,14 @@ function GraphRender(nodes, distances, links) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
 				s = Math.sqrt(dx*dx + dy*dy);
-				console.log(s + ' vs ' + d.w*100);
+				//console.log(s + ' vs ' + d.w*100);
 				return Math.min(d.w*300, s/2);
 			})
 			.attr("markerHeight",function(d) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
 				s = Math.sqrt(dx*dx + dy*dy);
-				console.log(s + ' vs ' + d.w*100);
+				//console.log(s + ' vs ' + d.w*100);
 				return Math.min(d.w*300, s/2);
 			})
 			.attr("orient", "auto")
@@ -169,14 +112,14 @@ function GraphRender(nodes, distances, links) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
 				s = Math.sqrt(dx*dx + dy*dy);
-				console.log(s + ' vs ' + d.w*100);
+				//console.log(s + ' vs ' + d.w*100);
 				return Math.min(d.w*300, s/2);
 			})
 			.attr("markerHeight", function(d) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
 				s = Math.sqrt(dx*dx + dy*dy);
-				console.log(s + ' vs ' + d.w*100);
+				//console.log(s + ' vs ' + d.w*100);
 				return Math.min(d.w*300, s/2);
 			})
 			.attr("orient", "auto")
@@ -236,22 +179,45 @@ function GraphRender(nodes, distances, links) {
 	};
 	
 	this.normalize = function() {
-		// for links lengths
-		var minDegree = parseInt(this.nodes[0].sum_degree);
-		var maxDegree = parseInt(this.nodes[0].sum_degree);
+		// normalize circles size to a specific linear scale
+		var minDeg = this.nodes[0].sum_degree;
+		var maxDeg = this.nodes[0].sum_degree;
 		for (i=1; i<this.nodes.length; i++) {
-			degree = parseInt(this.nodes[i].sum_degree);
-			minDegree = (degree < minDegree) ?degree :minDegree ;
-			maxDegree = (degree > maxDegree) ?degree :maxDegree ;
+			deg = parseInt(this.nodes[i].sum_degree);
+			minDeg = (deg < minDeg) ?deg :minDeg ;
+			maxDeg = (deg > maxDeg) ?deg :maxDeg ;
 		}
-		// modify sp
-		this.distanceCoef = this.nodes.length/2;
-		for (i=0; i<this.distances.length; i++) {
-			this.distances[i].sp = this.distances[i].sp * this.distanceCoef;
+		var radiusScale = d3.scale.linear()
+                .domain([minDeg, maxDeg])
+                .range([5, 50]);
+		for (i=0; i<this.nodes.length; i++)
+			this.nodes[i].r = radiusScale(this.nodes[i].sum_degree);
+			
+		// normalize links length linearly to avoid nodes overlap
+		s = this.nodes[this.distances[0].source];
+		t = this.nodes[this.distances[0].target];
+		alpha = this.distances[0].sp/(s.r + t.r);
+		offset = 0;
+		for (i=1; i<this.distances.length; i++) {
+			s = this.nodes[this.distances[i].source];
+			t = this.nodes[this.distances[i].target];
+			thisAlpha = this.distances[i].sp/(s.r + t.r);
+			if (thisAlpha < alpha) {
+				alpha = thisAlpha;
+				offset = i;
+			}
 		}
+		// calculate multiplier factor c
+		s = this.nodes[this.distances[offset].source];
+		t = this.nodes[this.distances[offset].target];
+		c = (s.r + t.r + Math.max(s.r, t.r))/this.distances[offset].sp;
+		// propagate c to calculate new sp for rendering
+		for (i=0; i<this.distances.length; i++)
+			this.distances[i].sp = this.distances[i].sp * c;
+			
+		// temp
+		console.log(alpha);
 		
-		// for node radii
-		this.nodeRadiusCoef = 1;
 		
 		// for links widths
 		var minInf = this.links[0].i12 + this.links[0].i21;
@@ -269,29 +235,15 @@ function GraphRender(nodes, distances, links) {
 	}
 	
 	this.draw = function() {
-		/*
-		var arrNodes = [];
-		for (i=0; i<this.nodes.length; i++)
-			arrNodes[i] = this.nodes[i].sum_degree;
-		for (i=0; i<arrNodes.length-1; i++)
-			for (j=i+1; j<arrNodes.length; j++)
-				if ( arrNodes[j] > arrNodes[i] ) {
-					temp = arrNodes[i];
-					arrNodes[i] = arrNodes[j];
-					arrNodes[j] = temp;
-				}
-		for (i=0; i<arrNodes.length; i++) {
-			console.log(i + ': ' + arrNodes[i]);
-		}
-		*/
+		// graph overall normalization
 		this.normalize();
 
-            // initialize the count in the toolbar
-            var that = this;
-            $.getJSON("data/subgraph.php", function(data) {
-                var count = data.graphs[parseInt(that.nodes[0].subgraph) - 1];
-                $("#count").html(count.num);
-            });
+		// initialize the count in the toolbar
+		var that = this;
+		$.getJSON("data/subgraph.php", function(data) {
+			var count = data.graphs[parseInt(that.nodes[0].subgraph) - 1];
+			$("#count").html(count.num);
+		});
 		
 		// init force graph
 		this.ready = false;
@@ -346,7 +298,7 @@ function GraphRender(nodes, distances, links) {
 			
 		// define area to draw all circles
 		var circlesArea = this.inner.append('g').attr("id", "circles");
-		circlesArea.attr("opacity", .8);
+		circlesArea.attr("opacity", .7);
 		// init circles as nodes
 		this.circle = circlesArea.selectAll("circle")
 						.data(this.nodes);

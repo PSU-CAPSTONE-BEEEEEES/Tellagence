@@ -24,7 +24,7 @@ function GraphEvent(renderObject) {
 	
 			// draw paths, nodes, and name for each node
 			renderObject.drawCircles();
-			renderObject.drawPaths();
+			//renderObject.drawPaths();
 			//renderObject.writeName();
 			// stop ticking immediately as the complete graph was drawn
 			renderObject.force.stop();

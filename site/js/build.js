@@ -30,7 +30,7 @@ d3.json("data/search.php?user=vmworld&depth=100", function(data) {
 	// draw subgraph (w/ graph events ready)
 	window.gr.draw();
 });
-*/	
+*/
 
 // events for global user gui
 var sgui = new SiteGuiEvent();
