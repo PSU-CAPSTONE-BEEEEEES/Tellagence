@@ -14,7 +14,7 @@ function GraphRender(nodes, distances, links) {
 	this.ready = false;
 	this.canTick = true;
 	this.radScale = null;
-	this.existOverlap = false;
+	//this.existOverlap = false;
 	
 	// coefficient multiplier node radius and distance
 	this.distanceCoef 	= 1;
@@ -56,23 +56,17 @@ function GraphRender(nodes, distances, links) {
 		
 		// arrows for single links
 		defs.data(this.singleLinks).enter().append("marker")
-			.attr("id", function(d) {console.log(d); return "marker-"+d.source.id+"-"+d.target.id; })
+			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
 			.attr("viewBox", "0 0 15 15")
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
 			.style("fill", "red")
 			.attr("markerWidth", function(d) {
-				var dx = d.target.x - d.source.x;
-				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				//console.log(s + ' vs ' + d.w*100);
+				s = d.sp - (d.source.r + d.target.r);
 				return Math.min(d.w*4, s/2);
 			})
 			.attr("markerHeight", function(d) {
-				var dx = d.target.x - d.source.x;
-				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				//console.log(s + ' vs ' + d.w*100);
+				s = d.sp - (d.source.r + d.target.r);
 				return Math.min(d.w*4, s/2);
 			})
 			.attr("orient", "auto")
@@ -86,17 +80,11 @@ function GraphRender(nodes, distances, links) {
 			.attr("refX", function(d) { return 0; })
 			.attr("refY", 5)
 			.attr("markerWidth", function(d) {
-				var dx = d.target.x - d.source.x;
-				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				//console.log(s + ' vs ' + d.w*100);
+				s = d.sp - (d.source.r + d.target.r);
 				return Math.min(d.w*4, s/2);
 			})
 			.attr("markerHeight",function(d) {
-				var dx = d.target.x - d.source.x;
-				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				//console.log(s + ' vs ' + d.w*100);
+				s = d.sp - (d.source.r + d.target.r);
 				return Math.min(d.w*4, s/2);
 			})
 			.attr("orient", "auto")
@@ -109,17 +97,11 @@ function GraphRender(nodes, distances, links) {
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
 			.attr("markerWidth", function(d) {
-				var dx = d.target.x - d.source.x;
-				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				//console.log(s + ' vs ' + d.w*100);
+				s = d.sp - (d.source.r + d.target.r);
 				return Math.min(d.w*4, s/2);
 			})
 			.attr("markerHeight", function(d) {
-				var dx = d.target.x - d.source.x;
-				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				//console.log(s + ' vs ' + d.w*100);
+				s = d.sp - (d.source.r + d.target.r);
 				return Math.min(d.w*4, s/2);
 			})
 			.attr("orient", "auto")
@@ -187,13 +169,13 @@ function GraphRender(nodes, distances, links) {
 			minDeg = (deg < minDeg) ?deg :minDeg ;
 			maxDeg = (deg > maxDeg) ?deg :maxDeg ;
 		}
-		minR = 5; maxR = 50;
+		minR = 10; maxR = 50;
 		if (maxDeg-minDeg < maxR-minR) {
 			minR = minDeg; maxR = maxDeg;
 		}
 		var radiusScale = d3.scale.linear()
                 .domain([minDeg, maxDeg])
-                .range([minDeg, maxDeg]);
+                .range([minR, maxR]);
 		for (i=0; i<this.nodes.length; i++)
 			this.nodes[i].r = radiusScale(this.nodes[i].sum_degree);
 			
@@ -369,7 +351,6 @@ function GraphRender(nodes, distances, links) {
 		this.force = d3.layout.force().nodes([]);
 		// empty actual circles
 		this.circle = this.inner.selectAll("circle").data([]);
-		console.log('data nodes cleared.');
 	};
 	this.clearDataLinks = function() {
 		// empty nodes and links
@@ -380,6 +361,5 @@ function GraphRender(nodes, distances, links) {
 		this.force = d3.layout.force().links([]);
 		// empty actual circles and paths
 		this.path = this.inner.selectAll("path").data([]);
-		console.log('data links cleared.');
 	};
 }

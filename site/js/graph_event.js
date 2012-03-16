@@ -60,7 +60,6 @@ function GraphEvent(renderObject) {
 			// ticking the double paths
 			renderObject.doublePath.attr("d", tickingPath);
 			// ticking all paths
-			console.log(renderObject.existOverlap);
 		}
 		
 		function tickingPath(d) {
@@ -69,7 +68,7 @@ function GraphEvent(renderObject) {
 			ysyt = Math.abs(d.target.y - d.source.y);
 			alpha = xsxt/ysyt;
 			// adjust [x,y] for path source
-			r = (renderObject.existOverlap) ?renderObject.radScale(parseInt(d.source.sum_degree)) :parseInt(d.source.sum_degree) ;
+			r = d.source.r ;
 			dy = Math.sqrt(r*r/(alpha*alpha+1));
 			dx = Math.sqrt(r*r - dy*dy);
 			sDx = (d.source.x < d.target.x) ?1 :-1 ;
@@ -77,7 +76,7 @@ function GraphEvent(renderObject) {
 			sx = d.source.x+sDx*dx;
 			sy = d.source.y+sDy*dy;
 			// adjust [x,y] for path target
-			r = (renderObject.existOverlap) ?renderObject.radScale(parseInt(d.target.sum_degree)) :parseInt(d.target.sum_degree) ;
+			r = d.target.r;
 			dy = Math.sqrt(r*r/(alpha*alpha+1));
 			dx = Math.sqrt(r*r - dy*dy);
 			tDx = (d.target.x < d.source.x) ?1 :-1 ;
@@ -88,7 +87,7 @@ function GraphEvent(renderObject) {
 			dr = 0;
 			return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
 		}
-	
+
 		// ticking the cirlces
 		renderObject.circle
 			.attr("cx", function(d) { return d.x; })
