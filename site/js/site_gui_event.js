@@ -42,16 +42,10 @@ function centerGraph(nodes, w, h) {
         var lOff = lNode.position().left;
         var rOff = w - rNode.position().left;
 
-        // split "translate(0, 0) scale(1)" to get the translate x and y
-        var splits = $("#inner").attr("transform").split("(");
-        var transSplit = splits[1].split(")")[0].split(",");
-        var scaleSplit = parseFloat(splits[2].split(")")[0]);
-
-        // on initialization, translate(0) is in the element
-        if (transSplit.length == 1) { break; }
-
-        var trans1 = parseFloat(transSplit[0]);
-        var trans2 = parseFloat(transSplit[1]);
+        var transAttr  = getTransform();
+        var trans1     = transAttr[0];
+        var trans2     = transAttr[1];
+        var scaleSplit = transAttr[2];
 
         if (!wCentered()) {
             if (lOff > rOff) { trans1 -= 10; }      // go left
@@ -85,17 +79,28 @@ function initZoom(render) {
         return false;
     }
 
-    // subgraphs and graphs have different names for nodes
+    function zoom(zoomIn) {
+        var transAttr = getTransform();
+        var transX    = transAttr[0];
+        var transY    = transAttr[1];
+        var scale     = transAttr[2];
+        var newScale  = zoomIn ? scale * 2 : scale / 2;
+        d3.select("#inner").attr("transform",
+                                 "translate(" + transX + "," + transY + ")" +
+                                 " scale(" + newScale + ")");
+    }
+
+    // recenter graph
     var nodes = render.graphs !== undefined ? render.graphs : render.nodes;
+    centerGraph(nodes, w, h);
+
+    // subgraphs and graphs have different names for nodes
     var offNodes = render.graphs !== undefined ?
             render.graphs.filter(graphCheck) : render.nodes.filter(graphCheck);
 
-    // recenter graph
-    centerGraph(nodes, w, h);
-
     // zoom in first if we can
     while (offNodes.length === 0) {
-        var click = new ChromeWheel(0, 1);
+        zoom(true);
         centerGraph(nodes, w, h);
         offNodes = render.graphs !== undefined ?
             render.graphs.filter(graphCheck) : render.nodes.filter(graphCheck);
@@ -103,7 +108,7 @@ function initZoom(render) {
 
     // zoom out until all nodes are on the screen
     while (offNodes.length > 0) {
-	var shiftClick = new ChromeWheel(1, 1);
+        zoom(false);
         centerGraph(nodes, w, h);
         offNodes = offNodes.filter(graphCheck);
     }

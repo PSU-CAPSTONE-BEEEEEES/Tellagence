@@ -1,7 +1,21 @@
+function getTransform() {
+    var splits     = $("#inner").attr("transform").split("(");
+    var transSplit = splits[1].split(")")[0].split(",");
+    var scale      = parseFloat(splits[2].split(")")[0]);
+
+    // on initialization, translate(0) is in the element
+    if (transSplit.length == 1) { return []; }
+
+    var transX     = parseFloat(transSplit[0]);
+    var transY     = parseFloat(transSplit[1]);
+    return [transX, transY, scale];
+}
+
 function ChromeWheel ( shift_key , clicks) {
     var evt = document.createEvent("MouseEvents");
     evt.initMouseEvent('dblclick', true, true, window, clicks, 10, 10,
-		       $(window).width() / 2, $(window).height() / 2, 0, 0, shift_key, 0, 1, null);
+		       $(window).width() / 2, $(window).height() / 2,
+                       0, 0, shift_key, 0, 1, null);
     document.getElementById('inner').dispatchEvent(evt);
 }
 
@@ -10,12 +24,10 @@ var lastX = null;
 var lastY = null;
 var lastS = null;
 function redraw() {
-    // split "translate(0, 0) scale(1)" to get the translate and scale floats
-    var splits = $("#inner").attr("transform").split("(");
-    var transSplit = splits[1].split(")")[0].split(",");
-    var scale = parseFloat(splits[2].split(")")[0]);
-    var transX = parseFloat(transSplit[0]);
-    var transY = parseFloat(transSplit[1]);
+    var transAttr = getTransform();
+    var transX    = transAttr[0];
+    var transY    = transAttr[1];
+    var scale     = transAttr[2];
 
     if (lastX == null) {
         lastX = d3.event.translate[0];
