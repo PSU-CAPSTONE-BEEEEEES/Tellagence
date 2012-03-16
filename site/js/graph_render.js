@@ -56,7 +56,7 @@ function GraphRender(nodes, distances, links) {
 		
 		// arrows for single links
 		defs.data(this.singleLinks).enter().append("marker")
-			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
+			.attr("id", function(d) {console.log(d); return "marker-"+d.source.id+"-"+d.target.id; })
 			.attr("viewBox", "0 0 15 15")
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
@@ -64,16 +64,16 @@ function GraphRender(nodes, distances, links) {
 			.attr("markerWidth", function(d) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
 				//console.log(s + ' vs ' + d.w*100);
-				return Math.min(d.w*300, s/2);
+				return Math.min(d.w*4, s/2);
 			})
 			.attr("markerHeight", function(d) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
 				//console.log(s + ' vs ' + d.w*100);
-				return Math.min(d.w*300, s/2);
+				return Math.min(d.w*4, s/2);
 			})
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
@@ -88,16 +88,16 @@ function GraphRender(nodes, distances, links) {
 			.attr("markerWidth", function(d) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
 				//console.log(s + ' vs ' + d.w*100);
-				return Math.min(d.w*300, s/2);
+				return Math.min(d.w*4, s/2);
 			})
 			.attr("markerHeight",function(d) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
 				//console.log(s + ' vs ' + d.w*100);
-				return Math.min(d.w*300, s/2);
+				return Math.min(d.w*4, s/2);
 			})
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 15 0 L 0 5 L 15 10 z");
@@ -111,16 +111,16 @@ function GraphRender(nodes, distances, links) {
 			.attr("markerWidth", function(d) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
 				//console.log(s + ' vs ' + d.w*100);
-				return Math.min(d.w*300, s/2);
+				return Math.min(d.w*4, s/2);
 			})
 			.attr("markerHeight", function(d) {
 				var dx = d.target.x - d.source.x;
 				var dy = d.target.y - d.source.y;
-				s = Math.sqrt(dx*dx + dy*dy);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
 				//console.log(s + ' vs ' + d.w*100);
-				return Math.min(d.w*300, s/2);
+				return Math.min(d.w*4, s/2);
 			})
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
@@ -187,9 +187,13 @@ function GraphRender(nodes, distances, links) {
 			minDeg = (deg < minDeg) ?deg :minDeg ;
 			maxDeg = (deg > maxDeg) ?deg :maxDeg ;
 		}
+		minR = 5; maxR = 50;
+		if (maxDeg-minDeg < maxR-minR) {
+			minR = minDeg; maxR = maxDeg;
+		}
 		var radiusScale = d3.scale.linear()
                 .domain([minDeg, maxDeg])
-                .range([5, 50]);
+                .range([minDeg, maxDeg]);
 		for (i=0; i<this.nodes.length; i++)
 			this.nodes[i].r = radiusScale(this.nodes[i].sum_degree);
 			
@@ -215,28 +219,32 @@ function GraphRender(nodes, distances, links) {
 		for (i=0; i<this.distances.length; i++)
 			this.distances[i].sp = this.distances[i].sp * c;
 			
-		// temp
-		console.log(alpha);
-		
-		
-		// for links widths
-		var minInf = this.links[0].i12 + this.links[0].i21;
-		var maxInf = this.links[0].i12 + this.links[0].i21;
-		for (i=1; i<this.links.length; i++) {
+		// normalize links thickness linearly to avoid link width exceeding connected nodes size
+		alpha = 0;
+		offset = 0;
+		for (i=0; i<this.links.length; i++) {
 			inf = this.links[i].i12 + this.links[i].i21;
-			minInf = (inf < minInf) ?inf :minInf ;
-			maxInf = (inf > maxInf) ?inf :maxInf ;
+			s = this.nodes[this.links[i].source];
+			t = this.nodes[this.links[i].target];
+			newAlpha = (2*Math.min(s.r, t.r))/inf;
+			if (newAlpha < 1) {
+				if (alpha==0 || newAlpha<alpha)
+					alpha = newAlpha;
+			}
 		}
-		var linkWidthScale = d3.scale.linear()
-                .domain([minInf, maxInf])
-                .range([.05, .5]);
-		for (i=0; i<this.links.length; i++)
-			this.links[i].w = linkWidthScale(this.links[i].i12 + this.links[i].i12);
+		// propagate alpha (normalization multiplier) to calculate new thichness for each link
+		for (i=0; i<this.links.length; i++) {
+			// if there's some normalization need for thickness
+			if (alpha > 0)
+				this.links[i].w = (this.links[i].i12 + this.links[i].i21) * alpha;
+			else
+				this.links[i].w = (this.links[i].i12 + this.links[i].i21);
+		}
 	}
 	
 	this.draw = function() {
 		// graph overall normalization
-		//this.normalize();
+		this.normalize();
 
 		// initialize the count in the toolbar
 		var that = this;
