@@ -1,3 +1,12 @@
+function rectFit() {
+    // resize rect to fit snug in inner
+    var bbox = $("#inner")[0].getBBox();
+    $("rect").attr("x", bbox.x)
+        .attr("y", bbox.y)
+        .attr("width", bbox.width)
+        .attr("height", bbox.height);
+}
+
 function getTransform() {
     var splits     = $("#inner").attr("transform").split("(");
     var transSplit = splits[1].split(")")[0].split(",");
@@ -19,7 +28,6 @@ function ChromeWheel ( shift_key , clicks) {
     document.getElementById('inner').dispatchEvent(evt);
 }
 
-var rectSet = false;
 var lastX = null;
 var lastY = null;
 var lastS = null;
@@ -66,16 +74,6 @@ function redraw() {
     d3.select("#inner").attr("transform",
                              "translate(" + transX + "," + transY + ")" +
                              " scale(" + scale + ")");
-
-    // resize rect to fit snug in inner
-    var bbox = $("#inner")[0].getBBox();
-    if (!rectSet) {
-        $("rect").attr("x", bbox.x)
-            .attr("y", bbox.y)
-            .attr("width", bbox.width)
-            .attr("height", bbox.height);
-        rectSet = true;
-    }
 }
 
 function SVG() {
