@@ -28,14 +28,20 @@
   \subsection{Requirements}
 	In talks with Matt and Nitin from Tellagence, we gathered and understood the following requirements:
 	\begin{itemize}
-		\item The relationships themselves are defined by interactions between users via '@' mentions and retweets.
+		\item The relationships themselves are defined by interactions between users via `@' mentions and retweets.
 		\item The mention and retweet values will be parsed from Twitter data into a database in a format for the rendering.
 		\item The rendering needs to be usable and coherent, not just a tangled mess of nodes and connections.
-		\item Directions of the relationships in the Twitter data don't matter, just the connections.
+		\item Directions of the relationships matters, meaning mentioning someone is one direction while retweeting them is the other.
+        \item Directionality on the graph renderings will be shown by arrows as the links between users.
 		\item Strengths of the relationships are determined by frequency of mentions/retweets between users over 7 days.
-		\item We need to be able to parse multiple '@' mentions out of a single tweet, and distinguish between '@' and 'RT @' .
+        \item Increased node degree (connectedness) will be shown by increased node size.
+        \item The stronger the relationship between two users, the thicker and short their link.
+		\item We need to be able to parse multiple `@' mentions out of a single tweet, and distinguish between `@' and `RT @'.
 		\item The purpose of the visual is about predicting behavior and showing which users are the most influential, meaning the most meaningful connections.
-		\item The core requirements of modeling relationships and strengths while maintaining coherency are the most important. Features such as searching are second priority.
+        \item Users will have the ability to search by Twitter username to center the graph around the searched user.
+        \item To model disjoint subgraphs, a separate visual showing all the subgraphs in a coherent form is needed with navigation between the two visuals.
+        \item While rendering the visual, the user should have a progress bar let them know the status of the rendering.
+        \item Making the visuals interactive is important, so zooming and panning across the graph is required.
 	\end{itemize}
 
   \subsection{Approach}
@@ -56,6 +62,77 @@
   {\bf Architectural Design and Tech Lead:} Prospect the scope of the entire project and construct architecture. Coordinate with all programmers to keep improving architectural design. Do major research on GUI tech and demo for other members.
   \subsection{Tien Le}
   {\bf System Administrator Lead:} Install, patch and upgrade servers. Keep all of the servers running 24/7. Build PHPUnit test.
+
+\section{Arrange Nodes Approach}
+ \subsection{Introduction}
+  The purpose of arranging nodes is to visualize the relationship of
+  users (nodes) in two directional Euclidean space by defining and using Euclidean distances between
+  every nodes. There are two main benefits of arranging nodes. First,
+  since a node is put into a graph by considering its relative
+  position to all other nodes in the graph, it prevents the cases
+  which a node is put randomly into the graph, so that the graph looks
+  consistent everytime. Second, by tranforming the relationship between
+  users into the Euclidean distances, the relationships between nodes
+  can be recognized by observing the relative distance between them. 
+ \subsection{Approach}
+ The main idea of this approach is mapping the strength of
+ relationship between nodes into Euclidean distance and displaying the
+ Euclidean distances in two dimensional space. 
+  \subsubsection{Mapping the strength of relationship into Euclidean distance}
+First of all, we define the distance between two nodes as the inverse of
+the strength of relationship which are the number of times which these
+two nodes(users) talk together. It is reasonable because the stronger
+the relationship of two nodes is, the smaller the distance between
+them.
+\\Second, based on these distances, we generate the Euclidean distances
+between every nodes by following the properties of Euclidean
+spaces. Euclidean (metric) space are introduced by Maurice Fréchet\footnote{Maurice Fréchet introduced metric spaces in his work Sur quelques points du calcul fonctionnel, Rendic. Circ. Mat. Palermo 22 (1906) 1–74.}. Let
+a metric space be an ordered pair (M,d) where M is a set and d is
+metric on M,i.e., a function d: M x M $\rightarrow$ R such that for any x,y,z 
+$\in$ M, the following holds: 
+ \begin{itemize}
+    \item d(x,y) $\geq$ 0 
+    \item d(x,y) = 0 iff x = y
+    \item d(x,y) = d(y,x)
+    \item d(x,z) $\leq$ d(x,y) + d(y,z)
+  \end{itemize}
+The mapping is defined as the distance between any two nodes is the
+shortest distance between them. By the definition of this
+mapping, it is clear to see that the distances between any two nodes
+satisfy the first three properties of Euclidean space. There is a
+proof for it also follows the last properties.
+  \begin{itemize}
+    \item For any nodes x, y, and z, we need to prove d(x,y)  $\leq$
+      d(x,z) + d(z,y) with d(x,y), d(x,z), and d(z,y) are the shortest
+      distance between these pair of nodes.
+    \item Assume that d(x,y) $\geq$ d(x,z) + d(z,y) then it is clear
+      that d(x,y) is not the shortest distance from x to
+      y. (Contrapositive proof)
+  \end{itemize}
+  \subsubsection{Displaying Euclidean distance in two dimensional space}
+   After mapping the strength of relationship into Euclidean distance,
+   it part show how we display Euclidean distance in two dimensional
+   space. Since it is impossible to display all of Euclidean distance
+   in two dimensional space, there are two ways for dealing with this
+   problem.
+     \begin{itemize}
+       \item Euclidean distances are approximated in two dimensional
+         space.  Approximation is provided by d3 framework by allowing
+         simple contrainsts\footnote{Tim Dwyer. Scalable, versatile and simple constrained graph layout. In Proc. Eurographics/IEEE-VGTC Symp. on Visualization (Eurovis 2009). (to appear) IEEE, 2009.}.
+       \item The relationship is also indicated by other signal like
+         the width of links between two nodes.
+     \end{itemize}
+
+ \subsection{Conclusion}
+   \begin{itemize}
+       \item Applying this approach in d3's force framework allows
+         rendering thousands of nodes. 
+       \item For most of the links, we can still see relation between the width of the link
+         and the distance between two nodes in the graph consisting
+         of thousands of nodes. Also, due to the requirements and the
+         scope of this project, we have not calculate the percentage
+         of correctness of this approach.
+     \end{itemize}
 
 \section{Task Schedule}
 
@@ -98,10 +175,10 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Hook up Renderer to Interface to Pass Visual & Derek & 2012-1-22 & 2012-1-28 \\
  	    Sidebar Controls Trigger Events & Aren & 2012-1-22 & 2012-1-28 \\
 	    Click/Drag Input Events on Test Shape & Aren & 2012-1-28 & 2012-2-4 \\
 	    Input Bounds and Areas on Test Shape & Derek & 2012-1-28 & 2012-2-4 \\
+        Help Overlay Up and Script Connected & Derek & 2012-2-1 & 2012-2-3 \\
       \hline
     \end{tabular}
   \end{center}
@@ -126,11 +203,11 @@ The milestones sync diagram describes how we synchronize the 3 milestones togeth
       \hline
       Task Description & Assignee & Start Date & Due Date \\
       \hline
-	    Hover/Scroll Input Events on Rendering & Aren & 2012-2-19 & 2012-2-25 \\
         Integrate Autocomplete with Users & Derek & 2012-2-17 & 2012-2-19 \\
-	    Fix Node Overlap & Derek & 2012-2-19 & 2012-2-27 \\
+	    Hover/Scroll Input Events on Rendering & Aren & 2012-2-19 & 2012-2-25 \\
+	    Fix Node Overlap & Derek & 2012-2-19 & 2012-2-24 \\
 	    Hook up Search to Data backend & Aren & 2012-2-25 & 2012-3-3 \\
-	    Write Comprehensive Help Dialog & Derek & 2012-3-1 & 2012-3-2 \\
+        Set Reasonable Initial Zoom Level & Derek & 2012-2-28 & 2012-3-1 \\
       \hline
     \end{tabular}
   \end{center}
