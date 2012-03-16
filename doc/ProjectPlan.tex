@@ -78,7 +78,7 @@
  The main idea of this approach is mapping the strength of
  relationship between nodes into Euclidean distance and displaying the
  Euclidean distances in two dimensional space. 
-  \subsubsection{Mapping the strength of relationship into Euclidean distance}
+  \subsubsection{Map the strength of relationship into Euclidean distance}
 First of all, we define the distance between two nodes as the inverse of
 the strength of relationship which are the number of times which these
 two nodes(users) talk together. It is reasonable because the stronger
@@ -109,7 +109,7 @@ proof for it also follows the last properties.
       that d(x,y) is not the shortest distance from x to
       y. (Contrapositive proof)
   \end{itemize}
-  \subsubsection{Displaying Euclidean distance in two dimensional space}
+  \subsubsection{Display Euclidean distance in two dimensional space}
    After mapping the strength of relationship into Euclidean distance,
    it part show how we display Euclidean distance in two dimensional
    space. Since it is impossible to display all of Euclidean distance
@@ -117,8 +117,14 @@ proof for it also follows the last properties.
    problem.
      \begin{itemize}
        \item Euclidean distances are approximated in two dimensional
-         space.  Approximation is provided by d3 framework by allowing
-         simple contrainsts\footnote{Tim Dwyer. Scalable, versatile and simple constrained graph layout. In Proc. Eurographics/IEEE-VGTC Symp. on Visualization (Eurovis 2009). (to appear) IEEE, 2009.}.
+         space.  Approximation is provided by d3 framework in which it
+         implements Verlet integration\footnote{https://github.com/mbostock/d3/wiki/Force-Layout} to allow
+         simple contrainsts\footnote{Tim Dwyer. Scalable, versatile
+           and simple constrained graph layout. In
+           Proc. Eurographics/IEEE-VGTC Symp. on Visualization
+           (Eurovis 2009). (to appear) IEEE, 2009.}.  Euclidean
+         distances between nodes is one of the contrainsts allowed by
+         this framework.
        \item The relationship is also indicated by other signal like
          the width of links between two nodes.
      \end{itemize}
