@@ -120,6 +120,9 @@ function initZoom(render) {
     lastX = null;
     lastY = null;
     lastS = null;
+
+    // make rect refit inner after zoom
+    rectFit();
 }
 
 function SiteGuiEvent() {
