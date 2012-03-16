@@ -206,6 +206,8 @@ function GraphRender(nodes, distances, links) {
                 $(this).tipsy({
                     html: true,
                     gravity: 'c',
+                    show: function(e, $el) {$el.fadeIn(100);}
+                    delay: 1000,
                     title: function() {
                         var isplits = $(this).attr("original-title").split(" ");
                         var i12 = isplits[0],
