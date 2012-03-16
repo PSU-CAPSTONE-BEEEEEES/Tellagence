@@ -11,6 +11,7 @@ var gr = new GraphRender([], []);
 // gui event for an actual subgraph
 var ge = new GuiEvent(gr);
 
+
 d3.json("data/subgraph.php", function(data) {
 	// switch the spinning bar for the loading bar
 	switchBars();

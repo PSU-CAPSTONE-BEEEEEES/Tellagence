@@ -236,7 +236,7 @@ function GraphRender(nodes, distances, links) {
 	
 	this.draw = function() {
 		// graph overall normalization
-		this.normalize();
+		//this.normalize();
 
 		// initialize the count in the toolbar
 		var that = this;
