@@ -16,9 +16,6 @@ function GraphRender(nodes, distances, links) {
 	this.radScale = null;
 	//this.existOverlap = false;
 	
-	// coefficient multiplier node radius and distance
-	this.distanceCoef 	= 1;
-
 	// set the svg for resizing and use the inner for drawing
 	this.svg = d3.select("#d3").select("svg");
 	this.inner = d3.select("#d3").select("svg").select("#inner");
@@ -62,11 +59,15 @@ function GraphRender(nodes, distances, links) {
 			.attr("refY", 5)
 			.style("fill", "red")
 			.attr("markerWidth", function(d) {
-				s = d.sp - (d.source.r + d.target.r);
+				dx = Math.abs(d.target.x - d.source.x);
+				dy = Math.abs(d.target.y - d.source.y);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
 				return Math.min(d.w*4, s/2);
 			})
 			.attr("markerHeight", function(d) {
-				s = d.sp - (d.source.r + d.target.r);
+				dx = Math.abs(d.target.x - d.source.x);
+				dy = Math.abs(d.target.y - d.source.y);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
 				return Math.min(d.w*4, s/2);
 			})
 			.attr("orient", "auto")
@@ -80,12 +81,16 @@ function GraphRender(nodes, distances, links) {
 			.attr("refX", function(d) { return 0; })
 			.attr("refY", 5)
 			.attr("markerWidth", function(d) {
-				s = d.sp - (d.source.r + d.target.r);
-				return Math.min(d.w*4, s/2);
+				dx = Math.abs(d.target.x - d.source.x);
+				dy = Math.abs(d.target.y - d.source.y);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
+				return Math.min(d.w*3, s/2);
 			})
 			.attr("markerHeight",function(d) {
-				s = d.sp - (d.source.r + d.target.r);
-				return Math.min(d.w*4, s/2);
+				dx = Math.abs(d.target.x - d.source.x);
+				dy = Math.abs(d.target.y - d.source.y);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
+				return Math.min(d.w*3, s/2);
 			})
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 15 0 L 0 5 L 15 10 z");
@@ -97,12 +102,16 @@ function GraphRender(nodes, distances, links) {
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
 			.attr("markerWidth", function(d) {
-				s = d.sp - (d.source.r + d.target.r);
-				return Math.min(d.w*4, s/2);
+				dx = Math.abs(d.target.x - d.source.x);
+				dy = Math.abs(d.target.y - d.source.y);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
+				return Math.min(d.w*3, s/2);
 			})
 			.attr("markerHeight", function(d) {
-				s = d.sp - (d.source.r + d.target.r);
-				return Math.min(d.w*4, s/2);
+				dx = Math.abs(d.target.x - d.source.x);
+				dy = Math.abs(d.target.y - d.source.y);
+				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
+				return Math.min(d.w*3, s/2);
 			})
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
