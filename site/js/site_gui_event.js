@@ -114,7 +114,7 @@ function initZoom(render) {
     }
 
     // reset the zoom slider to halfway to match the initial zoom level
-    $("#slider").attr("value", 50);
+    $("#slider").attr("value", 0);
 
     // reset x, y, and s vars for d3.event happenings in redraw()
     lastX = null;
