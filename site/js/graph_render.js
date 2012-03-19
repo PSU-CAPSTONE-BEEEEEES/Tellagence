@@ -277,7 +277,9 @@ function GraphRender(nodes, distances, links) {
 		this.text = this.inner.selectAll("text")
 			.data(this.nodes);
 		*/
-			
+
+	    zoomable = this.nodes.length > 15 ? true : false;
+
 		// handle events for graph (only for graph)
 		return new GraphEvent(this);
 	};

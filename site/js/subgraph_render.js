@@ -43,6 +43,8 @@ function SubgraphRender(graphs) {
 		// init circles as nodes
 		this.circle = this.inner.selectAll("circle")
 			.data(this.graphs);
+
+            zoomable = true;
 		
 		// handle events for graph (only for graph)
 		return new SubgraphEvent(this);
