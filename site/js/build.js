@@ -33,6 +33,5 @@ d3.json("data/search.php?user=vmworld&depth=100", function(data) {
 	window.gr.draw();
 });
 
-
 // events for global user gui
 var sgui = new SiteGuiEvent();

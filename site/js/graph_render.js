@@ -25,6 +25,7 @@ function GraphRender(nodes, distances, links) {
         // draw circles
         var center = this.centerNode;
         this.circle.enter().append("circle")
+			.attr("id", function(d) {return d.id; })
             .attr("r", function(d) {return d.r;})
             .attr("cx", function(d) {return d.x;})
             .attr("cy", function(d) {return d.y;})

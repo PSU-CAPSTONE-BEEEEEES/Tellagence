@@ -22,18 +22,27 @@ function GraphEvent(renderObject) {
 		if (alpha<0.01 && renderObject.ready===false) {
 			$("#step2").hide();
 	
-			// draw paths, nodes, and name for each node
+			// draw nodes
 			renderObject.drawCircles();
-			// ticking the cirlces
-			renderObject.circle
-				.attr("cx", function(d) { return d.x; })
-				.attr("cy", function(d) { return d.y; });
-			renderObject.drawPaths();
-			//renderObject.writeName();
-			// stop ticking immediately as the complete graph was drawn
+			// stop ticking immediately as all the nodes were drawn
 			renderObject.force.stop();
+			// now adjust some nodes such that there will be no overlap
+			checkValidCirclesPos(renderObject.nodes, renderObject.distances);
+			// and it's valid now to draw paths, with arrow heads
+			renderObject.drawPaths();
 
+			// initialize zoom
             initZoom(renderObject);
+			
+			// ticking the single paths
+			renderObject.singlePath.attr("d", tickingPath);
+			// ticking the double paths
+			renderObject.doublePath.attr("d", tickingPath);
+			// ticking all arrow heads
+			var defs = renderObject.inner.selectAll("marker");
+			defs.attr("markerWidth", tickingMarkerWidth);
+			// mark render object as completely ready
+			renderObject.ready = true;
 
             // on click redraw the graph with the selected node being the center node of the new graph
 			renderObject.circle.on('click', function(d, i) {
@@ -55,18 +64,11 @@ function GraphEvent(renderObject) {
 					renderObject.draw();
 				});
 			});
-			// mark render object as completely ready
-			renderObject.ready = true;
-			
-			
-			// ticking the single paths
-			renderObject.singlePath.attr("d", tickingPath);
-			// ticking the double paths
-			renderObject.doublePath.attr("d", tickingPath);
-			// ticking all arrow heads
-			var defs = renderObject.inner.selectAll("marker");
-			defs.attr("markerWidth", tickingMarkerWidth);
-			checkValidCirclesPos(renderObject.nodes, renderObject.distances);
+				
+			renderObject.singlePath.on('mouseover', function(d, i) {
+				$("circle#"+d.source.id).attr("fill", "red")
+				$("circle#"+d.target.id).attr("fill", "red")
+			});
 		}
 		
 		function tickingPath(d) {
@@ -99,7 +101,6 @@ function GraphEvent(renderObject) {
 			dx = Math.abs(d.target.x - d.source.x);
 			dy = Math.abs(d.target.y - d.source.y);
 			s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-			//if (s<0) console.log(d.source.id+'-'+d.target.id);
 			return Math.min(6, s/(2*d.w));
 		}
 		
@@ -124,6 +125,11 @@ function GraphEvent(renderObject) {
 				}
 			}
 		}
+		
+		// ticking the cirlces
+		renderObject.circle
+			.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) { return d.y; });
 		
 		/*
 		// ticking the texts
