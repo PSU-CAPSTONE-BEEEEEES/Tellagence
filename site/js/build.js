@@ -20,18 +20,5 @@ d3.json("data/subgraph.php", function(data) {
 	window.sgr.draw();
 });
 
-// temp
-/*
-d3.json("data/search.php?user=vmworld&depth=100", function(data) {
-//d3.json("data/search.php?id=495&depth=100", function(data) {
-	// switch the spinning bar for the loading bar
-	switchBars();
-	// retrieve data for subgraph render
-	window.gr.data(data.nodes, data.distances, data.links);
-	// draw subgraph (w/ graph events ready)
-	window.gr.draw();
-});
-*/
-
 // events for global user gui
 var sgui = new SiteGuiEvent();

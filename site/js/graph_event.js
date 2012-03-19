@@ -44,16 +44,14 @@ function GraphEvent(renderObject) {
 			// mark render object as completely ready
 			renderObject.ready = true;
 
-            // on click redraw the graph with the selected node being the center node of the new graph
+            // on click redraw the graph with hops = 1
 			renderObject.circle.on('click', function(d, i) {
 				// throw a new popup up
 				resetPopup();
 				// erase and empty current render
 				renderObject.empty();
-				// retrieve depth
-				var depth = 100;
 				// call to server to obtain new graph info
-				d3.json('data/search.php?id='+d.id+'&depth='+depth, function(data) {
+				d3.json('data/search.php?id='+d.id+'&hops=1', function(data) {
 				//d3.json('data/search.php?user='+d.name, function(data) {
 					// switch the spinning bar for the loading bar
 					switchBars();
