@@ -24,6 +24,10 @@ function GraphEvent(renderObject) {
 	
 			// draw paths, nodes, and name for each node
 			renderObject.drawCircles();
+			// ticking the cirlces
+			renderObject.circle
+				.attr("cx", function(d) { return d.x; })
+				.attr("cy", function(d) { return d.y; });
 			renderObject.drawPaths();
 			//renderObject.writeName();
 			// stop ticking immediately as the complete graph was drawn
@@ -62,6 +66,7 @@ function GraphEvent(renderObject) {
 			// ticking all arrow heads
 			var defs = renderObject.inner.selectAll("marker");
 			defs.attr("markerWidth", tickingMarkerWidth);
+			checkValidCirclesPos(renderObject.nodes, renderObject.distances);
 		}
 		
 		function tickingPath(d) {
@@ -94,15 +99,32 @@ function GraphEvent(renderObject) {
 			dx = Math.abs(d.target.x - d.source.x);
 			dy = Math.abs(d.target.y - d.source.y);
 			s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-			if (s<0) console.log(d.source.id+'-'+d.target.id);
+			//if (s<0) console.log(d.source.id+'-'+d.target.id);
 			return Math.min(6, s/(2*d.w));
 		}
 		
-		// ticking the cirlces
-		renderObject.circle
-			.attr("cx", function(d) { return d.x; })
-			.attr("cy", function(d) { return d.y; });
-
+		function checkValidCirclesPos(nodes, distances) {
+			for (i=0; i<distances.length; i++) {
+				s = distances[i].source;
+				t = distances[i].target;
+				dx = Math.abs(s.x - t.x);
+				dy = Math.abs(s.y - t.y);
+				ds1 = Math.sqrt(dx*dx + dy*dy);
+				ds2 = ds1 - (s.r + t.r);
+				if (ds2<0) {
+					sinA = dy/ds1; cosA = dx/ds1;
+					d = (s.r + t.r + Math.min(s.r, t.r)) - Math.sqrt(dx*dx + dy*dy);
+					dx = d * cosA; dy = d * sinA;
+					move = (parseInt(s.sum_degree)<parseInt(t.sum_degree)) ?s :t ;
+					fix = (move.id==s.id) ?t :s ;
+					xSign = (move.x<fix.x)?-1 :1 ;
+					ySign = (move.y<fix.y)?-1 :1 ;
+					move.x = move.x + xSign*dx;
+					move.y = move.y + ySign*dy;
+				}
+			}
+		}
+		
 		/*
 		// ticking the texts
 		renderObject.text.attr("transform", function(d) {
