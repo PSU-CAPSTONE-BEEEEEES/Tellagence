@@ -59,7 +59,9 @@ function GraphEvent(renderObject) {
 			renderObject.singlePath.attr("d", tickingPath);
 			// ticking the double paths
 			renderObject.doublePath.attr("d", tickingPath);
-			// ticking all paths
+			// ticking all arrow heads
+			var defs = renderObject.inner.selectAll("marker");
+			defs.attr("markerWidth", tickingMarkerWidth);
 		}
 		
 		function tickingPath(d) {
@@ -87,12 +89,20 @@ function GraphEvent(renderObject) {
 			dr = 0;
 			return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
 		}
-
+		
+		function tickingMarkerWidth(d) {
+			dx = Math.abs(d.target.x - d.source.x);
+			dy = Math.abs(d.target.y - d.source.y);
+			s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
+			if (s<0) console.log(d.source.id+'-'+d.target.id);
+			return Math.min(6, s/(2*d.w));
+		}
+		
 		// ticking the cirlces
 		renderObject.circle
 			.attr("cx", function(d) { return d.x; })
 			.attr("cy", function(d) { return d.y; });
-			
+
 		/*
 		// ticking the texts
 		renderObject.text.attr("transform", function(d) {

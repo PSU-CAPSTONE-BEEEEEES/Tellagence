@@ -54,22 +54,11 @@ function GraphRender(nodes, distances, links) {
 		// arrows for single links
 		defs.data(this.singleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
-			.attr("viewBox", "0 0 15 15")
+			.attr("viewBox", "0 -1 15 15")
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
 			.style("fill", "red")
-			.attr("markerWidth", function(d) {
-				dx = Math.abs(d.target.x - d.source.x);
-				dy = Math.abs(d.target.y - d.source.y);
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				return Math.min(d.w*4, s/2);
-			})
-			.attr("markerHeight", function(d) {
-				dx = Math.abs(d.target.x - d.source.x);
-				dy = Math.abs(d.target.y - d.source.y);
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				return Math.min(d.w*4, s/2);
-			})
+			.attr("markerWidth", 3)
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
 			//.attr("d", "M 0 0 L 100 100 M 0 100 L 100 0");
@@ -77,42 +66,20 @@ function GraphRender(nodes, distances, links) {
 		defs.data([]);
 		defs.data(this.doubleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.target.id+"-"+d.source.id; })
-			.attr("viewBox", "0 0 15 15")
+			.attr("viewBox", "0 -1 15 15")
 			.attr("refX", function(d) { return 0; })
 			.attr("refY", 5)
-			.attr("markerWidth", function(d) {
-				dx = Math.abs(d.target.x - d.source.x);
-				dy = Math.abs(d.target.y - d.source.y);
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				return Math.min(d.w*3, s/2);
-			})
-			.attr("markerHeight",function(d) {
-				dx = Math.abs(d.target.x - d.source.x);
-				dy = Math.abs(d.target.y - d.source.y);
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				return Math.min(d.w*3, s/2);
-			})
+			.attr("markerWidth", 3)
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 15 0 L 0 5 L 15 10 z");
 		// arrows for source->target in double links
 		defs.data([]);
 		defs.data(this.doubleLinks).enter().append("marker")
 			.attr("id", function(d) {return "marker-"+d.source.id+"-"+d.target.id; })
-			.attr("viewBox", "0 0 15 15")
+			.attr("viewBox", "0 -1 15 15")
 			.attr("refX", function(d) { return 15; })
 			.attr("refY", 5)
-			.attr("markerWidth", function(d) {
-				dx = Math.abs(d.target.x - d.source.x);
-				dy = Math.abs(d.target.y - d.source.y);
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				return Math.min(d.w*3, s/2);
-			})
-			.attr("markerHeight", function(d) {
-				dx = Math.abs(d.target.x - d.source.x);
-				dy = Math.abs(d.target.y - d.source.y);
-				s = Math.sqrt(dx*dx + dy*dy) - (d.source.r + d.target.r);
-				return Math.min(d.w*3, s/2);
-			})
+			.attr("markerWidth", 3)
 			.attr("orient", "auto")
 			.append("path").attr("d", "M 0 0 L 15 5 L 0 10 z");
 			//.append("path").attr("d", "M0,-5L10,0L0,5");
