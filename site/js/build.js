@@ -12,12 +12,12 @@ var gr = new GraphRender([], []);
 var ge = new GuiEvent(gr);
 
 d3.json("data/subgraph.php", function(data) {
-	// switch the spinning bar for the loading bar
-	switchBars();
-	// retrieve data for subgraph render
-	window.sgr.data(data.graphs);
-	// draw subgraph (w/ graph events ready)
-	window.sgr.draw();
+    // switch the spinning bar for the loading bar
+    switchBars();
+    // retrieve data for subgraph render
+    window.sgr.data(data.graphs);
+    // draw subgraph (w/ graph events ready)
+    window.sgr.draw();
 });
 
 // events for global user gui

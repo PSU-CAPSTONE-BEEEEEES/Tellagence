@@ -39,24 +39,24 @@ function GuiEvent(renderObject) {
         });
     });
 
-	var initial;
-	$("#slider").mousedown(function () {
-		initial = this.value;
-	});
-	
-	$("#slider").mouseup(function () {
-		//alert(this.value - initial);
-		var diff = this.value - initial;
+    var initial;
+    $("#slider").mousedown(function () {
+        initial = this.value;
+    });
+
+    $("#slider").mouseup(function () {
+        //alert(this.value - initial);
+        var diff = this.value - initial;
         //if diff is 0 do nothing
         if (diff == 0) {
             return;
         }
-		if (diff < 0) {
-			return new ChromeWheel( 1 , (Math.abs(diff) / 5));
-		}
-		else {
-			return new ChromeWheel( 0 , (diff / 5));
-		}
-		diff = 0;
-	});
+        if (diff < 0) {
+            return new ChromeWheel( 1 , (Math.abs(diff) / 5));
+        }
+        else {
+            return new ChromeWheel( 0 , (diff / 5));
+        }
+    diff = 0;
+    });
 }

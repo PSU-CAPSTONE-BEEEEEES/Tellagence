@@ -1,8 +1,8 @@
 function getNode(node) {
     // translate a d3 node into a jquery selected element
     var contains = node.subgraph_id !== undefined ?
-            "id="+node.subgraph_id+" num="+node.num :
-            'UserId='+node.id+'UserName='+node.name;
+        "id="+node.subgraph_id+" num="+node.num :
+        'UserId='+node.id+'UserName='+node.name;
     return $("title:contains("+contains+")").parent();
 }
 
@@ -59,8 +59,8 @@ function centerGraph(nodes, w, h) {
 
         // set new translate attribute on inner
         d3.select("#inner").attr("transform",
-                                 "translate(" + trans1 + ", " + trans2 + ")"
-                                 + " scale(" + scaleSplit + ")");
+                "translate(" + trans1 + ", " + trans2 + ")"
+                + " scale(" + scaleSplit + ")");
     }
 }
 
@@ -86,8 +86,8 @@ function initZoom(render) {
         var scale     = transAttr[2];
         var newScale  = zoomIn ? scale * 2 : scale / 2;
         d3.select("#inner").attr("transform",
-                                 "translate(" + transX + "," + transY + ")" +
-                                 " scale(" + newScale + ")");
+                "translate(" + transX + "," + transY + ")" +
+                " scale(" + newScale + ")");
     }
 
     // recenter graph
@@ -96,7 +96,7 @@ function initZoom(render) {
 
     // subgraphs and graphs have different names for nodes
     var offNodes = render.graphs !== undefined ?
-            render.graphs.filter(graphCheck) : render.nodes.filter(graphCheck);
+        render.graphs.filter(graphCheck) : render.nodes.filter(graphCheck);
 
     // zoom in first if we can
     while (offNodes.length === 0) {
@@ -126,20 +126,20 @@ function initZoom(render) {
 }
 
 function SiteGuiEvent() {
-	// changes the svg size on window
-	$(window).resize(function() {
-		// obtain new w/h from resized window
-		var w = $("#d3").width();
-		var h = $(window).height();
-		// apply to subgraph render 
-		window.sgr.svg
-			.attr("width", w)
-			.attr("height", h);
-		window.sgr.force.size([w, h]);
-		// apply to actual render
-		window.sgr.svg
-			.attr("width", w)
-			.attr("height", h);
-		window.sgr.force.size([w, h]);
-	});
+    // changes the svg size on window
+    $(window).resize(function() {
+        // obtain new w/h from resized window
+        var w = $("#d3").width();
+        var h = $(window).height();
+        // apply to subgraph render 
+        window.sgr.svg
+        .attr("width", w)
+        .attr("height", h);
+    window.sgr.force.size([w, h]);
+    // apply to actual render
+    window.sgr.svg
+        .attr("width", w)
+        .attr("height", h);
+    window.sgr.force.size([w, h]);
+    });
 }

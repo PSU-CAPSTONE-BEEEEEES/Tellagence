@@ -27,7 +27,7 @@ function loadPopup() {
     if ($("#bar").is(":visible")) {
         centerPopup();
         $("#spingress").progressBar(0, {showText:false,
-                                        barImage: {0:'static/images/bar_spin.gif'}});
+            barImage: {0:'static/images/bar_spin.gif'}});
     }
 }
 
@@ -73,8 +73,8 @@ function resetPopup() {
     currentSpin = 0;
     spinInterval = setInterval(function() {
         $("#spingress").progressBar(currentSpin++,
-                                    {showText:false,
-                                     barImage: {0:'static/images/bar_spin.gif'}});
+            {showText:false,
+                barImage: {0:'static/images/bar_spin.gif'}});
         // make sure we don't continue pushing right
         if (currentSpin == 100) {
             currentSpin = 0;
@@ -107,7 +107,7 @@ function init() {
     $("#toolbar").hide();
     $("#count").hide();
     $("#tab").click(function(){$("#toolbar").slideToggle("fast");});
-    
+
     // selectors on the help button to trigger the functions
     $("#bgPopup").data("state", 0);
     $("#help_button").click(function(){
@@ -161,11 +161,11 @@ function init() {
         $("#count").hide();
 
         d3.json("data/subgraph.php", function(data) {
-	    switchBars();
-	    // retrieve data for subgraph render
-	    window.sgr.data(data.graphs);
-	    // draw subgraph (w/ graph events ready)
-	    window.sgr.draw();
+            switchBars();
+            // retrieve data for subgraph render
+            window.sgr.data(data.graphs);
+            // draw subgraph (w/ graph events ready)
+            window.sgr.draw();
         });
     });
 }

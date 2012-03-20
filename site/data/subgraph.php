@@ -16,11 +16,11 @@ for ($i = 1; $i < $num; $i++) {
     $result = pg_exec($dbconn, "SELECT num FROM subgraphs WHERE subgraph_id = $i;");
     $count = pg_numrows($result);
     if ($count <= 0) {
-	die("Bad query at $i");
+        die("Bad query at $i");
     }
     $array = pg_fetch_array($result, 0);
     if ($i > 1) {
-	echo(', ');
+        echo(', ');
     }
     echo('{"subgraph_id": ' . $i . ', "num": ' . $array[0] . '}');
 }

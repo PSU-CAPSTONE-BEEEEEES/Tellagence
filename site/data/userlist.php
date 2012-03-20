@@ -14,7 +14,7 @@ $num = pg_numrows($result);
 for ($i = 0; $i < $num; $i++) {
     $array = pg_fetch_array($result, $i);
     if ($i > 0) {
-	echo(', ');
+        echo(', ');
     }
     echo('{"username": "' . $array[0] . '"}');
 }
