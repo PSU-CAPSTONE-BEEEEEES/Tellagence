@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>JsHamcrest - Jasmine Integration Test</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/jasmine-1.0.2/jasmine.css">
+    <script type="text/javascript" src="assets/jasmine-1.0.2/jasmine.js"></script>
+    <script type="text/javascript" src="assets/jasmine-1.0.2/jasmine-html.js"></script>
+    <script type="text/javascript" src="assets/jasmine.console_reporter.js"></script>
+
+    <script type="text/javascript" src="../../../build/jshamcrest-min.js"></script>
+
+    <script type="text/javascript">
+      JsHamcrest.Integration.jasmine();
+
+      describe('Using JsHamcrest assertions in Jasmine', function() {
+        it('should succeed', function() {
+          assertThat(5, between(0).and(10), 'This assertion must succeed');
+        });
+
+        it('should succeed', function() {
+	  expect(5).toEqual(4);
+//	  expect(5).between(0).and(10);
+        });
+
+        it('should fail', function() {
+          assertThat([], not(empty()), 'This assertion must fail');
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      jasmine.getEnv().addReporter(new jasmine.ConsoleReporter());
+      jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+      jasmine.getEnv().execute();
+    </script>
+  </body>
+</html>

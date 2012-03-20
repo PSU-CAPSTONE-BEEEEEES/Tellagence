@@ -1,0 +1,15 @@
+<html>
+<head>
+  <title>JsHamcrest - WebBrowser Integration Test</title>
+  <script type="text/javascript" src="../../../build/jshamcrest-min.js"></script>
+
+  <script type="text/javascript">
+    JsHamcrest.Integration.WebBrowser();
+
+    assertThat(5, between(0).and(10), "This assertion must succeed");
+    assertThat([], not(empty()), "This assertion must fail");
+  </script>
+</head>
+<body>
+</body>
+</html>

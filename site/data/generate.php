@@ -20,7 +20,7 @@ if (!$dbconn) {
     file_put_contents("names.json","{}", LOCK_EX);
     file_put_contents("links.json","{}", LOCK_EX);
     file_put_contents("distances.json","{}", LOCK_EX);
-    die;
+die;
 }
 
 //
@@ -441,7 +441,7 @@ function addPaths($here) {
         $link['target'] =  $target;
         $link['sp'] = (float)$path[$there['id'] - 1];
         $buffer = $buffer . json_encode($link);
-}
+    }
     return $numLinks;
 }
 

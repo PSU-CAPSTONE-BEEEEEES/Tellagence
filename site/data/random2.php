@@ -5,22 +5,22 @@
 $count = 20;
 if (isset($_GET["size"]))
 {
-  $size = $_GET["size"];
-  if ( (int)$size == $size)
-  {
-    $count = (int)$size;
-  }
+    $size = $_GET["size"];
+    if ( (int)$size == $size)
+    {
+        $count = (int)$size;
+    }
 }
 
 
 $sparse = 3;
 if (isset($_GET["factor"]))
 {
-  $factor = $_GET["factor"];
-  if ( (int)$factor == $factor && $factor >= 0)
-  {
-    $sparse = $factor;
-  }
+    $factor = $_GET["factor"];
+    if ( (int)$factor == $factor && $factor >= 0)
+    {
+        $sparse = $factor;
+    }
 }
 
 //determine min and max influences

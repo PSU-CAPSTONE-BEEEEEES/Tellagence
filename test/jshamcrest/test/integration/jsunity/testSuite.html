@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Core + Assertion Test Suite Runner</title>
+  <script type="text/javascript" src="assets/jsunity.js"></script>
+  <script type="text/javascript" src="../../../build/jshamcrest-min.js"></script>
+
+  <script type="text/javascript">
+    jsUnity.log = function (s) {
+      document.write("<p>" + s + "</p>");
+    };
+
+    function IntegrationTest() {
+      function testAssertion() {
+        assertThat(5, between(0).and(10), "This assertion must succeed");
+      }
+
+      function testFailedAssertion() {
+        assertThat([], not(empty()), "This assertion must fail");
+      }
+    }
+
+    JsHamcrest.Integration.jsUnity();
+    var results = jsUnity.run(IntegrationTest);
+  </script>
+</head>
+<body>
+</body>
+</html>

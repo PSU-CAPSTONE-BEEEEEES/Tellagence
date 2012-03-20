@@ -35,8 +35,8 @@ a:hover {
 }
 
 circle.sgnode {
-  stroke: #fff;
-  stroke-width: 1.5px;
+    stroke: #fff;
+    stroke-width: 1.5px;
 }
 
 line {
@@ -45,29 +45,29 @@ line {
     opacity: .3;
 }
 circle{
-	fill:green;
+    fill:green;
 }
 circle.center {
-	fill:blue;
+    fill:blue;
 }
 circle:hover{
-	fill:red;
+    fill:red;
 }
 
 path {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1.5px;
+    fill: none;
+    stroke: #666;
+    stroke-width: 1.5px;
 }
 
 text {
-  font: 10px sans-serif;
-  pointer-events: none;
+    font: 10px sans-serif;
+    pointer-events: none;
 }
 text.shadow {
-  stroke: #fff;
-  stroke-width: 3px;
-  stroke-opacity: .8;
+    stroke: #fff;
+    stroke-width: 3px;
+    stroke-opacity: .8;
 }
 
 svg {
@@ -154,10 +154,10 @@ svg {
 
 /* zoom slider
 
-   note that input[type=range] breaks on firefox, so html5slider.js is used to
-   patch it, and the local copy of html5slider.js was modified to match the
-   webkit styling applied here
-*/
+note that input[type=range] breaks on firefox, so html5slider.js is used to
+patch it, and the local copy of html5slider.js was modified to match the
+webkit styling applied here
+ */
 
 #thumbcover {
     width: 10px;
@@ -189,9 +189,9 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 /*
-   due to firefox and chrome rendering the search boxes at different heights,
-   tables and vertical-aligns were used to properly center the box
-*/
+due to firefox and chrome rendering the search boxes at different heights,
+tables and vertical-aligns were used to properly center the box
+ */
 
 #search {
     display: table;
