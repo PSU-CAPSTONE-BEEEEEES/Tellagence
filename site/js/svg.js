@@ -28,10 +28,12 @@ function ChromeWheel ( shift_key , clicks) {
     document.getElementById('inner').dispatchEvent(evt);
 }
 
-var lastX = null;
-var lastY = null;
-var lastS = null;
+var zoomable = true;            // if the graph is big enough to be zoomed
+var lastX = null;               // last d3 event translate x
+var lastY = null;               // last d3 event translate y
+var lastS = null;               // last d3 event translate scale
 function redraw() {
+    // get the existing attribute
     var transAttr = getTransform();
     var transX    = transAttr[0];
     var transY    = transAttr[1];
@@ -42,7 +44,9 @@ function redraw() {
         lastY = d3.event.translate[1];
         lastS = d3.event.scale;
     }
-    else {
+
+    // only mess with pan attributes if we can zoom or are panning
+    if (zoomable == true || (zoomable == false && d3.event.scale == lastS)) {
         if (d3.event.translate[0] < lastX) {
             transX -= Math.abs(d3.event.translate[0] - lastX);
             lastX = d3.event.translate[0];
@@ -60,7 +64,10 @@ function redraw() {
             transY += Math.abs(d3.event.translate[1] - lastY);
             lastY = d3.event.translate[1];
         }
+    }
 
+    // only scale if we're allowed to
+    if (zoomable == true) {
         if (d3.event.scale < lastS) {
             scale -= Math.abs(d3.event.scale - lastS);
             lastS = d3.event.scale;
@@ -71,9 +78,14 @@ function redraw() {
         }
     }
 
+    // set the attribute
     d3.select("#inner").attr("transform",
                              "translate(" + transX + "," + transY + ")" +
                              " scale(" + scale + ")");
+
+    lastX = d3.event.translate[0];
+    lastY = d3.event.translate[1];
+    lastS = d3.event.scale;
 }
 
 function SVG() {

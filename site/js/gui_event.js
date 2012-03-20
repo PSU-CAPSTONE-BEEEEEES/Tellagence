@@ -27,6 +27,7 @@ function GuiEvent(renderObject) {
 
                     // reenable the subgraph button
                     $("#dots").show();
+                    $("#count").show();
 
                     // data for new graph
                     renderObject.data(data.nodes, data.distances, data.links);
