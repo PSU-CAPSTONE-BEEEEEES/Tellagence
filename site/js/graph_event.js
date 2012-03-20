@@ -64,8 +64,6 @@ function GraphEvent(renderObject) {
 			});
 				
 			renderObject.singlePath.on('mouseover', function(d, i) {
-				$("circle#"+d.source.id).attr("fill", "red")
-				$("circle#"+d.target.id).attr("fill", "red")
 			});
 		}
 		
